@@ -354,6 +354,7 @@ private:
 	void ToggleMasterVolControlLayout();
 	void ToggleMixerLayout(bool vertical, bool isMaster);
 	void ShowMonitoringButton();
+	void ShowTracksButtons();
 
 	void RefreshSceneCollections();
 	void ChangeSceneCollection();

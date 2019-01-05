@@ -993,11 +993,34 @@ EXPORT uint32_t obs_source_get_audio_mixers(const obs_source_t *source);
 EXPORT void obs_source_inc_showing(obs_source_t *source);
 
 /**
+ * Increments the 'showing' reference counter to indicate that the source is
+ * being shown somewhere.  If the reference counter was 0, will call the 'show'
+ * callback.
+ *
+ * Unlike obs_source_inc_showing, this will cause children of this source to be
+ * considered showing as well (currently used by transition previews to make
+ * the stinger transition show correctly). obs_source_inc_showing should
+ * generally be used instead.
+ */
+EXPORT void obs_source_inc_showing_main(obs_source_t *source);
+
+/**
  * Decrements the 'showing' reference counter to indicate that the source is
  * no longer being shown somewhere.  If the reference counter is set to 0,
  * will call the 'hide' callback
  */
 EXPORT void obs_source_dec_showing(obs_source_t *source);
+
+/**
+ * Decrements the 'showing' reference counter to indicate that the source is
+ * no longer being shown somewhere.  If the reference counter is set to 0,
+ * will call the 'hide' callback
+ *
+ * Unlike obs_source_dec_showing, this will cause children of this source to be
+ * considered not showing as well. obs_source_inc_showing should generally be
+ * used instead.
+ */
+EXPORT void obs_source_dec_showing_main(obs_source_t *source);
 
 /** Enumerates filters assigned to the source */
 EXPORT void obs_source_enum_filters(obs_source_t *source,
@@ -1300,6 +1323,8 @@ typedef void (*obs_transition_video_render_callback_t)(void *data,
 typedef float (*obs_transition_audio_mix_callback_t)(void *data, float t);
 
 EXPORT float obs_transition_get_time(obs_source_t *transition);
+
+EXPORT void obs_transition_force_stop(obs_source_t *transition);
 
 EXPORT void obs_transition_video_render(obs_source_t *transition,
 		obs_transition_video_render_callback_t callback);

@@ -5,7 +5,8 @@ include_directories(SYSTEM "${CMAKE_SOURCE_DIR}/libobs")
 add_definitions(-DLIBOBS_EXPORTS)
 
 set(obs-frontend-api_SOURCES
-	obs-frontend-api.cpp)
+	obs-frontend-api.cpp
+	obs-frontend-api.rc)
 
 set(obs-frontend-api_HEADERS
 	obs-frontend-internal.hpp

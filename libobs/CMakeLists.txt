@@ -86,7 +86,8 @@ if(WIN32)
 		obs-windows.c
 		util/threading-windows.c
 		util/pipe-windows.c
-		util/platform-windows.c)
+		util/platform-windows.c
+		libobs.rc)
 	set(libobs_PLATFORM_HEADERS
 		util/threading-windows.h
 		util/windows/win-registry.h

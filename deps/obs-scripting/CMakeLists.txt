@@ -140,6 +140,7 @@ set(obs-scripting_SOURCES
 	obs-scripting.c
 	obs-scripting-logging.c
 	cstrcache.cpp
+	obs-scripting.rc
 	)
 set(obs-scripting_HEADERS
 	${CMAKE_CURRENT_BINARY_DIR}/obs-scripting-config.h

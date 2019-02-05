@@ -917,8 +917,7 @@ QPushButton#streamButton,
 QPushButton#recordButton,
 QPushButton[themeID="replayBufferButton"],
 QPushButton#modeSwitch,
-QPushButton#settingsButton,
-QPushButton#exitButton {
+QPushButton#settingsButton {
 	background-color: rgb(0, 188, 212); /* Cyan (Primary) */
 }
 
@@ -931,8 +930,7 @@ QPushButton:hover#streamButton,
 QPushButton:hover#recordButton,
 QPushButton:hover[themeID="replayBufferButton"],
 QPushButton:hover#modeSwitch,
-QPushButton:hover#settingsButton,
-QPushButton:hover#exitButton {
+QPushButton:hover#settingsButton {
 	background-color: rgba(240, 98, 146, 0.5); /* Pink (Secondary) */
 	border: 1px solid rgba(240, 98, 146, 0.5); /* Pink (Secondary) */
 }
@@ -941,8 +939,7 @@ QPushButton:pressed#streamButton,
 QPushButton:pressed#recordButton,
 QPushButton:pressed[themeID="replayBufferButton"],
 QPushButton:pressed#modeSwitch,
-QPushButton:pressed#settingsButton,
-QPushButton:pressed#exitButton {
+QPushButton:pressed#settingsButton {
 	background-color: rgb(240, 98, 146); /* Pink (Secondary) */
 	border: 1px solid rgb(240, 98, 146); /* Pink (Secondary) */
 }
@@ -951,8 +948,7 @@ QPushButton:checked#streamButton,
 QPushButton:checked#recordButton,
 QPushButton:checked[themeID="replayBufferButton"],
 QPushButton:checked#modeSwitch,
-QPushButton:checked#settingsButton,
-QPushButton:checked#exitButton {
+QPushButton:checked#settingsButton {
 	background-color: rgba(240, 98, 146, 0.5); /* Pink (Secondary) */
 	border: 1px solid rgba(240, 98, 146, 0.5); /* Pink (Secondary) */
 }

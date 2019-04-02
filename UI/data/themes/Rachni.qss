@@ -757,6 +757,7 @@ MuteCheckBox::indicator:unchecked:hover {
 MuteCheckBox::indicator:unchecked:focus {
 	image: url(./Dark/settings/audio.svg);
 }
+
 MuteCheckBox::indicator:checked:hover {
 	background-color: rgba(240, 98, 146, 0.5); /* Pink (Secondary) */
 	image: url(./Dark/mute.svg);
@@ -772,6 +773,106 @@ MuteCheckBox::indicator:checked:disabled {
 
 MuteCheckBox::indicator:unchecked:disabled {
 	image: url(./Dark/settings/audio.svg);
+}
+
+/***********************************/
+/* --- Master Mixer Checkboxes --- */
+/***********************************/
+MonCheckBox {
+	outline: none;
+}
+
+MonCheckBox::indicator:checked {
+	image: url(./Dark/monON.png);
+}
+
+MonCheckBox::indicator:unchecked {
+	image: url(./Dark/monOFF.png);
+}
+
+MonCheckBox::indicator:checked:hover {
+	background-color: rgba(240, 98, 146, 0.5); /* Pink (Secondary) */
+	image: url(./Dark/monON.png);
+}
+
+MonCheckBox::indicator:checked:focus {
+	image: url(./Dark/monON.png);
+}
+
+MonCheckBox::indicator:unchecked:hover {
+	background-color: rgba(240, 98, 146, 0.5); /* Pink (Secondary) */
+	image: url(./Dark/monOFF.png);
+}
+
+MonCheckBox::indicator:unchecked:focus {
+	image: url(./Dark/monOFF.png);
+}
+
+StreamCheckBox {
+	outline: none;
+	height: 16px;
+}
+
+StreamCheckBox::indicator:checked {
+	image: url(:/res/images/streamON.png);
+	height: 16px;
+}
+
+StreamCheckBox::indicator:checked:hover {
+	background-color: rgba(240, 98, 146, 0.5); /* Pink (Secondary) */
+	image: url(:/res/images/streamON.png);
+	height: 16px;
+}
+
+StreamCheckBox::indicator:checked:focus {
+	image: url(:/res/images/streamON.png);
+	height: 16px;
+}
+
+StreamCheckBox::indicator:unchecked {
+	image: url(:/res/images/streamOFF.png);
+	height: 16px;
+}
+
+StreamCheckBox::indicator:unchecked:hover {
+	background-color: rgba(240, 98, 146, 0.5); /* Pink (Secondary) */
+	image: url(:/res/images/streamOFF.png);
+	height: 16px;
+}
+
+StreamCheckBox::indicator:unchecked:focus {
+	image: url(:/res/images/streamOFF.png);
+	height: 16px;
+}
+
+RecCheckBox {
+	outline: none;
+}
+
+RecCheckBox::indicator:checked {
+	image: url(:/res/images/recON.png);
+}
+
+RecCheckBox::indicator:checked:hover {
+	background-color: rgba(240, 98, 146, 0.5); /* Pink (Secondary) */
+	image: url(:/res/images/recON.png);
+}
+
+RecCheckBox::indicator:checked:focus {
+	image: url(:/res/images/recON.png);;
+}
+
+RecCheckBox::indicator:unchecked {
+	image: url(:/res/images/recOFF.png);
+}
+
+RecCheckBox::indicator:unchecked:hover {
+	background-color: rgba(240, 98, 146, 0.5); /* Pink (Secondary) */
+	image: url(:/res/images/recOFF.png);
+}
+
+RecCheckBox::indicator:unchecked:focus {
+	image: url(:/res/images/recOFF.png);
 }
 
 /****************************/

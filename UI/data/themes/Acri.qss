@@ -881,6 +881,7 @@ StreamCheckBox::indicator:unchecked:focus {
 	height: 16px;
 }
 
+
 RecCheckBox {
 	outline: none;
 }

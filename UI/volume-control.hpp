@@ -232,6 +232,7 @@ class RecCheckBox : public QCheckBox {
 class MonCheckBox : public QCheckBox {
 	Q_OBJECT
 };
+
 class VolControl : public QWidget {
 	Q_OBJECT
 
@@ -276,12 +277,14 @@ public slots:
 	void VolumeChanged();
 	void enableStreamButton(bool show);
 	void enableRecButton(bool show);
+	void showMonitoringButton(bool show);
 signals:
 	void ConfigClicked();
 
 public:
-	explicit VolControl(OBSSource source, bool *mute, bool showConfig = false,
-			bool vertical = false, int trackIndex = -1);
+	explicit VolControl(OBSSource source, bool *mute,
+			bool showConfig = false, bool vertical = false,
+			bool showMon = false, int trackIndex = -1);
 	~VolControl();
 
 	inline obs_source_t *GetSource() const {return source;}

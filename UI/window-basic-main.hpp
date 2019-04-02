@@ -308,6 +308,7 @@ private:
 	void ToggleVolControlLayout();
 	void ToggleMasterVolControlLayout();
 	void ToggleMixerLayout(bool vertical, bool isMaster);
+	void ShowMonitoringButton();
 
 	void RefreshSceneCollections();
 	void ChangeSceneCollection();
@@ -565,6 +566,7 @@ public:
 	OBSScene GetCurrentScene();
 	void InitAudioMasterMixer();
 	inline std::vector<VolControl*> const GetMasterVol() { return master_volumes; }
+
 	void SysTrayNotify(const QString &text, QSystemTrayIcon::MessageIcon n);
 
 	inline OBSSource GetCurrentSceneSource()

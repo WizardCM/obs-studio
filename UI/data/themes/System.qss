@@ -87,7 +87,6 @@ RecCheckBox::indicator:unchecked {
     image: url(:/res/images/recOFF.png);
 }
 
-
 SourceTreeSubItemCheckBox {
     background: transparent;
     outline: none;

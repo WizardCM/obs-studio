@@ -86,7 +86,7 @@ QWidget::disabled {
     color: 2px solid rgb(200,199,200); /* lighter */
 }
 
-QAbstractItemView, QStackedWidget#stackedMixerArea QWidget {
+QAbstractItemView, QStackedWidget#stackedMixerArea QWidget, QStackedWidget#stackedMasterMixerArea QWidget {
     background-color: rgb(31,30,31); /* veryDark */
 }
 
@@ -622,6 +622,44 @@ MuteCheckBox::indicator:unchecked {
 
 OBSHotkeyLabel[hotkeyPairHover=true] {
     color: red;
+}
+
+/* master mixer */
+
+MonCheckBox {
+    outline: none;
+}
+
+MonCheckBox::indicator:checked {
+    image: url(./Dark/monON.png);
+}
+
+MonCheckBox::indicator:unchecked {
+    image: url(./Dark/monOFF.png);
+}
+
+StreamCheckBox {
+    outline: none;
+}
+
+StreamCheckBox::indicator:checked {
+    image: url(:/res/images/streamON.png);
+}
+
+StreamCheckBox::indicator:unchecked {
+    image: url(:/res/images/streamOFF.png);
+}
+
+RecCheckBox {
+    outline: none;
+}
+
+RecCheckBox::indicator:checked {
+    image: url(:/res/images/recON.png);
+}
+
+RecCheckBox::indicator:unchecked {
+    image: url(:/res/images/recOFF.png);
 }
 
 /* Group Collapse Checkbox */

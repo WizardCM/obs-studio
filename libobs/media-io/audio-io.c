@@ -208,7 +208,6 @@ static void input_and_output(struct audio_output *audio,
 	/* get mixers */
 	pthread_mutex_lock(&audio->input_mutex);
 	for (size_t i = 0; i < MAX_AUDIO_MIXES; i++) {
-		if (audio->mixes[i].inputs.num)
 			active_mixes |= (1 << i);
 	}
 	pthread_mutex_unlock(&audio->input_mutex);

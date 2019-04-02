@@ -920,14 +920,14 @@ static void deactivate_source(obs_source_t *source)
 	obs_source_dosignal(source, "source_deactivate", "deactivate");
 }
 
-static void show_source(obs_source_t *source)
+void show_source(obs_source_t *source)
 {
 	if (source->context.data && source->info.show)
 		source->info.show(source->context.data);
 	obs_source_dosignal(source, "source_show", "show");
 }
 
-static void hide_source(obs_source_t *source)
+void hide_source(obs_source_t *source)
 {
 	if (source->context.data && source->info.hide)
 		source->info.hide(source->context.data);
@@ -1317,7 +1317,7 @@ static void source_output_audio_data(obs_source_t *source,
 		source->last_sync_offset = sync_offset;
 	}
 
-	if (source->monitoring_type != OBS_MONITORING_TYPE_MONITOR_ONLY) {
+	if (obs_source_get_sends(source)) {
 		if (push_back && source->audio_ts)
 			source_output_audio_push_back(source, &in);
 		else
@@ -4186,6 +4186,23 @@ enum obs_monitoring_type obs_source_get_monitoring_type(
 {
 	return obs_source_valid(source, "obs_source_get_monitoring_type") ?
 		source->monitoring_type : OBS_MONITORING_TYPE_NONE;
+}
+
+bool obs_source_get_sends(const obs_source_t *source)
+{
+	bool sends;
+	if (source->info.output_flags & OBS_SOURCE_TRACK)
+		sends = false;
+	else
+		sends = (source->audio_mixers & 1 << 0) ||
+				(source->audio_mixers & 1 << 1) ||
+				(source->audio_mixers & 1 << 2) ||
+				(source->audio_mixers & 1 << 3) ||
+				(source->audio_mixers & 1 << 4) ||
+				(source->audio_mixers & 1 << 5);
+
+	return obs_source_valid(source, "obs_source_get_sends") ?
+			sends : false;
 }
 
 void obs_source_set_async_unbuffered(obs_source_t *source, bool unbuffered)

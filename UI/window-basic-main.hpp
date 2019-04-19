@@ -557,6 +557,8 @@ public:
 	obs_service_t *GetService();
 	void          SetService(obs_service_t *service);
 
+	int GetTransitionDuration();
+
 	inline bool IsPreviewProgramMode() const
 	{
 		return os_atomic_load_bool(&previewProgramMode);

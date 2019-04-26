@@ -721,6 +721,8 @@ public:
 	{
 		return master_volumes;
 	}
+	void SelectiveMonitoring(int index);
+
 	void SysTrayNotify(const QString &text, QSystemTrayIcon::MessageIcon n);
 
 	inline OBSSource GetCurrentSceneSource()

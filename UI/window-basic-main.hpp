@@ -567,6 +567,7 @@ public:
 	OBSScene GetCurrentScene();
 	void InitAudioMasterMixer();
 	inline std::vector<VolControl*> const GetMasterVol() { return master_volumes; }
+	void SelectiveMonitoring(int index);
 
 	void SysTrayNotify(const QString &text, QSystemTrayIcon::MessageIcon n);
 

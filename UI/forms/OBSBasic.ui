@@ -324,6 +324,7 @@
     <addaction name="toggleStatusBar"/>
     <addaction name="separator"/>
     <addaction name="stats"/>
+    <addaction name="actionAddCefWidget"/>
    </widget>
    <widget class="QMenu" name="menuTools">
     <property name="title">
@@ -1695,6 +1696,11 @@
   <action name="actionShowAbout">
    <property name="text">
     <string>Basic.MainMenu.Help.About</string>
+   </property>
+  </action>
+  <action name="actionAddCefWidget">
+   <property name="text">
+    <string>Basic.MainMenu.View.AddCefWidget</string>
    </property>
   </action>
  </widget>

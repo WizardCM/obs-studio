@@ -432,6 +432,15 @@ bool OBSApp::InitGlobalConfigDefaults()
 			"VerticalVolControl", false);
 
 	config_set_default_bool(globalConfig, "BasicWindow",
+			"VerticalMasterVolControl", true);
+
+	config_set_default_bool(globalConfig, "BasicWindow",
+			"ShowMonitoringButton", false);
+
+	config_set_default_bool(globalConfig, "BasicWindow",
+			"ShowTracksButtons", false);
+
+	config_set_default_bool(globalConfig, "BasicWindow",
 			"MultiviewMouseSwitch", true);
 
 	config_set_default_bool(globalConfig, "BasicWindow",

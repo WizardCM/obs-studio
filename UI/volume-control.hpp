@@ -7,6 +7,7 @@
 #include <QTimer>
 #include <QMutex>
 #include <QList>
+#include <QCheckBox>
 
 class QPushButton;
 class VolumeMeterTimer;
@@ -222,17 +223,40 @@ protected:
 class QLabel;
 class QSlider;
 class MuteCheckBox;
+class StreamCheckBox : public QCheckBox {
+	Q_OBJECT
+};
+class RecCheckBox : public QCheckBox {
+	Q_OBJECT
+};
+class MonCheckBox : public QCheckBox {
+	Q_OBJECT
+};
+class TracksCheckBox : public QCheckBox {
+	Q_OBJECT
+};
 
 class VolControl : public QWidget {
 	Q_OBJECT
 
 private:
 	OBSSource source;
+	int             track_index;
 	QLabel          *nameLabel;
 	QLabel          *volLabel;
 	VolumeMeter     *volMeter;
 	QSlider         *slider;
 	MuteCheckBox    *mute;
+	StreamCheckBox  *stream;
+	RecCheckBox     *rec;
+	MonCheckBox     *mon;
+	TracksCheckBox  *track1;
+	TracksCheckBox  *track2;
+	TracksCheckBox  *track3;
+	TracksCheckBox  *track4;
+	TracksCheckBox  *track5;
+	TracksCheckBox  *track6;
+	bool            *mutePtr;
 	QPushButton     *config = nullptr;
 	float           levelTotal;
 	float           levelCount;
@@ -246,27 +270,52 @@ private:
 		const float peak[MAX_AUDIO_CHANNELS],
 		const float inputPeak[MAX_AUDIO_CHANNELS]);
 	static void OBSVolumeMuted(void *data, calldata_t *calldata);
+	static void OBSSourceMixersChanged(void *param, calldata_t *calldata);
+	static void OBSSourceMonitoringChanged(void *param, calldata_t *calldata);
 
 	void EmitConfigClicked();
+	void setMixer(obs_source_t *source, const int mixerIdx, const bool checked);
 
 private slots:
-	void VolumeChanged();
 	void VolumeMuted(bool muted);
-
 	void SetMuted(bool checked);
+	void SetStream(bool checked);
+	void SetRec(bool checked);
+	void SetMon(bool checked);
+
 	void SliderChanged(int vol);
 	void updateText();
-
+public slots:
+	void VolumeChanged();
+	void enableStreamButton(bool show);
+	void enableRecButton(bool show);
+	void showMonitoringButton(bool show);
+	void SourceMixersChanged(uint32_t mixers);
+	void track1Changed(bool checked);
+	void track2Changed(bool checked);
+	void track3Changed(bool checked);
+	void track4Changed(bool checked);
+	void track5Changed(bool checked);
+	void track6Changed(bool checked);
+	void showTracksButtons(bool show);
+	void SourceMonitoringTypeChanged(int type);
+	void checkMonButton(bool check);
 signals:
 	void ConfigClicked();
 
 public:
-	explicit VolControl(OBSSource source, bool showConfig = false,
-			bool vertical = false);
+	explicit VolControl(OBSSource source, bool *mute,
+			bool showConfig = false, bool vertical = false,
+			bool showMon = false, bool showTracks = false,
+			int trackIndex = -1);
 	~VolControl();
 
 	inline obs_source_t *GetSource() const {return source;}
-
+	inline obs_fader_t *GetFader() {return obs_fader;}
+	inline obs_volmeter_t *GetMeter() {return obs_volmeter;}
+	inline int GetTrack() const {return track_index;}
+	inline StreamCheckBox *GetStreamCheckbox() {return stream;}
+	inline RecCheckBox *GetRecCheckbox() {return rec;}
 	QString GetName() const;
 	void SetName(const QString &newName);
 

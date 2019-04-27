@@ -47,6 +47,7 @@ struct obs_fader {
 	obs_fader_conversion_t def_to_db;
 	obs_fader_conversion_t db_to_def;
 	obs_source_t           *source;
+	float                  *vol;
 	enum obs_fader_type    type;
 	float                  max_db;
 	float                  min_db;
@@ -435,6 +436,7 @@ static void volmeter_process_peak(obs_volmeter_t *volmeter,
 		if (!samples) {
 			continue;
 		}
+
 		if (((uintptr_t)samples & 0xf) > 0) {
 			printf("Audio plane %i is not aligned %p skipping "
 					"peak volume measurement.\n",
@@ -510,14 +512,16 @@ static void volmeter_process_audio_data(obs_volmeter_t *volmeter,
 	volmeter_process_magnitude(volmeter, data, nr_channels);
 }
 
-static void volmeter_source_data_received(void *vptr, obs_source_t *source,
-		const struct audio_data *data, bool muted)
+void volmeter_data_received(void *vptr, const struct audio_data *data,
+		bool muted)
 {
 	struct obs_volmeter *volmeter = (struct obs_volmeter *) vptr;
 	float mul;
 	float magnitude[MAX_AUDIO_CHANNELS];
 	float peak[MAX_AUDIO_CHANNELS];
 	float input_peak[MAX_AUDIO_CHANNELS];
+	if (!volmeter)
+		return;
 
 	pthread_mutex_lock(&volmeter->mutex);
 
@@ -542,7 +546,12 @@ static void volmeter_source_data_received(void *vptr, obs_source_t *source,
 	pthread_mutex_unlock(&volmeter->mutex);
 
 	signal_levels_updated(volmeter, magnitude, peak, input_peak);
+}
 
+static void volmeter_source_data_received(void *vptr, obs_source_t *source,
+		const struct audio_data *data, bool muted)
+{
+	volmeter_data_received(vptr, data, muted);
 	UNUSED_PARAMETER(source);
 }
 
@@ -624,12 +633,15 @@ bool obs_fader_set_db(obs_fader_t *fader, const float db)
 
 	fader->ignore_next_signal = true;
 	obs_source_t *src         = fader->source;
+	float        *vol         = fader->vol;
 	const float mul           = db_to_mul(fader->cur_db);
 
 	pthread_mutex_unlock(&fader->mutex);
 
 	if (src)
 		obs_source_set_volume(src, mul);
+	else if (vol)
+		*vol = mul;
 
 	return !clamped;
 }
@@ -706,6 +718,7 @@ bool obs_fader_attach_source(obs_fader_t *fader, obs_source_t *source)
 	pthread_mutex_lock(&fader->mutex);
 
 	fader->source = source;
+
 	fader->cur_db = mul_to_db(vol);
 
 	pthread_mutex_unlock(&fader->mutex);
@@ -891,7 +904,7 @@ int obs_volmeter_get_nr_channels(obs_volmeter_t *volmeter)
 
 	if (volmeter->source) {
 		source_nr_audio_channels = get_audio_channels(
-			volmeter->source->sample_info.speakers);
+				volmeter->source->sample_info.speakers);
 	} else {
 		source_nr_audio_channels = 1;
 	}

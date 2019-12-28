@@ -46,6 +46,8 @@ private:
 	static void SourceRemoved(void *data, calldata_t *params);
 	static void SourceRenamed(void *data, calldata_t *params);
 	static void DrawPreview(void *data, uint32_t cx, uint32_t cy);
+	
+	void mousePressEvent(QMouseEvent *event) override;
 
 	bool GetSourceRelativeXY(int mouseX, int mouseY, int &x, int &y);
 
@@ -56,6 +58,9 @@ private:
 	bool HandleKeyEvent(QKeyEvent *event);
 
 	OBSEventFilter *BuildEventFilter();
+
+private slots:
+	void ResizeInteract();
 
 public:
 	OBSBasicInteraction(QWidget *parent, OBSSource source_);

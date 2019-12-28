@@ -156,6 +156,66 @@ void OBSBasicInteraction::DrawPreview(void *data, uint32_t cx, uint32_t cy)
 	gs_viewport_pop();
 }
 
+void OBSBasicInteraction::ResizeInteract()
+{
+	QAction *action = qobject_cast<QAction *>(sender());
+	if (!action)
+		return;
+
+	QString canvas = action->iconText();
+	double scale = action->data().toDouble();
+	uint32_t width = 0, height = 0, marg = 22;
+	if (strcmp(canvas.toUtf8(), "canvas") == 0) {
+		struct obs_video_info ovi;
+		obs_get_video_info(&ovi);
+		width = ovi.base_width;
+		height = ovi.base_height;
+	} else {
+		width = obs_source_get_width(source);
+		height = obs_source_get_height(source);
+	}
+	resize(round((width + marg) * scale), round((height + marg) * scale));
+}
+
+void OBSBasicInteraction::mousePressEvent(QMouseEvent *event)
+{
+	if (event->button() == Qt::RightButton) {
+		QMenu *popup = new QMenu(this);
+
+		auto addHeading = [=](char *label) {
+			QAction *popupItem = new QAction(label);
+			popupItem->setDisabled(true);
+			popup->addAction(popupItem);
+		};
+
+		auto addSize = [=](char *label, double scale, bool canvas) {
+			QAction *popupItem = new QAction(label);
+			popupItem->setData(scale);
+			if (canvas)
+				popupItem->setIconText("canvas");
+			connect(popupItem, SIGNAL(triggered(bool)), this,
+				SLOT(ResizeInteract()));
+			popup->addAction(popupItem);
+		};
+
+		addHeading("Source Size");
+		addSize("200%", 2, false);
+		addSize("150%", 1.5, false);
+		addSize("100%", 1, false);
+		addSize("50%", 0.5, false);
+		addSize("25%", 0.25, false);
+		popup->addSeparator();
+		addHeading("Canvas Size");
+		addSize("200%", 2, true);
+		addSize("150%", 1.5, true);
+		addSize("100%", 1, true);
+		addSize("50%", 0.5, true);
+		addSize("25%", 0.25, true);
+
+		popup->exec(QCursor::pos());
+	}
+}
+
 void OBSBasicInteraction::closeEvent(QCloseEvent *event)
 {
 	QDialog::closeEvent(event);
@@ -209,8 +269,6 @@ static int TranslateQtMouseEventModifiers(QMouseEvent *event)
 		modifiers |= INTERACT_MOUSE_LEFT;
 	if (event->buttons().testFlag(Qt::MiddleButton))
 		modifiers |= INTERACT_MOUSE_MIDDLE;
-	if (event->buttons().testFlag(Qt::RightButton))
-		modifiers |= INTERACT_MOUSE_RIGHT;
 
 	return modifiers;
 }
@@ -274,9 +332,7 @@ bool OBSBasicInteraction::HandleMouseClickEvent(QMouseEvent *event)
 	case Qt::MiddleButton:
 		button = MOUSE_MIDDLE;
 		break;
-	case Qt::RightButton:
 		button = MOUSE_RIGHT;
-		break;
 	default:
 		blog(LOG_WARNING, "unknown button type %d", event->button());
 		return false;

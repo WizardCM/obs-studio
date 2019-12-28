@@ -9,6 +9,7 @@ set(obs-transitions_SOURCES
 	transition-fade-to-color.c
 	transition-luma-wipe.c
 	transition-stinger.c
+	transition-browser.c
 	)
 
 if(WIN32)

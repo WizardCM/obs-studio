@@ -55,6 +55,9 @@ OBSAbout::OBSAbout(QWidget *parent) : QDialog(parent), ui(new Ui::OBSAbout)
 	ui->authors->setProperty("themeID", "aboutHLayout");
 	ui->license->setProperty("themeID", "aboutHLayout");
 	ui->info->setProperty("themeID", "aboutInfo");
+	
+	ui->textBrowser->setTextInteractionFlags(Qt::TextBrowserInteraction);
+	ui->textBrowser->setOpenExternalLinks(true);
 
 	connect(ui->about, SIGNAL(clicked()), this, SLOT(ShowAbout()));
 	connect(ui->authors, SIGNAL(clicked()), this, SLOT(ShowAuthors()));
@@ -128,11 +131,11 @@ void OBSAbout::ShowAbout()
 void OBSAbout::ShowAuthors()
 {
 	std::string path;
-	QString error = "Error! File could not be read.\n\n \
-		Go to: https://github.com/obsproject/obs-studio/blob/master/AUTHORS";
+	QString error = "Error! File could not be read.<br><br> \
+		Go to: <a href=\"https://github.com/obsproject/obs-studio/blob/master/AUTHORS\">AUTHORS on GitHub</a>.";
 
 	if (!GetDataFilePath("authors/AUTHORS", path)) {
-		ui->textBrowser->setPlainText(error);
+		ui->textBrowser->setHtml(error);
 		return;
 	}
 
@@ -151,18 +154,18 @@ void OBSAbout::ShowAuthors()
 void OBSAbout::ShowLicense()
 {
 	std::string path;
-	QString error = "Error! File could not be read.\n\n \
-		Go to: https://github.com/obsproject/obs-studio/blob/master/COPYING";
+	QString error = "Error! File could not be read.<br><br> \
+		Go to: <a href=\"https://github.com/obsproject/obs-studio/blob/master/COPYING\">COPYING on GitHub</a>.";
 
 	if (!GetDataFilePath("license/gplv2.txt", path)) {
-		ui->textBrowser->setPlainText(error);
+		ui->textBrowser->setHtml(error);
 		return;
 	}
 
 	BPtr<char> text = os_quick_read_utf8_file(path.c_str());
 
 	if (!text || !*text) {
-		ui->textBrowser->setPlainText(error);
+		ui->textBrowser->setHtml(error);
 		return;
 	}
 

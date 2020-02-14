@@ -35,6 +35,8 @@
 #include <QProxyStyle>
 #include <QScreen>
 #include <QProcess>
+#include <QTranslator>
+#include <QLibraryInfo>
 
 #include "qt-wrappers.hpp"
 #include "obs-app.hpp"
@@ -1474,7 +1476,20 @@ QString OBSTranslator::translate(const char *context, const char *sourceText,
 				 const char *disambiguation, int n) const
 {
 	const char *out = nullptr;
-	if (!App()->TranslateString(sourceText, &out))
+	const bool translated = App()->TranslateString(sourceText, &out);
+	if (!translated && context) {
+		struct dstr key;
+		dstr_init_copy(&key, context);
+		dstr_cat(&key, ".");
+		dstr_cat(&key, sourceText);
+		dstr_replace(&key, " ", "-");
+		dstr_replace(&key, "&", "");
+		dstr_replace(&key, ":", "");
+		App()->TranslateString(key.array, &out);
+		dstr_free(&key);
+	}
+	
+	if (!out)
 		return QString(sourceText);
 
 	UNUSED_PARAMETER(context);
@@ -1796,6 +1811,10 @@ static int run_program(fstream &logFile, int argc, char *argv[])
 		delete_oldest_file(false, "obs-studio/profiler_data");
 
 		OBSTranslator translator;
+		/* QTranslator qtTranslator;
+		qtTranslator.load("qt_" + QLocale::system().name(),
+			QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+		program.installTranslator(&qtTranslator); */
 		program.installTranslator(&translator);
 
 #ifdef _WIN32

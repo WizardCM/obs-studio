@@ -50,6 +50,7 @@ struct SwitcherData {
 	int interval = DEFAULT_INTERVAL;
 	bool switchIfNotMatching = false;
 	bool startAtLaunch = false;
+	obs_hotkey_pair_id hotkey_id;
 
 	void Thread();
 	void Start();
@@ -519,8 +520,22 @@ void SwitcherData::Stop()
 	}
 }
 
+static void hotkeyToggled(void *data, obs_hotkey_id, obs_hotkey_t *,
+			  bool pressed)
+{
+	if (!pressed)
+		return;
+	if (switcher->th.joinable()) {
+		switcher->Stop();
+	} else {
+		switcher->Start();
+	}
+}
+
 extern "C" void FreeSceneSwitcher()
 {
+	if (switcher != nullptr)
+		obs_hotkey_unregister(switcher->hotkey_id);
 	delete switcher;
 	switcher = nullptr;
 }
@@ -554,4 +569,8 @@ extern "C" void InitSceneSwitcher()
 	obs_frontend_add_event_callback(OBSEvent, nullptr);
 
 	action->connect(action, &QAction::triggered, cb);
+
+	switcher->hotkey_id = obs_hotkey_register_frontend(
+		"AutoSceneSwitcher.StartStop", "Toggle Scene Switcher [NT]",
+		hotkeyToggled, nullptr);
 }

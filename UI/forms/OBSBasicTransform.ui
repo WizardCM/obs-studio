@@ -244,6 +244,16 @@
           </property>
          </widget>
         </item>
+        <item>
+         <widget class="QCheckBox" name="lockRatio">
+          <property name="text">
+           <string>Basic.TransformWindow.LockRatio</string>
+          </property>
+          <property name="checked">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
        </layout>
       </widget>
      </item>

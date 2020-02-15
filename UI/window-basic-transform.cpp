@@ -50,10 +50,12 @@ OBSBasicTransform::OBSBasicTransform(OBSBasic *parent)
 	HookWidget(ui->positionX, DSCROLL_CHANGED, SLOT(OnControlChanged()));
 	HookWidget(ui->positionY, DSCROLL_CHANGED, SLOT(OnControlChanged()));
 	HookWidget(ui->rotation, DSCROLL_CHANGED, SLOT(OnControlChanged()));
-	HookWidget(ui->sizeX, DSCROLL_CHANGED, SLOT(OnControlChanged()));
-	HookWidget(ui->sizeY, DSCROLL_CHANGED, SLOT(OnControlChanged()));
+	HookWidget(ui->sizeX, DSCROLL_CHANGED, SLOT(OnSizeChanged(double)));
+	HookWidget(ui->sizeY, DSCROLL_CHANGED, SLOT(OnSizeChanged(double)));
 	HookWidget(ui->sizePercent, SIGNAL(stateChanged(int)),
 		   SLOT(ToggleSizePercent(int)));
+	HookWidget(ui->lockRatio, SIGNAL(stateChanged(int)),
+		   SLOT(ToggleSizeRatioLock(int)));
 	HookWidget(ui->align, COMBO_CHANGED, SLOT(OnControlChanged()));
 	HookWidget(ui->boundsType, COMBO_CHANGED, SLOT(OnBoundsType(int)));
 	HookWidget(ui->boundsAlign, COMBO_CHANGED, SLOT(OnControlChanged()));
@@ -296,6 +298,12 @@ void OBSBasicTransform::ToggleSizePercent(int state)
 	RefreshControls();
 }
 
+void OBSBasicTransform::ToggleSizeRatioLock(int state)
+{
+	sizeRatioLocked = (bool)state;
+	// RefreshControls(); // Not needed here, I think
+}
+
 void OBSBasicTransform::ToggleBoundsPercent(int state)
 {
 	boundsInPercent = (bool)state;
@@ -329,10 +337,50 @@ void OBSBasicTransform::OnBoundsType(int index)
 	OnControlChanged();
 }
 
+void OBSBasicTransform::OnSizeChanged(double size)
+{
+	QDoubleSpinBox *widget = qobject_cast<QDoubleSpinBox *>(sender());
+	if (widget != NULL && sizeRatioLocked) {
+		obs_source_t *source = obs_sceneitem_get_source(item);
+		double width = double(obs_source_get_width(source));
+		double height = double(obs_source_get_height(source));
+
+		float scaledSizeX = ui->sizeX->value();
+		float scaledSizeY = ui->sizeY->value();
+
+		float baseAspect = width / height;
+		float aspect = scaledSizeX / scaledSizeY;
+
+		if (aspect < baseAspect) {
+			// if smaller than original
+			if ((scaledSizeY >= 0.0f && scaledSizeX >= 0.0f) || // not negatives
+			    (scaledSizeY <= 0.0f && scaledSizeX <= 0.0f)) // negatives
+				scaledSizeX = scaledSizeY * baseAspect;
+			else
+				scaledSizeX = scaledSizeY * baseAspect * -1.0f;
+		} else {
+			// if larger than original
+			if ((scaledSizeY >= 0.0f && scaledSizeX >= 0.0f) || // not negatives
+			    (scaledSizeY <= 0.0f && scaledSizeX <= 0.0f)) // negatives
+				scaledSizeY = scaledSizeX / baseAspect;
+			else
+				scaledSizeY = scaledSizeX / baseAspect * -1.0f;
+		}
+		if (widget == ui->sizeX)
+			ui->sizeY->setValue(std::round(scaledSizeY));
+		if (widget == ui->sizeY)
+			ui->sizeX->setValue(std::round(scaledSizeX));
+	}
+	OnControlChanged();
+}
+
 void OBSBasicTransform::OnControlChanged()
 {
 	if (ignoreItemChange)
 		return;
+
+	// TODO: Will likely have to add an intermediary before OnControlChanged
+	//       specifically for size inputs, to retain the scale
 
 	obs_source_t *source = obs_sceneitem_get_source(item);
 	double width = double(obs_source_get_width(source));

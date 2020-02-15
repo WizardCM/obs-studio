@@ -51,6 +51,8 @@ OBSBasicTransform::OBSBasicTransform(OBSBasic *parent)
 	HookWidget(ui->rotation, DSCROLL_CHANGED, SLOT(OnControlChanged()));
 	HookWidget(ui->sizeX, DSCROLL_CHANGED, SLOT(OnControlChanged()));
 	HookWidget(ui->sizeY, DSCROLL_CHANGED, SLOT(OnControlChanged()));
+	HookWidget(ui->scaleX, DSCROLL_CHANGED, SLOT(OnControlScaleChanged()));
+	HookWidget(ui->scaleY, DSCROLL_CHANGED, SLOT(OnControlScaleChanged()));
 	HookWidget(ui->align, COMBO_CHANGED, SLOT(OnControlChanged()));
 	HookWidget(ui->boundsType, COMBO_CHANGED, SLOT(OnBoundsType(int)));
 	HookWidget(ui->boundsAlign, COMBO_CHANGED, SLOT(OnControlChanged()));
@@ -215,12 +217,17 @@ void OBSBasicTransform::RefreshControls()
 	int alignIndex = AlignToList(osi.alignment);
 	int boundsAlignIndex = AlignToList(osi.bounds_alignment);
 
+	float sizeX = osi.scale.x * width;
+	float sizeY = osi.scale.y * height;
+
 	ignoreItemChange = true;
 	ui->positionX->setValue(osi.pos.x);
 	ui->positionY->setValue(osi.pos.y);
 	ui->rotation->setValue(osi.rot);
-	ui->sizeX->setValue(osi.scale.x * width);
-	ui->sizeY->setValue(osi.scale.y * height);
+	ui->sizeX->setValue(sizeX);
+	ui->sizeY->setValue(sizeY);
+	ui->scaleX->setValue((sizeX / width) * 100);
+	ui->scaleY->setValue((sizeY / height) * 100);
 	ui->align->setCurrentIndex(alignIndex);
 
 	ui->boundsType->setCurrentIndex(int(osi.bounds_type));
@@ -271,13 +278,19 @@ void OBSBasicTransform::OnControlChanged()
 	double width = double(obs_source_get_width(source));
 	double height = double(obs_source_get_height(source));
 
+	float scaledSizeX = ui->sizeX->value() / width;
+	float scaledSizeY = ui->sizeY->value() / height;
+
 	obs_transform_info oti;
 	oti.pos.x = float(ui->positionX->value());
 	oti.pos.y = float(ui->positionY->value());
 	oti.rot = float(ui->rotation->value());
-	oti.scale.x = float(ui->sizeX->value() / width);
-	oti.scale.y = float(ui->sizeY->value() / height);
+	oti.scale.x = scaledSizeX;
+	oti.scale.y = scaledSizeY;
 	oti.alignment = listToAlign[ui->align->currentIndex()];
+	
+	ui->scaleX->setValue(scaledSizeX * 100);
+	ui->scaleY->setValue(scaledSizeY * 100);
 
 	oti.bounds_type = (obs_bounds_type)ui->boundsType->currentIndex();
 	oti.bounds_alignment = listToAlign[ui->boundsAlign->currentIndex()];
@@ -287,6 +300,18 @@ void OBSBasicTransform::OnControlChanged()
 	ignoreTransformSignal = true;
 	obs_sceneitem_set_info(item, &oti);
 	ignoreTransformSignal = false;
+}
+
+void OBSBasicTransform::OnControlScaleChanged()
+{
+	obs_source_t *source = obs_sceneitem_get_source(item);
+	float width = float(obs_source_get_width(source));
+	float height = float(obs_source_get_height(source));
+
+	ui->sizeX->setValue(float((ui->scaleX->value() * width) / 100));
+	ui->sizeY->setValue(float((ui->scaleY->value() * height) / 100));
+
+	OnControlChanged();
 }
 
 void OBSBasicTransform::OnCropChanged()

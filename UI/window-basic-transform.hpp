@@ -41,6 +41,7 @@ private slots:
 	void SetItemQt(OBSSceneItem newItem);
 	void OnBoundsType(int index);
 	void OnControlChanged();
+	void OnControlScaleChanged();
 	void OnCropChanged();
 	void on_resetButton_clicked();
 

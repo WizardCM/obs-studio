@@ -27,6 +27,7 @@ private:
 	bool ignoreTransformSignal = false;
 	bool ignoreItemChange = false;
 	bool sizeInPercent = false;
+	bool boundsInPercent = false;
 
 	void HookWidget(QWidget *widget, const char *signal, const char *slot);
 
@@ -46,6 +47,7 @@ private slots:
 	void OnBoundsType(int index);
 	void OnControlChanged();
 	void ToggleSizePercent(int state);
+	void ToggleBoundsPercent(int state);
 	void OnCropChanged();
 	void on_resetButton_clicked();
 

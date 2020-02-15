@@ -52,6 +52,8 @@ OBSBasicTransform::OBSBasicTransform(OBSBasic *parent)
 	HookWidget(ui->rotation, DSCROLL_CHANGED, SLOT(OnControlChanged()));
 	HookWidget(ui->sizeX, DSCROLL_CHANGED, SLOT(OnControlChanged()));
 	HookWidget(ui->sizeY, DSCROLL_CHANGED, SLOT(OnControlChanged()));
+	HookWidget(ui->sizePercent, SIGNAL(stateChanged(int)),
+		   SLOT(ToggleSizePercent(int)));
 	HookWidget(ui->align, COMBO_CHANGED, SLOT(OnControlChanged()));
 	HookWidget(ui->boundsType, COMBO_CHANGED, SLOT(OnBoundsType(int)));
 	HookWidget(ui->boundsAlign, COMBO_CHANGED, SLOT(OnControlChanged()));
@@ -250,12 +252,20 @@ void OBSBasicTransform::RefreshControls()
 	int alignIndex = AlignToList(osi.alignment);
 	int boundsAlignIndex = AlignToList(osi.bounds_alignment);
 
+	float sizeX = osi.scale.x * width;
+	float sizeY = osi.scale.y * height;
+
 	ignoreItemChange = true;
 	ui->positionX->setValue(osi.pos.x);
 	ui->positionY->setValue(osi.pos.y);
 	ui->rotation->setValue(osi.rot);
-	ui->sizeX->setValue(osi.scale.x * width);
-	ui->sizeY->setValue(osi.scale.y * height);
+	if (sizeInPercent) {
+		ui->sizeX->setValue((sizeX / width) * 100);
+		ui->sizeY->setValue((sizeY / height) * 100);
+	} else {
+		ui->sizeX->setValue(sizeX);
+		ui->sizeY->setValue(sizeY);
+	}
 	ui->align->setCurrentIndex(alignIndex);
 
 	ui->boundsType->setCurrentIndex(int(osi.bounds_type));
@@ -271,6 +281,12 @@ void OBSBasicTransform::RefreshControls()
 
 	std::string name = obs_source_get_name(source);
 	setWindowTitle(QTStr("Basic.TransformWindow.Title").arg(name.c_str()));
+}
+
+void OBSBasicTransform::ToggleSizePercent(int state)
+{
+	sizeInPercent = (bool)state;
+	RefreshControls();
 }
 
 void OBSBasicTransform::OnBoundsType(int index)
@@ -309,12 +325,23 @@ void OBSBasicTransform::OnControlChanged()
 	double width = double(obs_source_get_width(source));
 	double height = double(obs_source_get_height(source));
 
+	float scaledSizeX = ui->sizeX->value();
+	float scaledSizeY = ui->sizeY->value();
+
+	if (sizeInPercent) {
+		scaledSizeX = scaledSizeX / 100;
+		scaledSizeY = scaledSizeY / 100;
+	} else {
+		scaledSizeX = scaledSizeX / width;
+		scaledSizeY = scaledSizeY / height;
+	}
+
 	obs_transform_info oti;
 	oti.pos.x = float(ui->positionX->value());
 	oti.pos.y = float(ui->positionY->value());
 	oti.rot = float(ui->rotation->value());
-	oti.scale.x = float(ui->sizeX->value() / width);
-	oti.scale.y = float(ui->sizeY->value() / height);
+	oti.scale.x = scaledSizeX;
+	oti.scale.y = scaledSizeY;
 	oti.alignment = listToAlign[ui->align->currentIndex()];
 
 	oti.bounds_type = (obs_bounds_type)ui->boundsType->currentIndex();

@@ -26,6 +26,7 @@ private:
 
 	bool ignoreTransformSignal = false;
 	bool ignoreItemChange = false;
+	bool sizeInPercent = false;
 
 	void HookWidget(QWidget *widget, const char *signal, const char *slot);
 
@@ -44,6 +45,7 @@ private slots:
 	void SetItemQt(OBSSceneItem newItem);
 	void OnBoundsType(int index);
 	void OnControlChanged();
+	void ToggleSizePercent(int state);
 	void OnCropChanged();
 	void on_resetButton_clicked();
 

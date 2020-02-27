@@ -21,6 +21,11 @@
 #include <QAction>
 #include <QWidgetAction>
 #include <QSystemTrayIcon>
+#ifdef _WIN32
+#include <QWinJumpList>
+#include <QWinJumpListCategory>
+#include <QWinJumpListItem>
+#endif
 #include <QStyledItemDelegate>
 #include <obs.hpp>
 #include <vector>

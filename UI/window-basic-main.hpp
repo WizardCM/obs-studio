@@ -25,6 +25,8 @@
 #include <QWinJumpList>
 #include <QWinJumpListCategory>
 #include <QWinJumpListItem>
+#include <QWinThumbnailToolBar>
+#include <QWinThumbnailToolButton>
 #endif
 #include <QStyledItemDelegate>
 #include <obs.hpp>
@@ -274,6 +276,12 @@ private:
 	QPointer<QMenu> deinterlaceMenu;
 	QPointer<QMenu> perSceneTransitionMenu;
 	QPointer<QObject> shortcutFilter;
+
+#ifdef _WIN32
+	QWinThumbnailToolBar *thumbBar = new QWinThumbnailToolBar(this);
+	QWinTaskbarButton *taskBtn = new QWinTaskbarButton(this);
+	QWinTaskbarProgress *taskProg = taskBtn->progress();
+#endif
 
 	QPointer<QWidget> programWidget;
 	QPointer<QVBoxLayout> programLayout;

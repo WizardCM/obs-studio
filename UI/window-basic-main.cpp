@@ -1795,6 +1795,22 @@ void OBSBasic::OBSInit()
 	jAction->setArguments(QStringList("--always-on-top"));
 	tasks->addItem(jAction);
 	tasks->setVisible(true);
+
+	thumbBar->setWindow(windowHandle());
+
+	QWinThumbnailToolButton *thumbSettings =
+		new QWinThumbnailToolButton(thumbBar);
+	thumbSettings->setToolTip(QTStr("Settings"));
+	std::string darkPath;
+	GetDataFilePath("themes/Dark/settings/general.svg", darkPath);
+	thumbSettings->setIcon(QIcon(QString::fromUtf8(darkPath.c_str())));
+	thumbSettings->setDismissOnClick(true);
+	// TODO This needs to check if Settings is already open, otherwise
+	// we get a crash on shutdown. No good.
+	connect(thumbSettings, SIGNAL(clicked()), this,
+		SLOT(on_action_Settings_triggered()));
+
+	thumbBar->addButton(thumbSettings);
 #endif
 
 	bool has_last_version = config_has_user_value(App()->GlobalConfig(),

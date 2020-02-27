@@ -27,6 +27,8 @@
 #include <QWinJumpListItem>
 #include <QWinThumbnailToolBar>
 #include <QWinThumbnailToolButton>
+#include <QWinTaskbarButton>
+#include <QWinTaskbarProgress>
 #endif
 #include <QStyledItemDelegate>
 #include <obs.hpp>

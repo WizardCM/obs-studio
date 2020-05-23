@@ -1,6 +1,11 @@
 #include "window-dock-browser.hpp"
 #include <QCloseEvent>
 
+void BrowserDock::reloadPage()
+{
+	cefWidget->reloadPage();
+}
+
 void BrowserDock::closeEvent(QCloseEvent *event)
 {
 	OBSDock::closeEvent(event);

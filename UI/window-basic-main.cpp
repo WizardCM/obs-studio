@@ -353,6 +353,16 @@ OBSBasic::OBSBasic(QWidget *parent)
 	ui->actionE_xit->setShortcut(Qt::CTRL + Qt::Key_Q);
 #endif
 
+	QAction *adAP = new QAction();
+	adAP->setToolTip(QTStr("Basic.AdvAudio"));
+	// adAP->setProperty("ToolTip", QTStr("Basic.MainMenu.Edit.AdvAudio"));
+	adAP->setProperty("themeID", "propertiesIconSmall");
+	connect(adAP, &QAction::triggered, this,
+		&OBSBasic::on_actionAdvAudioProperties_triggered,
+		Qt::DirectConnection);
+	static_cast<OBSDockTitle *>(ui->mixerDock->titleBarWidget())
+		->setButtons(QList<QAction *>({adAP}));
+
 	auto addNudge = [this](const QKeySequence &seq, const char *s) {
 		QAction *nudge = new QAction(ui->preview);
 		nudge->setShortcut(seq);

@@ -61,7 +61,7 @@
         <string/>
        </property>
        <property name="pixmap">
-        <pixmap>:res/images/obs.png</pixmap>
+        <pixmap>:res/images/obs_icon.png</pixmap>
        </property>
        <property name="scaledContents">
         <bool>true</bool>

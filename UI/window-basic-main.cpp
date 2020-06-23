@@ -5310,7 +5310,7 @@ inline void OBSBasic::OnActivate()
 		if (trayIcon)
 			trayIcon->setIcon(QIcon::fromTheme(
 				"obs-tray-active",
-				QIcon(":/res/images/tray_active.png")));
+				QIcon(":/res/images/obs_tray_active.png")));
 	}
 }
 
@@ -5327,7 +5327,8 @@ inline void OBSBasic::OnDeactivate()
 
 		if (trayIcon)
 			trayIcon->setIcon(QIcon::fromTheme(
-				"obs-tray", QIcon(":/res/images/obs.png")));
+				"obs-tray",
+				QIcon(":/res/images/obs_tray.png")));
 #ifdef _WIN32
 		taskProg->hide();
 		taskBtn->clearOverlayIcon();
@@ -5343,7 +5344,7 @@ inline void OBSBasic::OnDeactivate()
 #endif
 			if (trayIcon)
 				trayIcon->setIcon(
-					QIcon(":/res/images/obs_paused.png"));
+					QIcon(":/res/images/obs_tray_paused.png"));
 		} else {
 #ifdef _WIN32
 			taskProg->show();
@@ -5354,7 +5355,7 @@ inline void OBSBasic::OnDeactivate()
 #endif
 			if (trayIcon)
 				trayIcon->setIcon(
-					QIcon(":/res/images/tray_active.png"));
+					QIcon(":/res/images/obs_tray_active.png"));
 		}
 	}
 }
@@ -7163,7 +7164,8 @@ void OBSBasic::ToggleShowHide()
 void OBSBasic::SystemTrayInit()
 {
 	trayIcon.reset(new QSystemTrayIcon(
-		QIcon::fromTheme("obs-tray", QIcon(":/res/images/obs.png")),
+		QIcon::fromTheme("obs-tray",
+				 QIcon(":/res/images/obs_tray.png")),
 		this));
 	trayIcon->setToolTip("OBS Studio");
 
@@ -7750,7 +7752,7 @@ void OBSBasic::PauseRecording()
 			"obs-paused", QIcon(":/res/images/paused.png")));
 #endif
 		if (trayIcon)
-			trayIcon->setIcon(QIcon(":/res/images/obs_paused.png"));
+			trayIcon->setIcon(QIcon(":/res/images/obs_tray_paused.png"));
 
 		os_atomic_set_bool(&recording_paused, true);
 
@@ -7785,7 +7787,7 @@ void OBSBasic::UnpauseRecording()
 #endif
 		if (trayIcon)
 			trayIcon->setIcon(
-				QIcon(":/res/images/tray_active.png"));
+				QIcon(":/res/images/obs_tray_active.png"));
 
 		os_atomic_set_bool(&recording_paused, false);
 

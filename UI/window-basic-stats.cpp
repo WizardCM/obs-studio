@@ -145,7 +145,8 @@ OBSBasicStats::OBSBasicStats(QWidget *parent, bool closeable)
 	resize(800, 280);
 
 	setWindowTitle(QTStr("Basic.Stats"));
-	setWindowIcon(QIcon::fromTheme("obs", QIcon(":/res/images/obs.png")));
+	setWindowIcon(
+		QIcon::fromTheme("obs", QIcon(":/res/images/obs_icon.png")));
 
 	setWindowModality(Qt::NonModal);
 	setAttribute(Qt::WA_DeleteOnClose, true);

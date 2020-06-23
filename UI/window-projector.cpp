@@ -27,7 +27,8 @@ OBSProjector::OBSProjector(QWidget *widget, obs_source_t *source_, int monitor,
 	SetAlwaysOnTop(this, config_get_bool(GetGlobalConfig(), "BasicWindow",
 					     "ProjectorAlwaysOnTop"));
 
-	setWindowIcon(QIcon::fromTheme("obs", QIcon(":/res/images/obs.png")));
+	setWindowIcon(
+		QIcon::fromTheme("obs", QIcon(":/res/images/obs_icon.png")));
 
 	if (monitor == -1)
 		resize(480, 270);

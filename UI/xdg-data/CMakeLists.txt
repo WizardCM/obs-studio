@@ -19,6 +19,6 @@ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/com.obsproject.Studio.appdata.xml
 install(FILES com.obsproject.Studio.desktop
 	DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/applications)
 
-install(FILES ../forms/images/obs.png
+install(FILES ../forms/images/obs_icon.png
 	DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/icons/hicolor/256x256/apps
 	RENAME com.obsproject.Studio.png)

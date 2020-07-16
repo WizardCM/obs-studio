@@ -109,71 +109,99 @@ string GetDefaultVideoSavePath()
 
 std::tuple<bool, bool, bool, bool> GetPermissionStatus()
 {
-//    NSDictionary *options = @{(__bridge id) kAXTrustedCheckOptionPrompt: @NO};
-//    boolean_t accessibilityAllowed = AXIsProcessTrustedWithOptions((CFDictionaryRef) options);
-    
-    std::tuple<bool, bool, bool, bool> result;
+	//    NSDictionary *options = @{(__bridge id) kAXTrustedCheckOptionPrompt: @NO};
+	//    boolean_t accessibilityAllowed = AXIsProcessTrustedWithOptions((CFDictionaryRef) options);
 
-    if (@available(macOS 10.14, *)) {
-        AVAuthorizationStatus videoStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
-        AVAuthorizationStatus audioStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeAudio];
-        
-        bool videoAllowed = (videoStatus == AVAuthorizationStatusAuthorized);
-        bool audioAllowed = (audioStatus == AVAuthorizationStatusAuthorized);
-        
-        bool captureAllowed = true;
-        bool inputMonitoringAllowed = true;
-        
-        /* All credit for the solution below belongs to Craig Hockenberry 👌🏻
+	std::tuple<bool, bool, bool, bool> result;
+
+	if (@available(macOS 10.14, *)) {
+		AVAuthorizationStatus videoStatus = [AVCaptureDevice
+			authorizationStatusForMediaType:AVMediaTypeVideo];
+		AVAuthorizationStatus audioStatus = [AVCaptureDevice
+			authorizationStatusForMediaType:AVMediaTypeAudio];
+
+		bool videoAllowed =
+			(videoStatus == AVAuthorizationStatusAuthorized);
+		bool audioAllowed =
+			(audioStatus == AVAuthorizationStatusAuthorized);
+
+		bool captureAllowed = true;
+		bool inputMonitoringAllowed = true;
+
+		/* All credit for the solution below belongs to Craig Hockenberry 👌🏻
            https://stackoverflow.com/a/58985069
         */
-        if (@available(macOS 10.15, *)) {
-            captureAllowed = false;
-            inputMonitoringAllowed = false;
-            
-            NSRunningApplication *runningApplication = NSRunningApplication.currentApplication;
-            NSNumber *obsProcessId = [NSNumber numberWithInt:runningApplication.processIdentifier];
-            
-            CFArrayRef windowList = CGWindowListCopyWindowInfo(kCGWindowListOptionOnScreenOnly, kCGNullWindowID);
-            NSUInteger numberOfWindows = CFArrayGetCount(windowList);
-            
-            for (int index = 0; index < (int)numberOfWindows; index++) {
-                NSDictionary *windowInfo = (NSDictionary *) CFArrayGetValueAtIndex(windowList, index);
-                
-                NSString *windowName = windowInfo[(id)kCGWindowName];
-                NSNumber *processIdentifier = windowInfo[(id)kCGWindowOwnerPID];
-                
-                if (![processIdentifier isEqual:obsProcessId]) {
-                    pid_t pid = processIdentifier.intValue;
-                    NSRunningApplication *windowRunningApp = [NSRunningApplication runningApplicationWithProcessIdentifier:pid];
-                    
-                    if (!windowRunningApp) {
-                        ;
-                    } else {
-                        NSString *windowExecutableName = windowRunningApp.executableURL.lastPathComponent;
-                        if (windowName) {
-                            if ([windowExecutableName isEqual:@"Dock"]) {
-                                ;
-                            } else {
-                                captureAllowed = true;
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-            
-            CFRelease(windowList);
-            
-            inputMonitoringAllowed = (IOHIDCheckAccess(kIOHIDRequestTypeListenEvent) == kIOHIDAccessTypeGranted);
-        }
-        
-        result = std::make_tuple(videoAllowed, audioAllowed, captureAllowed, inputMonitoringAllowed);
-    } else {
-        result = std::make_tuple(true, true, true, true);
-    }
-    
-    return result;
+		if (@available(macOS 10.15, *)) {
+			captureAllowed = false;
+			inputMonitoringAllowed = false;
+
+			NSRunningApplication *runningApplication =
+				NSRunningApplication.currentApplication;
+			NSNumber *obsProcessId = [NSNumber
+				numberWithInt:runningApplication
+						      .processIdentifier];
+
+			CFArrayRef windowList = CGWindowListCopyWindowInfo(
+				kCGWindowListOptionOnScreenOnly,
+				kCGNullWindowID);
+			NSUInteger numberOfWindows =
+				CFArrayGetCount(windowList);
+
+			for (int index = 0; index < (int)numberOfWindows;
+			     index++) {
+				NSDictionary *windowInfo =
+					(NSDictionary *)CFArrayGetValueAtIndex(
+						windowList, index);
+
+				NSString *windowName =
+					windowInfo[(id)kCGWindowName];
+				NSNumber *processIdentifier =
+					windowInfo[(id)kCGWindowOwnerPID];
+
+				if (![processIdentifier isEqual:obsProcessId]) {
+					pid_t pid = processIdentifier.intValue;
+					NSRunningApplication *windowRunningApp =
+						[NSRunningApplication
+							runningApplicationWithProcessIdentifier:
+								pid];
+
+					if (!windowRunningApp) {
+						;
+					} else {
+						NSString *windowExecutableName =
+							windowRunningApp
+								.executableURL
+								.lastPathComponent;
+						if (windowName) {
+							if ([windowExecutableName
+								    isEqual:@"Dock"]) {
+								;
+							} else {
+								captureAllowed =
+									true;
+								break;
+							}
+						}
+					}
+				}
+			}
+
+			CFRelease(windowList);
+
+			inputMonitoringAllowed =
+				(IOHIDCheckAccess(
+					 kIOHIDRequestTypeListenEvent) ==
+				 kIOHIDAccessTypeGranted);
+		}
+
+		result = std::make_tuple(videoAllowed, audioAllowed,
+					 captureAllowed,
+					 inputMonitoringAllowed);
+	} else {
+		result = std::make_tuple(true, true, true, true);
+	}
+
+	return result;
 }
 
 vector<string> GetPreferredLocales()

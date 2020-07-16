@@ -2017,6 +2017,7 @@ static int run_program(fstream &logFile, int argc, char *argv[])
 
 #if __APPLE__
 	InstallNSApplicationSubclass();
+	auto macosPermissions = GetPermissionStatus();
 #endif
 
 #if !defined(_WIN32) && !defined(__APPLE__) && defined(USE_XDG) && \
@@ -2122,6 +2123,23 @@ static int run_program(fstream &logFile, int argc, char *argv[])
 			create_log_file(logFile);
 			created_log = true;
 		}
+
+#if __APPLE__
+		bool videoPermissions, audioPermissions, capturePermissions,
+			inputCapturePermissions;
+		tie(videoPermissions, audioPermissions, capturePermissions,
+		    inputCapturePermissions) = macosPermissions;
+		blog(LOG_INFO, "macOS PERMISSION STATUS");
+		blog(LOG_INFO, " VIDEO        : %s",
+		     videoPermissions ? "YES" : "NO");
+		blog(LOG_INFO, " AUDIO        : %s",
+		     audioPermissions ? "YES" : "NO");
+		blog(LOG_INFO, " CAPTURE      : %s",
+		     capturePermissions ? "YES" : "NO");
+		blog(LOG_INFO, " INPUT CAPTURE: %s",
+		     inputCapturePermissions ? "YES" : "NO");
+		// SHOW PERMISSIONS SCREEN
+#endif
 
 		if (argc > 1) {
 			stringstream stor;

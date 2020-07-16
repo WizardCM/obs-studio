@@ -129,7 +129,15 @@ elseif(APPLE)
 		platform-osx.mm)
 
 	find_package(AppKit REQUIRED)
-	set(obs_PLATFORM_LIBRARIES ${APPKIT_LIBRARIES})
+    find_package(AVFoundation REQUIRED)
+    find_package(ApplicationServices REQUIRED)
+    find_package(IOKit REQUIRED)
+
+	set(obs_PLATFORM_LIBRARIES
+        ${APPKIT_LIBRARIES}
+        ${AVFOUNDATION_LIBRARIES}
+        ${APPLICATIONSERVICES_LIBRARIES}
+        ${IOKIT_LIBRARIES})
 
 	add_definitions(-fobjc-arc)
 

@@ -67,4 +67,5 @@ QString GetMonitorName(const QString &id);
 void EnableOSXVSync(bool enable);
 void EnableOSXDockIcon(bool enable);
 void InstallNSApplicationSubclass();
+std::tuple<bool, bool, bool, bool> GetPermissionStatus();
 #endif

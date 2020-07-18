@@ -229,6 +229,7 @@ set(obs_SOURCES
 	media-controls.cpp
 	window-namedialog.cpp
 	window-log-reply.cpp
+	window-permissions.cpp
 	window-projector.cpp
 	window-remux.cpp
 	window-missing-files.cpp
@@ -293,6 +294,7 @@ set(obs_HEADERS
 	media-controls.hpp
 	window-namedialog.hpp
 	window-log-reply.hpp
+	window-permissions.hpp
 	window-projector.hpp
 	window-remux.hpp
 	window-missing-files.hpp
@@ -377,6 +379,7 @@ set(obs_UI
 	forms/OBSRemux.ui
 	forms/OBSImporter.ui
 	forms/OBSMissingFiles.ui
+	forms/OBSPermissions.ui
 	forms/OBSAbout.ui)
 
 set(obs_QRC

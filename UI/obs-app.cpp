@@ -43,6 +43,9 @@
 #include "log-viewer.hpp"
 #include "slider-ignorewheel.hpp"
 #include "window-basic-main.hpp"
+#ifdef __APPLE__
+#include "window-permissions.hpp"
+#endif
 #include "window-basic-settings.hpp"
 #include "crash-report.hpp"
 #include "platform.hpp"
@@ -2146,7 +2149,11 @@ static int run_program(fstream &logFile, int argc, char *argv[])
 		if (!dalPluginInstalled) {
 			CopyDALPlugin();
 		}
-		// SHOW PERMISSIONS SCREEN
+		OBSPermissions check = new OBSPermissions(nullptr);
+		check.setModal(true);
+		check.setPermissions(videoPermissions, audioPermissions, capturePermissions, inputCapturePermissions);
+		check.show();
+		check.exec();
 #endif
 
 		if (argc > 1) {

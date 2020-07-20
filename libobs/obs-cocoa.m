@@ -1712,6 +1712,7 @@ bool obs_hotkeys_platform_is_pressed(obs_hotkeys_platform_t *plat,
 	 * TODO: rewrite all mac hotkey code, suspect there's a bug in 10.15
 	 * causing the crash internally.  */
 	if (plat->secure_input_activated) {
+		blog(LOG_INFO, "[macOS] Secure Input Activated");
 		return false;
 	}
 

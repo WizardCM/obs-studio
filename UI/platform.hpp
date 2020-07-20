@@ -68,6 +68,8 @@ void EnableOSXVSync(bool enable);
 void EnableOSXDockIcon(bool enable);
 void InstallNSApplicationSubclass();
 std::tuple<bool, bool, bool, bool> GetPermissionStatus();
+bool GetDALPluginStatus();
+void CopyDALPlugin();
 void disableColorSpaceConversion(QWidget *window);
 void CheckAppWithSameBundleID(bool &already_running);
 #endif

@@ -130,6 +130,69 @@ string GetDefaultVideoSavePath()
 	return url.path.fileSystemRepresentation;
 }
 
+void RequestAudioPermission()
+{
+    if (@available(macOS 10.14, *)) {
+        [AVCaptureDevice requestAccessForMediaType:AVMediaTypeAudio completionHandler:^(BOOL granted) {
+            blog(LOG_INFO, "[macOS] Permission for audio device access %s.", granted ? "granted" : "denied");
+        }];
+    }
+}
+
+void RequestVideoPermission()
+{
+    if (@available(macOS 10.14, *)) {
+        [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo completionHandler:^(BOOL granted) {
+            blog(LOG_INFO, "[macOS] Permission for video device access %s.", granted ? "granted" : "denied");
+        }];
+    }
+}
+
+void RequestScreenCapturePermission()
+{
+    CGDisplayStreamRef stream = CGDisplayStreamCreate(CGMainDisplayID(), 1, 1, kCVPixelFormatType_32BGRA, nil, nil);
+    if (stream) {
+        CFRelease(stream);
+    }
+}
+
+void RequestInputMonitoringPermission()
+{
+    if (@available(macOS 10.15, *)) {
+        IOHIDRequestAccess(kIOHIDRequestTypeListenEvent);
+    }
+}
+
+bool GetDALPluginStatus()
+{
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+
+    NSString *pathForFile = @"/Library/CoreMediaIO/Plug-Ins/DAL/obs-mac-virtualcam.plugin";
+    
+    return [fileManager fileExistsAtPath:pathForFile];
+}
+
+void CopyDALPlugin()
+{
+    NSRunningApplication *app = [NSRunningApplication currentApplication];
+    
+    if ([app bundleIdentifier] != nil) {
+        NSURL *bundleURL = [app bundleURL];
+        NSString *pluginPath = @"Contents/Resources/obs-mac-virtualcam.plugin";
+        
+        NSURL *pluginUrl = [bundleURL URLByAppendingPathComponent:pluginPath];
+        NSString *destinationPath = @"/Library/CoreMediaIO/Plug-Ins/DAL/obs-mac-virtualcam.plugin";
+
+        NSFileManager *fileManager = [NSFileManager defaultManager];
+        BOOL alreadyInstalled = [fileManager fileExistsAtPath:destinationPath];
+        
+        if (alreadyInstalled) {
+            [fileManager removeItemAtPath:destinationPath error:nil];
+        }
+        [fileManager copyItemAtPath:[pluginUrl absoluteString] toPath:destinationPath error:nil];
+    }
+}
+
 std::tuple<bool, bool, bool, bool> GetPermissionStatus()
 {
 	//    NSDictionary *options = @{(__bridge id) kAXTrustedCheckOptionPrompt: @NO};
@@ -151,9 +214,9 @@ std::tuple<bool, bool, bool, bool> GetPermissionStatus()
 		bool captureAllowed = true;
 		bool inputMonitoringAllowed = true;
 
-		/* All credit for the solution below belongs to Craig Hockenberry 👌🏻
-           https://stackoverflow.com/a/58985069
-        */
+		// All credit for the solution below belongs to Craig Hockenberry
+        // https://stackoverflow.com/a/58985069
+
 		if (@available(macOS 10.15, *)) {
 			captureAllowed = false;
 			inputMonitoringAllowed = false;

@@ -866,8 +866,10 @@ void OBSProjector::mousePressEvent(QMouseEvent *event)
 		popup.exec(QCursor::pos());
 	}
 
-	if (!mouseSwitching)
+	if (!mouseSwitching) {
+		mpos = event->pos();
 		return;
+	}
 
 	if (event->button() == Qt::LeftButton) {
 		int pos = getSourceByPosition(event->x(), event->y(), ratio);
@@ -881,6 +883,22 @@ void OBSProjector::mousePressEvent(QMouseEvent *event)
 		if (main->GetCurrentSceneSource() != src)
 			main->SetCurrentScene(src, false);
 	}
+}
+
+void OBSProjector::mouseMoveEvent(QMouseEvent *event)
+{
+	if (event->buttons() & Qt::LeftButton) {
+		QPoint diff = event->pos() - mpos;
+		QPoint newpos = this->pos() + diff;
+
+		setCursor(Qt::SizeAllCursor);
+		this->move(newpos);
+	}
+}
+
+void OBSProjector::mouseReleaseEvent(QMouseEvent *event)
+{
+	setCursor(Qt::ArrowCursor);
 }
 
 void OBSProjector::EscapeTriggered()

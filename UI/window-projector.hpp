@@ -33,9 +33,12 @@ private:
 	static void OBSSourceRemoved(void *data, calldata_t *params);
 
 	void mousePressEvent(QMouseEvent *event) override;
+	void mouseMoveEvent(QMouseEvent *event) override;
+	void mouseReleaseEvent(QMouseEvent *event) override;
 	void mouseDoubleClickEvent(QMouseEvent *event) override;
 	void closeEvent(QCloseEvent *event) override;
 
+	QPoint mpos;
 	bool isAlwaysOnTop;
 	bool isAlwaysOnTopOverridden = false;
 	int savedMonitor = -1;

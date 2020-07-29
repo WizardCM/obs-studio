@@ -1976,7 +1976,7 @@ static int run_program(fstream &logFile, int argc, char *argv[])
 #if __APPLE__
 	InstallNSApplicationSubclass();
 	auto macosPermissions = GetPermissionStatus();
-    bool dalPluginInstalled = GetDALPluginStatus();
+	bool dalPluginInstalled = GetDALPluginStatus();
 #endif
 
 	OBSApp program(argc, argv, profilerNameStore.get());
@@ -2085,12 +2085,13 @@ static int run_program(fstream &logFile, int argc, char *argv[])
 		     capturePermissions ? "YES" : "NO");
 		blog(LOG_INFO, " INPUT CAPTURE: %s",
 		     inputCapturePermissions ? "YES" : "NO");
-        blog(LOG_INFO, "macOS Virtual Camera Plugin");
-        blog(LOG_INFO, " DAL PLUGIN   : %s", dalPluginInstalled ? "Installed" : "Not installed");
-        
-        if (!dalPluginInstalled) {
-            CopyDALPlugin();
-        }
+		blog(LOG_INFO, "macOS Virtual Camera Plugin");
+		blog(LOG_INFO, " DAL PLUGIN   : %s",
+		     dalPluginInstalled ? "Installed" : "Not installed");
+
+		if (!dalPluginInstalled) {
+			CopyDALPlugin();
+		}
 		// SHOW PERMISSIONS SCREEN
 #endif
 

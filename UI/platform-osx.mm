@@ -132,65 +132,97 @@ string GetDefaultVideoSavePath()
 
 void RequestAudioPermission()
 {
-    if (@available(macOS 10.14, *)) {
-        [AVCaptureDevice requestAccessForMediaType:AVMediaTypeAudio completionHandler:^(BOOL granted) {
-            blog(LOG_INFO, "[macOS] Permission for audio device access %s.", granted ? "granted" : "denied");
-        }];
-    }
+	if (@available(macOS 10.14, *)) {
+		[AVCaptureDevice
+			requestAccessForMediaType:AVMediaTypeAudio
+				completionHandler:^(BOOL granted) {
+					//QMetaObject::invokeMethod(myWindowObject, "slotFunction", Q_ARG(int, intparam));
+					blog(LOG_INFO,
+					     "[macOS] Permission for audio device access %s.",
+					     granted ? "granted" : "denied");
+				}];
+	}
 }
 
 void RequestVideoPermission()
 {
-    if (@available(macOS 10.14, *)) {
-        [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo completionHandler:^(BOOL granted) {
-            blog(LOG_INFO, "[macOS] Permission for video device access %s.", granted ? "granted" : "denied");
-        }];
-    }
+	if (@available(macOS 10.14, *)) {
+		[AVCaptureDevice
+			requestAccessForMediaType:AVMediaTypeVideo
+				completionHandler:^(BOOL granted) {
+					blog(LOG_INFO,
+					     "[macOS] Permission for video device access %s.",
+					     granted ? "granted" : "denied");
+				}];
+	}
 }
 
 void RequestScreenCapturePermission()
 {
-    CGDisplayStreamRef stream = CGDisplayStreamCreate(CGMainDisplayID(), 1, 1, kCVPixelFormatType_32BGRA, nil, nil);
-    if (stream) {
-        CFRelease(stream);
-    }
+	CGDisplayStreamRef stream = CGDisplayStreamCreate(
+		CGMainDisplayID(), 1, 1, kCVPixelFormatType_32BGRA, nil, nil);
+	if (stream) {
+		CFRelease(stream);
+	}
 }
 
 void RequestInputMonitoringPermission()
 {
-    if (@available(macOS 10.15, *)) {
-        IOHIDRequestAccess(kIOHIDRequestTypeListenEvent);
-    }
+	if (@available(macOS 10.15, *)) {
+		IOHIDRequestAccess(kIOHIDRequestTypeListenEvent);
+	}
 }
 
 bool GetDALPluginStatus()
 {
-    NSFileManager *fileManager = [NSFileManager defaultManager];
+	NSFileManager *fileManager = [NSFileManager defaultManager];
 
-    NSString *pathForFile = @"/Library/CoreMediaIO/Plug-Ins/DAL/obs-mac-virtualcam.plugin";
-    
-    return [fileManager fileExistsAtPath:pathForFile];
+	NSString *pathForFile =
+		@"/Library/CoreMediaIO/Plug-Ins/DAL/obs-mac-virtualcam.plugin";
+
+	return [fileManager fileExistsAtPath:pathForFile];
 }
 
 void CopyDALPlugin()
 {
-    NSRunningApplication *app = [NSRunningApplication currentApplication];
-    
-    if ([app bundleIdentifier] != nil) {
-        NSURL *bundleURL = [app bundleURL];
-        NSString *pluginPath = @"Contents/Resources/obs-mac-virtualcam.plugin";
-        
-        NSURL *pluginUrl = [bundleURL URLByAppendingPathComponent:pluginPath];
-        NSString *destinationPath = @"/Library/CoreMediaIO/Plug-Ins/DAL/obs-mac-virtualcam.plugin";
+	NSString *sourcePath;
+	NSRunningApplication *app = [NSRunningApplication currentApplication];
 
-        NSFileManager *fileManager = [NSFileManager defaultManager];
-        BOOL alreadyInstalled = [fileManager fileExistsAtPath:destinationPath];
-        
-        if (alreadyInstalled) {
-            [fileManager removeItemAtPath:destinationPath error:nil];
-        }
-        [fileManager copyItemAtPath:[pluginUrl absoluteString] toPath:destinationPath error:nil];
-    }
+	if ([app bundleIdentifier] != nil) {
+		NSURL *bundleURL = [app bundleURL];
+		NSString *pluginPath =
+			@"Contents/Resources/obs-mac-virtualcam.plugin";
+
+		NSURL *pluginUrl =
+			[bundleURL URLByAppendingPathComponent:pluginPath];
+		sourcePath = [pluginUrl path];
+	} else {
+		sourcePath = [[[[app executableURL]
+			URLByAppendingPathComponent:
+				@"../data/obs-mac-virtualcam.plugin"] path]
+			stringByReplacingOccurrencesOfString:@"obs/"
+						  withString:@""];
+		// sourcePath = @"../data/obs-mac-virtualcam.plugin";
+	}
+
+	NSString *destinationPath =
+		@"/Library/CoreMediaIO/Plug-Ins/DAL/obs-mac-virtualcam.plugin";
+	NSString *copyCmd = [NSString
+		stringWithFormat:
+			@"do shell script \"cp -R %@ %@\" with administrator privileges",
+			sourcePath, destinationPath];
+
+	NSDictionary *errorDict;
+	NSAppleEventDescriptor *returnDescriptor = NULL;
+	NSAppleScript *scriptObject =
+		[[NSAppleScript alloc] initWithSource:copyCmd];
+	returnDescriptor = [scriptObject executeAndReturnError:&errorDict];
+	if (errorDict != nil) {
+		const char *errorMessage = [[errorDict
+			objectForKey:@"NSAppleScriptErrorMessage"] UTF8String];
+		blog(LOG_INFO, "[macOS] DAL Plugin Installation status: %s",
+		     errorMessage);
+	}
 }
 
 std::tuple<bool, bool, bool, bool> GetPermissionStatus()
@@ -215,7 +247,7 @@ std::tuple<bool, bool, bool, bool> GetPermissionStatus()
 		bool inputMonitoringAllowed = true;
 
 		// All credit for the solution below belongs to Craig Hockenberry
-        // https://stackoverflow.com/a/58985069
+		// https://stackoverflow.com/a/58985069
 
 		if (@available(macOS 10.15, *)) {
 			captureAllowed = false;

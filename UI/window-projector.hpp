@@ -27,6 +27,7 @@ class OBSProjector : public OBSQTDisplay {
 private:
 	OBSSource source;
 	OBSSignal removedSignal;
+	QPointer<QDockWidget> projectorDock;
 
 	static void OBSRenderMultiview(void *data, uint32_t cx, uint32_t cy);
 	static void OBSRender(void *data, uint32_t cx, uint32_t cy);
@@ -83,6 +84,7 @@ private slots:
 	void EscapeTriggered();
 	void OpenFullScreenProjector();
 	void ResizeToContent();
+	void ToggleDockable();
 	void OpenWindowedProjector();
 	void AlwaysOnTopToggled(bool alwaysOnTop);
 	void ScreenRemoved(QScreen *screen_);

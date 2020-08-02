@@ -850,6 +850,8 @@ void OBSProjector::mousePressEvent(QMouseEvent *event)
 		} else if (!this->isMaximized()) {
 			popup.addAction(QTStr("ResizeProjectorWindowToContent"),
 					this, SLOT(ResizeToContent()));
+			popup.addAction(QTStr("ToggleDockable"), this,
+					SLOT(ToggleDockable()));
 		}
 
 		QAction *alwaysOnTopButton =
@@ -1113,6 +1115,24 @@ void OBSProjector::ResizeToContent()
 	newX = size.width() - (x * 2);
 	newY = size.height() - (y * 2);
 	resize(newX, newY);
+}
+
+void OBSProjector::ToggleDockable()
+{
+	QWidget *parent = parentWidget();
+	if (parent) {
+		setParent(NULL);
+		projectorDock = nullptr;
+	} else {
+		projectorDock = new QDockWidget(this);
+		setParent(projectorDock);
+		projectorDock->setFeatures(QDockWidget::AllDockWidgetFeatures);
+		projectorDock->setWindowTitle(QTStr("Properties"));
+		// OBSBasic->addDockWidget(Qt::RightDockWidgetArea, projectorDock);
+		projectorDock->setVisible(true);
+		projectorDock->setFloating(true);
+		projectorDock->resize(width(), height());
+	}
 }
 
 void OBSProjector::AlwaysOnTopToggled(bool isAlwaysOnTop)

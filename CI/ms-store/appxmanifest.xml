@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Package
+	xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+  xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+  xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities">
+  <Identity Name="OBSProject.OBSStudio" Version="24.0.0.0" Publisher="CN=WizardCM, O=WizardCM, C=US" ProcessorArchitecture="x64" />
+    <Properties>
+       <DisplayName>OBS Studio</DisplayName>
+       <PublisherDisplayName>WizardCM</PublisherDisplayName>
+			 <Description>Free and open source software for video recording and live streaming</Description>
+      <Logo>obs.png</Logo>
+    </Properties>
+    <Resources>
+      <Resource Language="en-US" />
+    </Resources>
+	  <Dependencies>
+	  <TargetDeviceFamily Name="Windows.Desktop" MinVersion="6.1.7601.0" MaxVersionTested="10.0.18362.53" />
+	  </Dependencies>
+	  <Capabilities>
+	    <rescap:Capability Name="runFullTrust"/>
+	  </Capabilities>
+    <Applications>
+      <Application Id="OBSStudio" Executable="bin\64bit\obs64.exe" EntryPoint="Windows.FullTrustApplication">
+        <uap:VisualElements DisplayName="OBS Studio" Description="Free and open source software for video recording and live streaming"	Square150x150Logo="obs.png"
+				   Square44x44Logo="obs.png"	BackgroundColor="#232E71" />
+      </Application>
+     </Applications>
+  </Package>

@@ -1,0 +1,6 @@
+[ResourceMetadata]
+"ResourceDimensions"                    "language-en-us"
+"ResourceId"                            "English"
+
+[Files]
+"obs.png"     "icon.png"

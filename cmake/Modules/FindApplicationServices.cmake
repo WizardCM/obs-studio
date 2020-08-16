@@ -1,0 +1,12 @@
+# Once done these will be defined:
+#
+#  APPLICATIONSERVICES_FOUND
+#  APPLICATIONSERVICES_LIBRARIES
+
+find_library(APPLICATIONSERVICES_FRAMEWORK ApplicationServices)
+
+set(APPLICATIONSERVICES_LIBRARIES ${APPLICATIONSERVICES_FRAMEWORK})
+
+include(FindPackageHandleStandardArgs)
+find_package_handle_standard_args(ApplicationServices DEFAULT_MSG APPLICATIONSERVICES_FRAMEWORK)
+mark_as_advanced(APPLICATIONSERVICES_FRAMEWORK)

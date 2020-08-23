@@ -7206,7 +7206,6 @@ void OBSBasic::on_resetUI_triggered()
 
 	restoreState(startingDockLayout);
 
-#if QT_VERSION >= QT_VERSION_CHECK(5, 6, 0)
 	int cx = width();
 	int cy = height();
 
@@ -7233,7 +7232,6 @@ void OBSBasic::on_resetUI_triggered()
 
 	resizeDocks(docks, {cy, cy, cy, cy, cy}, Qt::Vertical);
 	resizeDocks(docks, sizes, Qt::Horizontal);
-#endif
 
 	activateWindow();
 }

@@ -132,7 +132,8 @@ string GetDefaultVideoSavePath()
 
 void RequestAudioPermission()
 {
-	if (@available(macOS 10.14, *)) {
+#ifdef __MAC_10_14
+    if (@available(macOS 10.14, *)) {
 		[AVCaptureDevice
 			requestAccessForMediaType:AVMediaTypeAudio
 				completionHandler:^(BOOL granted) {
@@ -142,10 +143,12 @@ void RequestAudioPermission()
 					     granted ? "granted" : "denied");
 				}];
 	}
+#endif
 }
 
 void RequestVideoPermission()
 {
+#ifdef __MAC_10_14
 	if (@available(macOS 10.14, *)) {
 		[AVCaptureDevice
 			requestAccessForMediaType:AVMediaTypeVideo
@@ -155,22 +158,27 @@ void RequestVideoPermission()
 					     granted ? "granted" : "denied");
 				}];
 	}
+#endif
 }
 
 void RequestScreenCapturePermission()
 {
+#ifdef __MAC_10_15
 	CGDisplayStreamRef stream = CGDisplayStreamCreate(
 		CGMainDisplayID(), 1, 1, kCVPixelFormatType_32BGRA, nil, nil);
 	if (stream) {
 		CFRelease(stream);
 	}
+#endif
 }
 
 void RequestInputMonitoringPermission()
 {
+#ifdef __MAC_10_15
 	if (@available(macOS 10.15, *)) {
 		IOHIDRequestAccess(kIOHIDRequestTypeListenEvent);
 	}
+#endif
 }
 
 bool GetDALPluginStatus()
@@ -202,27 +210,32 @@ void CopyDALPlugin()
 				@"../data/obs-mac-virtualcam.plugin"] path]
 			stringByReplacingOccurrencesOfString:@"obs/"
 						  withString:@""];
-		// sourcePath = @"../data/obs-mac-virtualcam.plugin";
 	}
+    
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    
+    if ([fileManager fileExistsAtPath:sourcePath]) {
+        NSString *destinationPath =
+            @"/Library/CoreMediaIO/Plug-Ins/DAL/obs-mac-virtualcam.plugin";
+        NSString *copyCmd = [NSString
+            stringWithFormat:
+                @"do shell script \"cp -R %@ %@\" with administrator privileges",
+                sourcePath, destinationPath];
 
-	NSString *destinationPath =
-		@"/Library/CoreMediaIO/Plug-Ins/DAL/obs-mac-virtualcam.plugin";
-	NSString *copyCmd = [NSString
-		stringWithFormat:
-			@"do shell script \"cp -R %@ %@\" with administrator privileges",
-			sourcePath, destinationPath];
-
-	NSDictionary *errorDict;
-	NSAppleEventDescriptor *returnDescriptor = NULL;
-	NSAppleScript *scriptObject =
-		[[NSAppleScript alloc] initWithSource:copyCmd];
-	returnDescriptor = [scriptObject executeAndReturnError:&errorDict];
-	if (errorDict != nil) {
-		const char *errorMessage = [[errorDict
-			objectForKey:@"NSAppleScriptErrorMessage"] UTF8String];
-		blog(LOG_INFO, "[macOS] DAL Plugin Installation status: %s",
-		     errorMessage);
-	}
+        NSDictionary *errorDict;
+        NSAppleEventDescriptor *returnDescriptor = NULL;
+        NSAppleScript *scriptObject =
+            [[NSAppleScript alloc] initWithSource:copyCmd];
+        returnDescriptor = [scriptObject executeAndReturnError:&errorDict];
+        if (errorDict != nil) {
+            const char *errorMessage = [[errorDict
+                objectForKey:@"NSAppleScriptErrorMessage"] UTF8String];
+            blog(LOG_INFO, "[macOS] VirtualCam DAL Plugin Installation status: %s",
+                 errorMessage);
+        }
+    } else {
+        blog(LOG_INFO, "[macOS] VirtualCam DAL Plugin not shipped with OBS");
+    }
 }
 
 std::tuple<bool, bool, bool, bool> GetPermissionStatus()
@@ -232,6 +245,7 @@ std::tuple<bool, bool, bool, bool> GetPermissionStatus()
 
 	std::tuple<bool, bool, bool, bool> result;
 
+#ifdef __MAC_10_14
 	if (@available(macOS 10.14, *)) {
 		AVAuthorizationStatus videoStatus = [AVCaptureDevice
 			authorizationStatusForMediaType:AVMediaTypeVideo];
@@ -248,7 +262,7 @@ std::tuple<bool, bool, bool, bool> GetPermissionStatus()
 
 		// All credit for the solution below belongs to Craig Hockenberry
 		// https://stackoverflow.com/a/58985069
-
+#ifdef __MAC_10_15
 		if (@available(macOS 10.15, *)) {
 			captureAllowed = false;
 			inputMonitoringAllowed = false;
@@ -311,13 +325,16 @@ std::tuple<bool, bool, bool, bool> GetPermissionStatus()
 					 kIOHIDRequestTypeListenEvent) ==
 				 kIOHIDAccessTypeGranted);
 		}
-
+#endif
 		result = std::make_tuple(videoAllowed, audioAllowed,
 					 captureAllowed,
 					 inputMonitoringAllowed);
 	} else {
 		result = std::make_tuple(true, true, true, true);
 	}
+#else
+    result = std::make_tuple(true, true, true, true);
+#endif
 
 	return result;
 }

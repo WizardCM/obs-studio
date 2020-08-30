@@ -240,7 +240,7 @@ jobs:
         shell: bash
         run: |
           FILE_DATE=$(date +%Y-%m-%d)
-          FILE_NAME=$FILE_DATE-${{ env.OBS_GIT_HASH }}-${{ env.OBS_GIT_TAG }}-macOS.dmg
+          FILE_NAME="obs-studio-mac-${{ env.OBS_GIT_HASH }}-${{ env.OBS_GIT_TAG }}.dmg"
           echo "::set-env name=FILE_NAME::${FILE_NAME}"
 
           cp ../CI/scripts/macos/package/settings.json.template ./settings.json
@@ -362,7 +362,7 @@ jobs:
         shell: bash
         run: |
           FILE_DATE=$(date +%Y-%m-%d)
-          FILE_NAME=$FILE_DATE-${{ env.OBS_GIT_HASH }}-${{ env.OBS_GIT_TAG }}-linux64.tar.gz
+          FILE_NAME="obs-studio-linux-${{ env.OBS_GIT_HASH }}-${{ env.OBS_GIT_TAG }}.tar.gz"
           echo "::set-env name=FILE_NAME::${FILE_NAME}"
           cd ./build
           sudo checkinstall --default --install=no --pkgname=obs-studio --fstrans=yes --backup=no --pkgversion="$(date +%Y%m%d)-git" --deldoc=yes
@@ -478,7 +478,7 @@ jobs:
         if: success() && (github.event_name != 'pull_request' || env.SEEKING_TESTERS == '1')
         run: |
           $env:FILE_DATE=(Get-Date -UFormat "%F")
-          $env:FILE_NAME="${env:FILE_DATE}-${{ env.OBS_GIT_HASH }}-${{ env.OBS_GIT_TAG }}-win64.zip"
+          $env:FILE_NAME="obs-studio-windows-${{ env.OBS_GIT_HASH }}-${{ env.OBS_GIT_TAG }}-x64.zip"
           echo "::set-env name=FILE_NAME::${env:FILE_NAME}"
           robocopy .\build64\rundir\RelWithDebInfo .\build\ /E /XF .gitignore
           7z a ${env:FILE_NAME} .\build\*
@@ -487,7 +487,7 @@ jobs:
         uses: actions/upload-artifact@v2-preview
         with:
           name: '${{ env.FILE_NAME }}'
-          path: '*-win64.zip'
+          path: '*-x64.zip'
 
   win32:
     name: 'Windows 32-bit'
@@ -600,3 +600,39 @@ jobs:
         with:
           name: '${{ env.FILE_NAME }}'
           path: '*-win32.zip'
+  make-release:
+    name: 'Create and upload release'
+    runs-on: [ubuntu-latest]
+    if: github.event_name == 'push' && contains(github.ref, 'refs/tags/')
+    needs: [macos64, win64]
+    steps:
+      - name: 'Create Release'
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: OBS Studio ${{ github.ref }}
+          draft: false
+          prerelease: false
+      - name: 'Download release artifacts'
+        uses: actions/download-artifact@v2-preview
+      - name: 'Upload macos64 to release'
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ${{ github.workspace }}/obs-studio-mac-${{ github.sha }}-${{ github.ref }}/obs-studio-mac-${{ github.sha }}-${{ github.ref }}.dmg
+          asset_name: obs-studio-mac-${{ github.ref }}.dmg
+          asset_content_type: application/octet-stream
+      - name: 'Upload win64 to release'
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ${{ github.workspace }}/obs-studio-windows-${{ github.sha }}-${{ github.ref }}-x64/obs-studio-windows-${{ github.sha }}-${{ github.ref }}-x64.zip
+          asset_name: obs-studio-windows-${{ github.ref }}-x64.zip
+          asset_content_type: application/octet-stream

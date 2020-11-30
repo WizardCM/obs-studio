@@ -6,9 +6,13 @@ add_definitions(-DLIBOBS_EXPORTS)
 
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
+set(MODULE_DESCRIPTION "OBS Library WinRT wrapper")
+configure_file(${CMAKE_SOURCE_DIR}/cmake/winrc/obs-module.rc.in libobs-winrt.rc)
+
 set(libobs-winrt_SOURCES
 	winrt-capture.cpp
-	winrt-dispatch.cpp)
+	winrt-dispatch.cpp
+	libobs-winrt.rc)
 
 set(libobs-winrt_HEADERS
 	winrt-capture.h

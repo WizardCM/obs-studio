@@ -1914,6 +1914,18 @@ QAccessibleInterface *accessibleFactory(const QString &classname,
 	return nullptr;
 }
 
+#ifdef _WIN32
+inline void qtErrorHandler(QtMsgType type, const QMessageLogContext &context,
+			   const QString &msg)
+{
+	if (type == QtMsgType::QtFatalMsg) {
+		const char *err = msg.toStdString().c_str();
+		MessageBoxA(NULL, err, "OBS has crashed!",
+			    MB_OK | MB_ICONERROR | MB_TASKMODAL);
+	}
+}
+#endif
+
 static const char *run_program_init = "run_program_init";
 static int run_program(fstream &logFile, int argc, char *argv[])
 {
@@ -1947,6 +1959,9 @@ static int run_program(fstream &logFile, int argc, char *argv[])
 	InstallNSApplicationSubclass();
 #endif
 
+#ifdef _WIN32
+	qInstallMessageHandler(qtErrorHandler);
+#endif
 	OBSApp program(argc, argv, profilerNameStore.get());
 	try {
 		QAccessible::installFactory(accessibleFactory);

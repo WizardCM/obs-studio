@@ -173,6 +173,11 @@ void OBSBasicFilters::Init()
 	show();
 }
 
+OBSSource OBSBasicFilters::GetSource()
+{
+	return source;
+}
+
 inline OBSSource OBSBasicFilters::GetFilter(int row, bool async)
 {
 	if (row == -1)

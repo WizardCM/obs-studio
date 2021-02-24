@@ -5295,8 +5295,15 @@ void OBSBasic::on_actionRemoveSource_triggered()
 		OBSSceneItem &item = items[0];
 		obs_source_t *source = obs_sceneitem_get_source(item);
 
-		if (source && QueryRemoveSource(source))
+		if (source && QueryRemoveSource(source)) {
+			if (properties && properties->GetSource() == source)
+				properties->close();
+			if (filters && filters->GetSource() == source)
+				filters->close();
+			if (interaction && interaction->GetSource() == source)
+				interaction->close();
 			obs_sceneitem_remove(item);
+		}
 	} else {
 		if (removeMultiple(items.size())) {
 			for (auto &item : items)

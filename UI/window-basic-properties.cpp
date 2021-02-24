@@ -481,6 +481,11 @@ void OBSBasicProperties::Init()
 	show();
 }
 
+OBSSource OBSBasicProperties::GetSource()
+{
+	return source;
+}
+
 int OBSBasicProperties::CheckSettings()
 {
 	OBSData currentSettings = obs_source_get_settings(source);

@@ -386,3 +386,8 @@ void OBSBasicInteraction::Init()
 {
 	show();
 }
+
+OBSSource OBSBasicInteraction::GetSource()
+{
+	return source;
+}

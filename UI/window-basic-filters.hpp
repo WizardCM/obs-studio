@@ -122,6 +122,7 @@ public:
 	~OBSBasicFilters();
 
 	void Init();
+	OBSSource GetSource();
 
 protected:
 	virtual void closeEvent(QCloseEvent *event) override;

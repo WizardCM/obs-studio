@@ -728,6 +728,11 @@ void obs_data_release(obs_data_t *data)
 
 const char *obs_data_get_json(obs_data_t *data)
 {
+	return obs_data_get_json_pretty(data, false);
+}
+
+const char *obs_data_get_json_pretty(obs_data_t *data, bool pretty)
+{
 	if (!data)
 		return NULL;
 
@@ -736,7 +741,7 @@ const char *obs_data_get_json(obs_data_t *data)
 	data->json = NULL;
 
 	json_t *root = obs_data_to_json(data);
-	data->json = json_dumps(root, JSON_PRESERVE_ORDER | JSON_INDENT(4));
+	data->json = json_dumps(root, pretty ? JSON_INDENT(4) : NULL);
 	json_decref(root);
 
 	return data->json;
@@ -744,7 +749,7 @@ const char *obs_data_get_json(obs_data_t *data)
 
 bool obs_data_save_json(obs_data_t *data, const char *file)
 {
-	const char *json = obs_data_get_json(data);
+	const char *json = obs_data_get_json_pretty(data, true);
 
 	if (json && *json) {
 		return os_quick_write_utf8_file(file, json, strlen(json),
@@ -757,7 +762,7 @@ bool obs_data_save_json(obs_data_t *data, const char *file)
 bool obs_data_save_json_safe(obs_data_t *data, const char *file,
 			     const char *temp_ext, const char *backup_ext)
 {
-	const char *json = obs_data_get_json(data);
+	const char *json = obs_data_get_json_pretty(data, true);
 
 	if (json && *json) {
 		return os_quick_write_utf8_file_safe(

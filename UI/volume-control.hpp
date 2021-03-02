@@ -78,15 +78,17 @@ private:
 	inline void calculateBallisticsForChannel(int channelNr, uint64_t ts,
 						  qreal timeSinceLastRedraw);
 
-	void paintInputMeter(QPainter &painter, int x, int y, int width,
-			     int height, float peakHold);
-	void paintHMeter(QPainter &painter, int x, int y, int width, int height,
-			 float magnitude, float peak, float peakHold);
-	void paintHTicks(QPainter &painter, int x, int y, int width,
-			 int height);
-	void paintVMeter(QPainter &painter, int x, int y, int width, int height,
-			 float magnitude, float peak, float peakHold);
-	void paintVTicks(QPainter &painter, int x, int y, int height);
+	void paintInputMeter(QPainter &painter, qreal x, qreal y, qreal width,
+			     qreal height, float peakHold);
+	void paintHMeter(QPainter &painter, qreal x, qreal y, qreal width,
+			 qreal height, float magnitude, float peak,
+			 float peakHold);
+	void paintHTicks(QPainter &painter, qreal x, qreal y, qreal width,
+			 qreal height);
+	void paintVMeter(QPainter &painter, qreal x, qreal y, qreal width,
+			 qreal height, float magnitude, float peak,
+			 float peakHold);
+	void paintVTicks(QPainter &painter, qreal x, qreal y, qreal height);
 
 	QMutex dataMutex;
 

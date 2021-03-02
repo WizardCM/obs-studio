@@ -572,7 +572,7 @@ VolumeMeter::VolumeMeter(QWidget *parent, obs_volmeter_t *obs_volmeter,
 
 	// Use a font that can be rendered small.
 	tickFont = QFont("Arial");
-	tickFont.setPixelSize(7);
+	tickFont.setPointSize(5);
 	// Default meter color settings, they only show if
 	// there is no stylesheet, do not remove.
 	backgroundNominalColor.setRgb(0x26, 0x7f, 0x26); // Dark green
@@ -767,8 +767,8 @@ inline void VolumeMeter::calculateBallistics(uint64_t ts,
 					      timeSinceLastRedraw);
 }
 
-void VolumeMeter::paintInputMeter(QPainter &painter, int x, int y, int width,
-				  int height, float peakHold)
+void VolumeMeter::paintInputMeter(QPainter &painter, qreal x, qreal y,
+				  qreal width, qreal height, float peakHold)
 {
 	QMutexLocker locker(&dataMutex);
 	QColor color;
@@ -787,8 +787,8 @@ void VolumeMeter::paintInputMeter(QPainter &painter, int x, int y, int width,
 	painter.fillRect(x, y, width, height, color);
 }
 
-void VolumeMeter::paintHTicks(QPainter &painter, int x, int y, int width,
-			      int height)
+void VolumeMeter::paintHTicks(QPainter &painter, qreal x, qreal y, qreal width,
+			      qreal height)
 {
 	qreal scale = width / minimumLevel;
 
@@ -816,7 +816,7 @@ void VolumeMeter::paintHTicks(QPainter &painter, int x, int y, int width,
 	}
 }
 
-void VolumeMeter::paintVTicks(QPainter &painter, int x, int y, int height)
+void VolumeMeter::paintVTicks(QPainter &painter, qreal x, qreal y, qreal height)
 {
 	qreal scale = height / minimumLevel;
 
@@ -853,8 +853,8 @@ void VolumeMeter::ClipEnding()
 	clipping = false;
 }
 
-void VolumeMeter::paintHMeter(QPainter &painter, int x, int y, int width,
-			      int height, float magnitude, float peak,
+void VolumeMeter::paintHMeter(QPainter &painter, qreal x, qreal y, qreal width,
+			      qreal height, float magnitude, float peak,
 			      float peakHold)
 {
 	qreal scale = width / minimumLevel;
@@ -944,8 +944,8 @@ void VolumeMeter::paintHMeter(QPainter &painter, int x, int y, int width,
 				 magnitudeColor);
 }
 
-void VolumeMeter::paintVMeter(QPainter &painter, int x, int y, int width,
-			      int height, float magnitude, float peak,
+void VolumeMeter::paintVMeter(QPainter &painter, qreal x, qreal y, qreal width,
+			      qreal height, float magnitude, float peak,
 			      float peakHold)
 {
 	qreal scale = height / minimumLevel;
@@ -1042,9 +1042,9 @@ void VolumeMeter::paintEvent(QPaintEvent *event)
 	uint64_t ts = os_gettime_ns();
 	qreal timeSinceLastRedraw = (ts - lastRedrawTime) * 0.000000001;
 
-	const QRect rect = event->region().boundingRect();
-	int width = rect.width();
-	int height = rect.height();
+	QRectF rect = event->region().boundingRect();
+	qreal width = rect.width();
+	qreal height = rect.height();
 
 	handleChannelCofigurationChange();
 	calculateBallistics(ts, timeSinceLastRedraw);
@@ -1053,9 +1053,9 @@ void VolumeMeter::paintEvent(QPaintEvent *event)
 	// Draw the ticks in a off-screen buffer when the widget changes size.
 	QSize tickPaintCacheSize;
 	if (vertical)
-		tickPaintCacheSize = QSize(14, height);
+		tickPaintCacheSize = QSize(14, round(height));
 	else
-		tickPaintCacheSize = QSize(width, 9);
+		tickPaintCacheSize = QSize(round(width), 9);
 	if (tickPaintCache == nullptr ||
 	    tickPaintCache->size() != tickPaintCacheSize) {
 		delete tickPaintCache;
@@ -1069,10 +1069,10 @@ void VolumeMeter::paintEvent(QPaintEvent *event)
 			tickPainter.translate(0, height);
 			tickPainter.scale(1, -1);
 			paintVTicks(tickPainter, 0, 11,
-				    tickPaintCacheSize.height() - 11);
+				    tickPaintCacheSize.height() - (qreal)11);
 		} else {
 			paintHTicks(tickPainter, 6, 0,
-				    tickPaintCacheSize.width() - 6,
+				    tickPaintCacheSize.width() - (qreal)6,
 				    tickPaintCacheSize.height());
 		}
 		tickPainter.end();

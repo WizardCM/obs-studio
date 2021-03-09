@@ -170,10 +170,12 @@ QObject *CreateShortcutFilter()
 		};
 
 		auto key_event = [&](QKeyEvent *event) {
-			if (!App()->HotkeysEnabledInFocus())
-				return true;
-
 			QDialog *dialog = qobject_cast<QDialog *>(obj);
+
+			if (!App()->HotkeysEnabledInFocus() &&
+			    (event->key() != Qt::Key_Return &&
+			     event->key() != Qt::Key_Enter && !dialog))
+				return true;
 
 			obs_key_combination_t hotkey = {0, OBS_KEY_NONE};
 			bool pressed = event->type() == QEvent::KeyPress;

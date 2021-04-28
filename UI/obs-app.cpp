@@ -1530,6 +1530,10 @@ bool OBSApp::OBSInit()
 	}
 #endif
 
+#ifdef __APPLE__
+	setAttribute(Qt::AA_DontCreateNativeWidgetSiblings);
+#endif
+
 	QPlatformNativeInterface *native =
 		QGuiApplication::platformNativeInterface();
 	obs_set_nix_platform_display(

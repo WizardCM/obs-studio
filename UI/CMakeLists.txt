@@ -252,6 +252,8 @@ target_sources(
           window-basic-settings.hpp
           window-basic-settings-a11y.cpp
           window-basic-settings-stream.cpp
+          window-basic-simple.cpp
+          window-basic-simple.hpp
           window-basic-source-select.cpp
           window-basic-source-select.hpp
           window-basic-stats.cpp

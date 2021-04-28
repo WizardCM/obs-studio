@@ -50,6 +50,7 @@
 #include "window-basic-auto-config.hpp"
 #include "window-basic-source-select.hpp"
 #include "window-basic-main.hpp"
+#include "window-basic-simple.hpp"
 #include "window-basic-stats.hpp"
 #include "window-basic-main-outputs.hpp"
 #include "window-basic-vcam-config.hpp"
@@ -275,15 +276,19 @@ OBSBasic::OBSBasic(QWidget *parent)
 
 	startingDockLayout = saveState();
 
+	secondaryMain = new WindowBasicSimple();
+	secondaryMain->show();
+	secondaryMain->OBSInit();
+
 	statsDock = new OBSDock();
 	statsDock->setObjectName(QStringLiteral("statsDock"));
 	statsDock->setFeatures(QDockWidget::DockWidgetClosable |
 			       QDockWidget::DockWidgetMovable |
 			       QDockWidget::DockWidgetFloatable);
 	statsDock->setWindowTitle(QTStr("Basic.Stats"));
-	addDockWidget(Qt::BottomDockWidgetArea, statsDock);
-	statsDock->setVisible(false);
-	statsDock->setFloating(true);
+	secondaryMain->addDockWidget(Qt::BottomDockWidgetArea, statsDock);
+	statsDock->setVisible(true);
+	statsDock->setFloating(false);
 	statsDock->resize(700, 200);
 
 	copyActionsDynamicProperties();

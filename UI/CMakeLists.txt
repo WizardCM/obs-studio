@@ -195,6 +195,7 @@ set(obs_SOURCES
 	window-dock.cpp
 	api-interface.cpp
 	window-basic-main.cpp
+	window-basic-simple.cpp
 	window-basic-stats.cpp
 	window-basic-filters.cpp
 	window-basic-settings.cpp
@@ -268,6 +269,7 @@ set(obs_HEADERS
 	window-dock.hpp
 	window-main.hpp
 	window-basic-main.hpp
+	window-basic-simple.hpp
 	window-basic-stats.hpp
 	window-basic-filters.hpp
 	window-basic-settings.hpp
@@ -359,6 +361,7 @@ set(obs_UI
 	forms/ColorSelect.ui
 	forms/OBSLogReply.ui
 	forms/OBSBasic.ui
+	forms/OBSBasicSimple.ui
 	forms/OBSBasicTransform.ui
 	forms/OBSBasicFilters.ui
 	forms/OBSBasicSettings.ui

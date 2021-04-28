@@ -50,6 +50,7 @@ class QMessageBox;
 class QListWidgetItem;
 class VolControl;
 class OBSBasicStats;
+class WindowBasicSimple;
 
 #include "ui_OBSBasic.h"
 #include "ui_ColorSelect.h"
@@ -754,6 +755,7 @@ private:
 
 public:
 	undo_stack undo_s;
+	QPointer<WindowBasicSimple> secondaryMain;
 	OBSSource GetProgramSource();
 	OBSScene GetCurrentScene();
 

@@ -1,6 +1,7 @@
 #include "window-extra-browsers.hpp"
 #include "window-dock-browser.hpp"
 #include "window-basic-main.hpp"
+#include "window-basic-simple.hpp"
 #include "qt-wrappers.hpp"
 
 #include <QLineEdit>
@@ -551,7 +552,7 @@ void OBSBasic::AddExtraBrowserDock(const QString &title, const QString &url,
 		}
 	}
 
-	addDockWidget(Qt::RightDockWidgetArea, dock);
+	secondaryMain->addDockWidget(Qt::RightDockWidgetArea, dock);
 
 	if (firstCreate) {
 		dock->setFloating(true);

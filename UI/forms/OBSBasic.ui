@@ -27,10 +27,10 @@
   <property name="windowTitle">
    <string>.MainWindow</string>
   </property>
-  <property name="windowIcon">
+  <proPerty name="windowIcon">
    <iconset resource="obs.qrc">
     <normaloff>:/res/images/obs.png</normaloff>:/res/images/obs.png</iconset>
-  </property>
+  </proPerty>
   <property name="styleSheet">
    <string notr="true"/>
   </property>

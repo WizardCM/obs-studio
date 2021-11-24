@@ -45,6 +45,7 @@ TwitchAuth::TwitchAuth(const Def &d) : OAuthStreamKey(d)
 	uiLoadTimer.setInterval(500);
 	connect(&uiLoadTimer, &QTimer::timeout, this,
 		&TwitchAuth::TryLoadSecondaryUIPanes);
+	connect(App(), &OBSApp::StyleChanged, this, &TwitchAuth::ToggleDark);
 }
 
 bool TwitchAuth::MakeApiRequest(const char *path, Json &json_out)
@@ -98,6 +99,18 @@ bool TwitchAuth::MakeApiRequest(const char *path, Json &json_out)
 		throw ErrorInfo(error, json_out["message"].string_value());
 
 	return true;
+}
+
+void TwitchAuth::ToggleDark()
+{
+	if (!chat->cefWidget)
+		return;
+
+	// TODO Startup Script is not updated yet
+	chat->cefWidget->reloadPage();
+	info->cefWidget->reloadPage();
+	stat->cefWidget->reloadPage();
+	feed->cefWidget->reloadPage();
 }
 
 bool TwitchAuth::GetChannelInfo()
@@ -178,7 +191,6 @@ document.head.appendChild(ffz);";
 
 static const char *bttv_script = "\
 localStorage.setItem('bttv_clickTwitchEmotes', true);\
-localStorage.setItem('bttv_darkenedMode', true);\
 localStorage.setItem('bttv_bttvGIFEmotes', true);\
 var bttv = document.createElement('script');\
 bttv.setAttribute('src','https://cdn.betterttv.net/betterttv.js');\
@@ -187,6 +199,33 @@ document.head.appendChild(bttv);";
 static const char *referrer_script1 = "\
 Object.defineProperty(document, 'referrer', {get : function() { return '";
 static const char *referrer_script2 = "'; }});";
+
+std::string TwitchAuth::StartupScript()
+{
+	OBSBasic *main = OBSBasic::Get();
+
+	std::string script;
+
+	if (App()->IsThemeDark()) {
+		script = "localStorage.setItem('twilight.theme', 1);";
+	} else {
+		script = "localStorage.setItem('twilight.theme', 0);";
+	}
+
+	const int twAddonChoice =
+		config_get_int(main->Config(), service(), "AddonChoice");
+	if (twAddonChoice) {
+		if (twAddonChoice & 0x1) {
+			script += "localStorage.setItem('bttv_darkenedMode', ";
+			script += App()->IsThemeDark() ? "true" : "false";
+			script += ");";
+			script += bttv_script;
+		}
+		if (twAddonChoice & 0x2)
+			script += ffz_script;
+	}
+	return script;
+}
 
 void TwitchAuth::LoadUI()
 {
@@ -229,20 +268,7 @@ void TwitchAuth::LoadUI()
 	chat->SetWidget(browser);
 	cef->add_force_popup_url(moderation_tools_url, chat.data());
 
-	if (App()->IsThemeDark()) {
-		script = "localStorage.setItem('twilight.theme', 1);";
-	} else {
-		script = "localStorage.setItem('twilight.theme', 0);";
-	}
-
-	const int twAddonChoice =
-		config_get_int(main->Config(), service(), "AddonChoice");
-	if (twAddonChoice) {
-		if (twAddonChoice & 0x1)
-			script += bttv_script;
-		if (twAddonChoice & 0x2)
-			script += ffz_script;
-	}
+	script += StartupScript();
 
 	browser->setStartupScript(script);
 
@@ -264,7 +290,7 @@ void TwitchAuth::LoadUI()
 		main->restoreState(dockState);
 	}
 
-	TryLoadSecondaryUIPanes();
+	QTimer::singleShot(500, [this]() { TryLoadSecondaryUIPanes(); });
 
 	uiLoaded = true;
 }
@@ -280,25 +306,13 @@ void TwitchAuth::LoadSecondaryUIPanes()
 	QSize size = main->frameSize();
 	QPoint pos = main->pos();
 
-	if (App()->IsThemeDark()) {
-		script = "localStorage.setItem('twilight.theme', 1);";
-	} else {
-		script = "localStorage.setItem('twilight.theme', 0);";
-	}
 	script += referrer_script1;
 	script += "https://www.twitch.tv/";
 	script += name;
 	script += "/dashboard/live";
 	script += referrer_script2;
 
-	const int twAddonChoice =
-		config_get_int(main->Config(), service(), "AddonChoice");
-	if (twAddonChoice) {
-		if (twAddonChoice & 0x1)
-			script += bttv_script;
-		if (twAddonChoice & 0x2)
-			script += ffz_script;
-	}
+	script += StartupScript();
 
 	/* ----------------------------------- */
 

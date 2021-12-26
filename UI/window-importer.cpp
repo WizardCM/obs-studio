@@ -558,6 +558,10 @@ void OBSImporter::importCollections()
 	char dst[512];
 	GetConfigPath(dst, 512, "obs-studio/basic/scenes/");
 
+	// int *completed = new int [optionsModel->rowCount() - 1];
+	std::vector<int> completed;
+	std::string lastName;
+
 	for (int i = 0; i < optionsModel->rowCount() - 1; i++) {
 		int selected = optionsModel->index(i, ImporterColumn::Selected)
 				       .data(Qt::CheckStateRole)
@@ -578,7 +582,7 @@ void OBSImporter::importCollections()
 				.toStdString();
 
 		json11::Json res;
-		ImportSC(pathStr, nameStr, res);
+		int status = ImportSC(pathStr, nameStr, res);
 
 		if (res != json11::Json()) {
 			json11::Json::object out = res.object_items();
@@ -605,6 +609,10 @@ void OBSImporter::importCollections()
 								out_str.size(),
 								false);
 
+			completed.push_back(success ? IMPORTER_SUCCESS
+						    : status);
+			lastName = name;
+
 			blog(LOG_INFO, "Import Scene Collection: %s (%s) - %s",
 			     name.c_str(), file.c_str(),
 			     success ? "SUCCESS" : "FAILURE");
@@ -612,6 +620,33 @@ void OBSImporter::importCollections()
 	}
 
 	close();
+
+	int successful =
+		std::count_if(completed.begin(), completed.end(),
+			      [](int i) { return i == IMPORTER_SUCCESS; });
+	if (successful == completed.size() && successful == 1) {
+		// TODO If only 1 imported, ask to switch to it
+		int switchTo = OBSMessageBox::question(
+			nullptr, QTStr("Importing completed"),
+			QTStr("Imported scene collections successfully. Would you like to switch to it?"));
+		if (switchTo == QMessageBox::Yes)
+			// TODO Switch to scene collection
+			obs_frontend_set_current_scene_collection(
+				lastName.c_str());
+	} else if (successful == completed.size()) {
+		OBSMessageBox::information(
+			nullptr, QTStr("Importing completed"),
+			QString("Imported %1 scene collection(s) successfully.")
+				.arg(completed.size())
+				.arg(successful));
+	} else {
+		OBSMessageBox::warning(
+			nullptr, QTStr("Importing completed"),
+			QString("Imported %1 scene collection(s) successfully.\n\nUnfortunately, some failed (for various reasons).")
+				.arg(completed.size())
+				.arg(successful),
+			false);
+	}
 }
 
 void OBSImporter::dataChanged()

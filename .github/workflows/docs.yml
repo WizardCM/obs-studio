@@ -36,9 +36,11 @@ jobs:
           SCOPY="copyright = '([A-Za-z0-9, ]+)'"
           RCOPY="copyright = '2017-$(date +"%Y"), Hugh Bailey'"
           sed -i -E -e "s/${SVER}/${RVER}/g" -e "s/${SREL}/${RREL}/g" -e "s/${SCOPY}/${RCOPY}/g" docs/sphinx/conf.py
-      - uses: cascode-labs/build-sphinx-action@v0.2.3
-        env:
-          BUILDDIR: 'build'
+      - uses: andreasofthings/doc-build@v13
         with:
-          docs_path: "docs/sphinx/"
-          artifact_name: "OBS Studio Documentation (HTML)"
+          docs: 'docs/sphinx'
+          # dest: 'docs/sphinx/_build'
+      - uses: actions/upload-artifact@v1
+        with:
+          name: OBS Studio Documentation (HTML)
+          path: docs/sphinx/_build/html/

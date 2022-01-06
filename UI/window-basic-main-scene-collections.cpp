@@ -201,15 +201,26 @@ void OBSBasic::RefreshSceneCollections()
 		std::string file = strrchr(path, '/') + 1;
 		file.erase(file.size() - 5, 5);
 
-		QAction *action = new QAction(QT_UTF8(name), this);
+		QMenu *submenu = ui->sceneCollectionMenu->addMenu(QT_UTF8(name));
+		QAction *action = submenu->menuAction();
 		action->setProperty("file_name", QT_UTF8(path));
+		QAction *openAction = submenu->addAction("Open");
+		openAction->setProperty("file_name", QT_UTF8(path));
+		submenu->addAction("Duplicate");
+		submenu->addAction("Rename");
+		submenu->addAction("Export");
+		submenu->addSeparator();
+		submenu->addAction("Remove");
 		connect(action, &QAction::triggered, this,
+			&OBSBasic::ChangeSceneCollection);
+		connect(submenu, &QMenu::triggered, this,
+			&OBSBasic::ChangeSceneCollection);
+		connect(openAction, &QAction::triggered, this,
 			&OBSBasic::ChangeSceneCollection);
 		action->setCheckable(true);
 
 		action->setChecked(strcmp(name, cur_name) == 0);
 
-		ui->sceneCollectionMenu->addAction(action);
 		count++;
 		return true;
 	};

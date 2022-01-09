@@ -286,6 +286,7 @@ set(obs_SOURCES
 	vertical-scroll-area.cpp
 	visibility-item-widget.cpp
 	slider-absoluteset-style.cpp
+	delegate-styled.hpp
 	qt-display.cpp
 	crash-report.cpp
 	hotkey-edit.cpp
@@ -455,8 +456,8 @@ if(WIN32)
 
 	if(Qt5Widgets_VERSION VERSION_LESS 6.0.0)
 		target_link_libraries(obs
-				Qt5::WinExtras)		
-	endif()	
+				Qt5::WinExtras)
+	endif()
 endif()
 
 target_link_libraries(obs

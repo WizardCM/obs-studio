@@ -45,6 +45,7 @@
 #include "window-basic-settings.hpp"
 #include "window-basic-main-outputs.hpp"
 #include "window-projector.hpp"
+#include "delegate-styled.hpp"
 
 #include <util/platform.h>
 #include <util/dstr.hpp>
@@ -377,6 +378,53 @@ OBSBasicSettings::OBSBasicSettings(QWidget *parent)
 			     ui->advOutTrack6Bitrate});
 
 	ui->listWidget->setAttribute(Qt::WA_MacShowFocusRect, false);
+
+	ui->language->setItemDelegate(new PopupItemDelegate);
+	ui->theme->setItemDelegate(new PopupItemDelegate);
+	ui->multiviewLayout->setItemDelegate(new PopupItemDelegate);
+	ui->service->setItemDelegate(new PopupItemDelegate);
+	ui->server->setItemDelegate(new PopupItemDelegate);
+	ui->twitchAddonDropdown->setItemDelegate(new PopupItemDelegate);
+	ui->outputMode->setItemDelegate(new PopupItemDelegate);
+	ui->simpleOutRecFormat->setItemDelegate(new PopupItemDelegate);
+	ui->simpleOutStrEncoder->setItemDelegate(new PopupItemDelegate);
+	ui->simpleOutputABitrate->setItemDelegate(new PopupItemDelegate);
+	ui->simpleOutPreset->setItemDelegate(new PopupItemDelegate);
+	ui->simpleOutRecQuality->setItemDelegate(new PopupItemDelegate);
+	ui->simpleOutRecEncoder->setItemDelegate(new PopupItemDelegate);
+	ui->advOutEncoder->setItemDelegate(new PopupItemDelegate);
+	ui->advOutRecType->setItemDelegate(new PopupItemDelegate);
+	ui->advOutRecFormat->setItemDelegate(new PopupItemDelegate);
+	ui->advOutRecEncoder->setItemDelegate(new PopupItemDelegate);
+	ui->advOutFFType->setItemDelegate(new PopupItemDelegate);
+	ui->advOutFFFormat->setItemDelegate(new PopupItemDelegate);
+	ui->advOutFFVEncoder->setItemDelegate(new PopupItemDelegate);
+	ui->advOutFFAEncoder->setItemDelegate(new PopupItemDelegate);
+	ui->advOutTrack1Bitrate->setItemDelegate(new PopupItemDelegate);
+	ui->advOutTrack2Bitrate->setItemDelegate(new PopupItemDelegate);
+	ui->advOutTrack3Bitrate->setItemDelegate(new PopupItemDelegate);
+	ui->advOutTrack4Bitrate->setItemDelegate(new PopupItemDelegate);
+	ui->advOutTrack5Bitrate->setItemDelegate(new PopupItemDelegate);
+	ui->advOutTrack6Bitrate->setItemDelegate(new PopupItemDelegate);
+	ui->channelSetup->setItemDelegate(new PopupItemDelegate);
+	ui->sampleRate->setItemDelegate(new PopupItemDelegate);
+	ui->meterDecayRate->setItemDelegate(new PopupItemDelegate);
+	ui->peakMeterType->setItemDelegate(new PopupItemDelegate);
+	ui->desktopAudioDevice1->setItemDelegate(new PopupItemDelegate);
+	ui->desktopAudioDevice2->setItemDelegate(new PopupItemDelegate);
+	ui->auxAudioDevice1->setItemDelegate(new PopupItemDelegate);
+	ui->auxAudioDevice2->setItemDelegate(new PopupItemDelegate);
+	ui->auxAudioDevice3->setItemDelegate(new PopupItemDelegate);
+	ui->auxAudioDevice4->setItemDelegate(new PopupItemDelegate);
+	ui->downscaleFilter->setItemDelegate(new PopupItemDelegate);
+	ui->fpsType->setItemDelegate(new PopupItemDelegate);
+	ui->fpsCommon->setItemDelegate(new PopupItemDelegate);
+	ui->renderer->setItemDelegate(new PopupItemDelegate);
+	ui->adapter->setItemDelegate(new PopupItemDelegate);
+	ui->colorFormat->setItemDelegate(new PopupItemDelegate);
+	ui->colorSpace->setItemDelegate(new PopupItemDelegate);
+	ui->colorRange->setItemDelegate(new PopupItemDelegate);
+
 
 	/* clang-format off */
 	HookWidget(ui->language,             COMBO_CHANGED,  GENERAL_CHANGED);

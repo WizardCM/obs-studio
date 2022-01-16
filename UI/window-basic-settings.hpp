@@ -230,6 +230,7 @@ private:
 	void LoadOutputSettings();
 	void LoadAudioSettings();
 	void LoadVideoSettings();
+	void LoadDemoHotkeyUI();
 	void
 	LoadHotkeySettings(obs_hotkey_id ignoreKey = OBS_INVALID_HOTKEY_ID);
 	void LoadAdvancedSettings();

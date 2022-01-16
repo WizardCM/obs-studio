@@ -2697,8 +2697,49 @@ static inline void AddHotkeys(
 	}
 }
 
+void OBSBasicSettings::LoadDemoHotkeyUI()
+{
+	ui->newHotkeySource->clear();
+
+	ui->newHotkeySource->addItem("Global");
+	ui->newHotkeySource->addItem(" ");
+	ui->newHotkeySource->addItem("Replay Buffer");
+	ui->newHotkeySource->addItem("== TEMPLATES ==");
+	ui->newHotkeySource->addItem("Be Right Back");
+	ui->newHotkeySource->addItem("Blank Scene");
+	ui->newHotkeySource->addItem("Ending");
+	ui->newHotkeySource->addItem("Game Crop");
+
+	ui->newHotkeyType->clear();
+
+	ui->newHotkeyType->addItem("Switch to scene");
+	ui->newHotkeyType->addItem("Show 'Backgrounds'");
+	ui->newHotkeyType->addItem("Hide 'Backgrounds'");
+	ui->newHotkeyType->addItem("Show 'Window Capture (Fallback)'");
+	ui->newHotkeyType->addItem("Hide 'Window Capture (Fallback)'");
+	ui->newHotkeyType->addItem("Show 'Overwatch [Game]'");
+	ui->newHotkeyType->addItem("Hide 'Overwatch [Game]'");
+	ui->newHotkeyType->addItem("Show 'Main Display'");
+	ui->newHotkeyType->addItem("Hide 'Main Display'");
+	ui->newHotkeyType->addItem("Show 'Display w/ Zoom'");
+	ui->newHotkeyType->addItem("Hide 'Display w/ Zoom'");
+	ui->newHotkeyType->addItem("Show 'Unused'");
+	ui->newHotkeyType->addItem("Hide 'Unused'");
+	ui->newHotkeyType->addItem("Show 'NDI: macOS'");
+	ui->newHotkeyType->addItem("Hide 'NDI: macOS'");
+	ui->newHotkeyType->addItem("Show 'Capture Card'");
+	ui->newHotkeyType->addItem("Hide 'Capture Card'");
+	ui->newHotkeyType->addItem("Show 'Mouse'");
+	ui->newHotkeyType->addItem("Hide 'Mouse'");
+	ui->newHotkeyType->addItem("Show 'Keyboard'");
+	ui->newHotkeyType->addItem("Hide 'Keyboard'");
+}
+
 void OBSBasicSettings::LoadHotkeySettings(obs_hotkey_id ignoreKey)
 {
+
+	LoadDemoHotkeyUI();
+
 	hotkeys.clear();
 	if (ui->hotkeyFormLayout->rowCount() > 0) {
 		QLayoutItem *forDeletion = ui->hotkeyFormLayout->takeAt(0);

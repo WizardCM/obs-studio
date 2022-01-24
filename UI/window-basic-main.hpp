@@ -894,6 +894,7 @@ public:
 	void CreateSourcePopupMenu(int idx, bool preview);
 
 	void UpdateTitleBar();
+	void UpdateAppIcon(QIcon icon);
 
 	void SystemTrayInit();
 	void SystemTray(bool firstStarted);

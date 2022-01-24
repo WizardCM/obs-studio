@@ -23,6 +23,7 @@
 #include <vector>
 
 class QWidget;
+class QIcon;
 
 /* Gets the path of obs-studio specific data files (such as locale) */
 bool GetDataFilePath(const char *data, std::string &path);
@@ -38,6 +39,7 @@ bool IsAlwaysOnTop(QWidget *window);
 void SetAlwaysOnTop(QWidget *window, bool enable);
 
 bool SetDisplayAffinitySupported(void);
+void UpdateOBSAppIcon(QWidget *window, QIcon icon);
 
 #ifdef _WIN32
 uint32_t GetWindowsVersion();

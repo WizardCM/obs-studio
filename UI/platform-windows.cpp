@@ -21,6 +21,7 @@
 #include "obs-app.hpp"
 #include "qt-wrappers.hpp"
 #include "platform.hpp"
+#include <QtWin>
 
 #include <util/windows/win-version.h>
 #include <util/platform.h>
@@ -29,6 +30,7 @@
 #include <windows.h>
 #include <shellapi.h>
 #include <shlobj.h>
+#include <shobjidl_core.h>
 #include <Dwmapi.h>
 #include <mmdeviceapi.h>
 #include <audiopolicy.h>
@@ -262,6 +264,42 @@ bool SetDisplayAffinitySupported(void)
 	}
 
 	return supported;
+}
+
+void UpdateOBSAppIcon(QWidget *window, QIcon icon)
+{
+	HWND hwnd = (HWND)window->window()->winId();
+	ITaskbarList3 *g_pTaskbarList = NULL;
+	HRESULT hr = CoCreateInstance(CLSID_TaskbarList, NULL,
+				      CLSCTX_INPROC_SERVER,
+				      IID_PPV_ARGS(&g_pTaskbarList));
+	if (SUCCEEDED(hr)) {
+		hr = g_pTaskbarList->HrInit();
+		if (FAILED(hr)) {
+			g_pTaskbarList->Release();
+			g_pTaskbarList = NULL;
+			return;
+		}
+	}
+	// TODO
+	if (icon.isNull()) {
+		g_pTaskbarList->SetOverlayIcon(hwnd, NULL, NULL);
+		return;
+	}
+
+	HICON hicon;
+	QPixmap pixmap = icon.pixmap(icon.actualSize(QSize(16, 16)));
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+	// TODO switch to QImage::toHICON() in Qt6
+	hicon = CopyIcon(QImage::toHICON(icon);
+#else
+	// TODO switch to QtWin::toHICON() in Qt5
+	hicon = CopyIcon(QtWin::toHICON(pixmap));
+#endif
+
+	g_pTaskbarList->SetOverlayIcon(hwnd, hicon, NULL);
+	DestroyIcon(hicon);
+        g_pTaskbarList->Release();
 }
 
 bool DisableAudioDucking(bool disable)

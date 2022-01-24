@@ -202,6 +202,11 @@ bool SetDisplayAffinitySupported(void)
 	return false;
 }
 
+void UpdateAppIcon(QWidget *window, QIcon icon)
+{
+	return;
+}
+
 typedef void (*set_int_t)(int);
 
 void EnableOSXVSync(bool enable)

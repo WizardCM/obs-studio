@@ -6627,10 +6627,8 @@ inline void OBSBasic::OnActivate(bool force)
 		App()->IncrementSleepInhibition();
 		UpdateProcessPriority();
 
-#if defined(_WIN32) && QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-		taskBtn->setOverlayIcon(QIcon::fromTheme(
+		UpdateAppIcon(QIcon::fromTheme(
 			"obs-active", QIcon(":/res/images/active.png")));
-#endif
 		if (trayIcon && trayIcon->isVisible()) {
 #ifdef __APPLE__
 			QIcon trayMask =
@@ -6658,9 +6656,7 @@ inline void OBSBasic::OnDeactivate()
 		App()->DecrementSleepInhibition();
 		ClearProcessPriority();
 
-#if defined(_WIN32) && QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-		taskBtn->clearOverlayIcon();
-#endif
+		UpdateAppIcon(QIcon());
 		if (trayIcon && trayIcon->isVisible()) {
 #ifdef __APPLE__
 			QIcon trayIconFile =
@@ -6685,11 +6681,9 @@ inline void OBSBasic::OnDeactivate()
 #endif
 			trayIcon->setIcon(QIcon::fromTheme("obs-tray-paused",
 							   trayIconFile));
-#if defined(_WIN32) && QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-			taskBtn->setOverlayIcon(QIcon::fromTheme(
+			UpdateAppIcon(QIcon::fromTheme(
 				"obs-paused",
 				QIcon(":/res/images/paused.png")));
-#endif
 		} else {
 #ifdef __APPLE__
 			QIcon trayIconFile =
@@ -6701,11 +6695,9 @@ inline void OBSBasic::OnDeactivate()
 #endif
 			trayIcon->setIcon(QIcon::fromTheme("obs-tray-active",
 							   trayIconFile));
-#if defined(_WIN32) && QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-			taskBtn->setOverlayIcon(QIcon::fromTheme(
+			UpdateAppIcon(QIcon::fromTheme(
 				"obs-active",
 				QIcon(":/res/images/active.png")));
-#endif
 		}
 	}
 }
@@ -8670,6 +8662,11 @@ void OBSBasic::UpdateTitleBar()
 	setWindowTitle(QT_UTF8(name.str().c_str()));
 }
 
+void OBSBasic::UpdateAppIcon(QIcon icon)
+{
+	UpdateOBSAppIcon(this, icon);
+}
+
 int OBSBasic::GetProfilePath(char *path, size_t size, const char *file) const
 {
 	char profiles_path[512];
@@ -9659,10 +9656,8 @@ void OBSBasic::PauseRecording()
 
 		ui->statusbar->RecordingPaused();
 
-#if defined(_WIN32) && QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-		taskBtn->setOverlayIcon(QIcon::fromTheme(
+		UpdateAppIcon(QIcon::fromTheme(
 			"obs-paused", QIcon(":/res/images/paused.png")));
-#endif
 		if (trayIcon && trayIcon->isVisible()) {
 #ifdef __APPLE__
 			QIcon trayIconFile =
@@ -9703,10 +9698,8 @@ void OBSBasic::UnpauseRecording()
 
 		ui->statusbar->RecordingUnpaused();
 
-#if defined(_WIN32) && QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-		taskBtn->setOverlayIcon(QIcon::fromTheme(
+		UpdateAppIcon(QIcon::fromTheme(
 			"obs-active", QIcon(":/res/images/active.png")));
-#endif
 		if (trayIcon && trayIcon->isVisible()) {
 #ifdef __APPLE__
 			QIcon trayIconFile =

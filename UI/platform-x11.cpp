@@ -256,3 +256,8 @@ bool SetDisplayAffinitySupported(void)
 	// Not implemented yet
 	return false;
 }
+
+void UpdateOBSAppIcon(QWidget *window, QIcon icon)
+{
+	return;
+}

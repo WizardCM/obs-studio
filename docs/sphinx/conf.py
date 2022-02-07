@@ -38,6 +38,7 @@ extensions = [
     "sphinx_rtd_theme",
     "sphinxcontrib.napoleon",
     "sphinx.ext.autosectionlabel",
+    "sphinx.ext.githubpages"
 ]
 
 # Add any paths that contain templates here, relative to this directory.

@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Module API Reference &mdash; OBS Studio 27.1.3 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Core API Object Reference" href="reference-core-objects.html" />
+    <link rel="prev" title="OBS Core API Reference" href="reference-core.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> OBS Studio
+          </a>
+              <div class="version">
+                27.1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="backend-design.html">OBS Studio Backend Design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plugins.html">Plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="frontends.html">Frontends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="graphics.html">Rendering Graphics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scripting.html">Python/Lua Scripting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-core.html">OBS Core API Reference</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Module API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-macros">Module Macros</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-exports">Module Exports</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-externs">Module Externs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#frontend-module-functions">Frontend Module Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reference-core-objects.html">Core API Object Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-libobs-util.html">Platform/Utility API Reference (libobs/util)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-libobs-callback.html">Callback API Reference (libobs/callback)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-libobs-graphics.html">Graphics API Reference (libobs/graphics)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-libobs-media-io.html">Media I/O API Reference (libobs/media-io)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-frontend-api.html">OBS Studio Frontend API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">OBS Studio</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Module API Reference</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/reference-modules.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-api-reference">
+<h1>Module API Reference<a class="headerlink" href="#module-api-reference" title="Permalink to this headline"></a></h1>
+<p>Modules add custom functionality to libobs: typically
+<a class="reference internal" href="plugins.html#plugins-sources"><span class="std std-ref">Sources</span></a>, <a class="reference internal" href="plugins.html#plugins-outputs"><span class="std std-ref">Outputs</span></a>, <a class="reference internal" href="plugins.html#plugins-encoders"><span class="std std-ref">Encoders</span></a>,
+and <a class="reference internal" href="plugins.html#plugins-services"><span class="std std-ref">Services</span></a>.</p>
+<dl class="c type">
+<dt class="sig sig-object c" id="c.obs_module_t">
+<span class="k"><span class="pre">type</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_module_t</span></span></span><a class="headerlink" href="#c.obs_module_t" title="Permalink to this definition"></a><br /></dt>
+<dd><p>A module object (not reference counted).</p>
+</dd></dl>
+
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;obs-module.h&gt;</span><span class="cp"></span>
+</pre></div>
+</div>
+<section id="module-macros">
+<h2>Module Macros<a class="headerlink" href="#module-macros" title="Permalink to this headline"></a></h2>
+<p>These macros are used within custom plugin modules.</p>
+<dl class="c function">
+<dt class="sig sig-object c">
+<span class="sig-name descname"><span class="pre">OBS_DECLARE_MODULE()</span></span></dt>
+<dd><p>Declares a libobs module.  Exports important core module functions
+related to the module itself, OBS version, etc.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c">
+<span class="sig-name descname"><span class="pre">OBS_MODULE_USE_DEFAULT_LOCALE(module_name,</span> <span class="pre">default_locale)</span></span></dt>
+<dd><p>Helper macro that uses the standard ini file format for localization.
+Automatically initializes and destroys localization data, and
+automatically provides module externs such as
+<a class="reference internal" href="#c.obs_module_text" title="obs_module_text"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_module_text()</span></code></a> to be able to get a localized string with
+little effort.</p>
+</dd></dl>
+
+</section>
+<hr class="docutils" />
+<section id="module-exports">
+<h2>Module Exports<a class="headerlink" href="#module-exports" title="Permalink to this headline"></a></h2>
+<p>These are functions that plugin modules can optionally export in order
+to communicate with libobs and front-ends.</p>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_module_load">
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_module_load</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_module_load" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Required: Called when the module is loaded.  Implement this function
+to load all the sources/encoders/outputs/services for your module, or
+anything else that may need loading.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Return true to continue loading the module, otherwise
+false to indicate failure and unload the module</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_module_unload">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_module_unload</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_module_unload" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Optional: Called when the module is unloaded.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_module_post_load">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_module_post_load</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_module_post_load" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Optional: Called when all modules have finished loading.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_module_set_locale">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_module_set_locale</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">locale</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_module_set_locale" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Called to set the locale language and load the locale data for the
+module.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_module_free_locale">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_module_free_locale</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_module_free_locale" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Called on module destruction to free locale data.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_module_name">
+<span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_module_name</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_module_name" title="Permalink to this definition"></a><br /></dt>
+<dd><p>(Optional)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The full name of the module</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_module_description">
+<span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_module_description</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_module_description" title="Permalink to this definition"></a><br /></dt>
+<dd><p>(Optional)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A description of the module</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<hr class="docutils" />
+<section id="module-externs">
+<h2>Module Externs<a class="headerlink" href="#module-externs" title="Permalink to this headline"></a></h2>
+<p>These functions are externs that are usable throughout the module.</p>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_module_text">
+<span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_module_text</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">lookup_string</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_module_text" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A localized string</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_module_get_string">
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_module_get_string</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">lookup_string</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">translated_string</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_module_get_string" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Helper function for looking up locale.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><em>true</em> if text found, otherwise <em>false</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_current_module">
+<a class="reference internal" href="#c.obs_module_t" title="obs_module_t"><span class="n"><span class="pre">obs_module_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_current_module</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_current_module" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The current module</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_module_file">
+<span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_module_file</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">file</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_module_file" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Returns the location to a module data file associated with the
+current module.  Free with <a class="reference internal" href="reference-libobs-util-bmem.html#c.bfree" title="bfree"><code class="xref c c-func docutils literal notranslate"><span class="pre">bfree()</span></code></a> when complete.</p>
+<p>Equivalent to:</p>
+</dd></dl>
+
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">obs_find_module_file</span><span class="p">(</span><span class="n">obs_current_module</span><span class="p">(),</span><span class="w"> </span><span class="n">file</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_module_config_path">
+<span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_module_config_path</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">file</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_module_config_path" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Returns the location to a module config file associated with the
+current module.  Free with <a class="reference internal" href="reference-libobs-util-bmem.html#c.bfree" title="bfree"><code class="xref c c-func docutils literal notranslate"><span class="pre">bfree()</span></code></a> when complete.  Will
+return NULL if configuration directory is not set.</p>
+<p>Equivalent to:</p>
+</dd></dl>
+
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">obs_module_get_config_path</span><span class="p">(</span><span class="n">obs_current_module</span><span class="p">(),</span><span class="w"> </span><span class="n">file</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="frontend-module-functions">
+<h2>Frontend Module Functions<a class="headerlink" href="#frontend-module-functions" title="Permalink to this headline"></a></h2>
+<p>These are functions used by frontends to load and get information about
+plugin modules.</p>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_open_module">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_open_module</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_module_t" title="obs_module_t"><span class="n"><span class="pre">obs_module_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">module</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">path</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data_path</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_open_module" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Opens a plugin module directly from a specific path.</p>
+<p>If the module already exists then the function will return successful, and
+the module parameter will be given the pointer to the existing
+module.</p>
+<p>This does not initialize the module, it only loads the module image.  To
+initialize the module, call <a class="reference internal" href="#c.obs_init_module" title="obs_init_module"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_init_module()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>module</strong> – The pointer to the created module</p></li>
+<li><p><strong>path</strong> – Specifies the path to the module library file.  If the
+extension is not specified, it will use the extension
+appropriate to the operating system</p></li>
+<li><p><strong>data_path</strong> – Specifies the path to the directory where the module’s
+data files are stored (or <em>NULL</em> if none)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><div class="line-block">
+<div class="line">MODULE_SUCCESS          - Successful</div>
+<div class="line">MODULE_ERROR            - A generic error occurred</div>
+<div class="line">MODULE_FILE_NOT_FOUND   - The module was not found</div>
+<div class="line">MODULE_MISSING_EXPORTS  - Required exports are missing</div>
+<div class="line">MODULE_INCOMPATIBLE_VER - Incompatible version</div>
+</div>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_init_module">
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_init_module</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_module_t" title="obs_module_t"><span class="n"><span class="pre">obs_module_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">module</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_init_module" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Initializes the module, which calls its obs_module_load export.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><em>true</em> if the module was loaded successfully</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_log_loaded_modules">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_log_loaded_modules</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_log_loaded_modules" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Logs loaded modules.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_get_module_file_name">
+<span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_get_module_file_name</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_module_t" title="obs_module_t"><span class="n"><span class="pre">obs_module_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">module</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_get_module_file_name" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The module file name</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_get_module_name">
+<span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_get_module_name</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_module_t" title="obs_module_t"><span class="n"><span class="pre">obs_module_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">module</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_get_module_name" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The module full name (or <em>NULL</em> if none)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_get_module_author">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_get_module_author</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_module_t" title="obs_module_t"><span class="n"><span class="pre">obs_module_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">module</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_get_module_author" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The module author(s)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_get_module_description">
+<span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_get_module_description</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_module_t" title="obs_module_t"><span class="n"><span class="pre">obs_module_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">module</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_get_module_description" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The module description</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_get_module_binary_path">
+<span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_get_module_binary_path</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_module_t" title="obs_module_t"><span class="n"><span class="pre">obs_module_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">module</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_get_module_binary_path" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The module binary path</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_get_module_data_path">
+<span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_get_module_data_path</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_module_t" title="obs_module_t"><span class="n"><span class="pre">obs_module_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">module</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_get_module_data_path" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The module data path</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_add_module_path">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_add_module_path</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">bin</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_add_module_path" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Adds a module search path to be used with obs_find_modules.  If the search
+path strings contain %module%, that text will be replaced with the module
+name when used.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>bin</strong> – Specifies the module’s binary directory search path</p></li>
+<li><p><strong>data</strong> – Specifies the module’s data directory search path</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_load_all_modules">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_load_all_modules</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_load_all_modules" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Automatically loads all modules from module paths (convenience function).</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_post_load_modules">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_post_load_modules</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_post_load_modules" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Notifies modules that all modules have been loaded.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_find_modules">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_find_modules</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">obs_find_module_callback_t</span></span><span class="w"> </span><span class="n"><span class="pre">callback</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">param</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_find_modules" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Finds all modules within the search paths added by
+<a class="reference internal" href="#c.obs_add_module_path" title="obs_add_module_path"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_add_module_path()</span></code></a>.</p>
+<p>Relevant data types used with this function:</p>
+</dd></dl>
+
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">obs_module_info</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">bin_path</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">data_path</span><span class="p">;</span><span class="w"></span>
+<span class="p">};</span><span class="w"></span>
+
+<span class="k">typedef</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">obs_find_module_callback_t</span><span class="p">)(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">param</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">obs_module_info</span><span class="w"> </span><span class="o">*</span><span class="n">info</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_enum_modules">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_enum_modules</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">obs_enum_module_callback_t</span></span><span class="w"> </span><span class="n"><span class="pre">callback</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">param</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_enum_modules" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Enumerates all loaded modules.</p>
+<p>Relevant data types used with this function:</p>
+</dd></dl>
+
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">obs_enum_module_callback_t</span><span class="p">)(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">param</span><span class="p">,</span><span class="w"> </span><span class="n">obs_module_t</span><span class="w"> </span><span class="o">*</span><span class="k">module</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_find_module_file">
+<span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_find_module_file</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_module_t" title="obs_module_t"><span class="n"><span class="pre">obs_module_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">module</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">file</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_find_module_file" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Returns the location of a plugin module data file.</p>
+<dl class="simple">
+<dt>Note:   Modules should use obs_module_file function defined in obs-module.h</dt><dd><p>as a more elegant means of getting their files without having to
+specify the module parameter.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>module</strong> – The module associated with the file to locate</p></li>
+<li><p><strong>file</strong> – The file to locate</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Path string, or NULL if not found.  Use bfree to free string</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_module_get_config_path">
+<span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_module_get_config_path</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_module_t" title="obs_module_t"><span class="n"><span class="pre">obs_module_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">module</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">file</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_module_get_config_path" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Returns the path of a plugin module config file (whether it exists or not).</p>
+<dl class="simple">
+<dt>Note:   Modules should use obs_module_config_path function defined in</dt><dd><p>obs-module.h as a more elegant means of getting their files without
+having to specify the module parameter.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>module</strong> – The module associated with the path</p></li>
+<li><p><strong>file</strong> – The file to get a path to</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Path string, or NULL if not found.  Use bfree to free string</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_get_module_lib">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_get_module_lib</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_module_t" title="obs_module_t"><span class="n"><span class="pre">obs_module_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">module</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_get_module_lib" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Returns library file of specified module.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>module</strong> – The module where to find library file.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Pointer to module library.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="reference-core.html" class="btn btn-neutral float-left" title="OBS Core API Reference" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="reference-core-objects.html" class="btn btn-neutral float-right" title="Core API Object Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2017-2022, Hugh Bailey.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

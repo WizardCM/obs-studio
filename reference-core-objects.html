@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Core API Object Reference &mdash; OBS Studio 27.1.3 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Source API Reference (obs_source_t)" href="reference-sources.html" />
+    <link rel="prev" title="Module API Reference" href="reference-modules.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> OBS Studio
+          </a>
+              <div class="version">
+                27.1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="backend-design.html">OBS Studio Backend Design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plugins.html">Plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="frontends.html">Frontends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="graphics.html">Rendering Graphics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scripting.html">Python/Lua Scripting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-core.html">OBS Core API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-modules.html">Module API Reference</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Core API Object Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reference-sources.html">Source API Reference (obs_source_t)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-scenes.html">Scene API Reference (obs_scene_t)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-outputs.html">Output API Reference (obs_output_t)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-encoders.html">Encoder API Reference (obs_encoder_t)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-services.html">Service API Reference (obs_service_t)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-settings.html">Data Settings API Reference (obs_data_t)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-properties.html">Properties API Reference (obs_properties_t)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reference-libobs-util.html">Platform/Utility API Reference (libobs/util)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-libobs-callback.html">Callback API Reference (libobs/callback)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-libobs-graphics.html">Graphics API Reference (libobs/graphics)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-libobs-media-io.html">Media I/O API Reference (libobs/media-io)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-frontend-api.html">OBS Studio Frontend API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">OBS Studio</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Core API Object Reference</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/reference-core-objects.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="core-api-object-reference">
+<h1>Core API Object Reference<a class="headerlink" href="#core-api-object-reference" title="Permalink to this headline"></a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="reference-sources.html">Source API Reference (obs_source_t)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reference-sources.html#source-definition-structure-obs-source-info">Source Definition Structure (obs_source_info)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-sources.html#source-signals">Source Signals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-sources.html#general-source-functions">General Source Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-sources.html#functions-used-by-sources">Functions used by sources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-sources.html#filters">Filters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-sources.html#functions-used-by-filters">Functions used by filters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-sources.html#transitions">Transitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-sources.html#functions-used-by-transitions">Functions used by transitions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reference-scenes.html">Scene API Reference (obs_scene_t)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reference-scenes.html#scene-item-transform-structure-obs-transform-info">Scene Item Transform Structure (obs_transform_info)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-scenes.html#scene-item-crop-structure-obs-sceneitem-crop">Scene Item Crop Structure (obs_sceneitem_crop)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-scenes.html#scene-item-order-info-structure-obs-sceneitem-order-info">Scene Item Order Info Structure (*obs_sceneitem_order_info)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-scenes.html#scene-signals">Scene Signals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-scenes.html#general-scene-functions">General Scene Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-scenes.html#scene-item-functions">Scene Item Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-scenes.html#scene-item-group-functions">Scene Item Group Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reference-outputs.html">Output API Reference (obs_output_t)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reference-outputs.html#output-definition-structure-obs-output-info">Output Definition Structure (obs_output_info)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-outputs.html#output-signals">Output Signals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-outputs.html#general-output-functions">General Output Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-outputs.html#functions-used-by-outputs">Functions used by outputs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reference-encoders.html">Encoder API Reference (obs_encoder_t)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reference-encoders.html#encoder-definition-structure-obs-encoder-info">Encoder Definition Structure (obs_encoder_info)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-encoders.html#encoder-packet-structure-encoder-packet">Encoder Packet Structure (encoder_packet)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-encoders.html#raw-frame-data-structure-encoder-frame">Raw Frame Data Structure (encoder_frame)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-encoders.html#general-encoder-functions">General Encoder Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-encoders.html#functions-used-by-encoders">Functions used by encoders</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reference-services.html">Service API Reference (obs_service_t)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reference-services.html#service-definition-structure">Service Definition Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-services.html#general-service-functions">General Service Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reference-settings.html">Data Settings API Reference (obs_data_t)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reference-settings.html#general-functions">General Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-settings.html#set-functions">Set Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-settings.html#get-functions">Get Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-settings.html#default-value-functions">Default Value Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-settings.html#autoselect-functions">Autoselect Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-settings.html#array-functions">Array Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reference-properties.html">Properties API Reference (obs_properties_t)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reference-properties.html#general-functions">General Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-properties.html#property-object-functions">Property Object Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-properties.html#property-enumeration-functions">Property Enumeration Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-properties.html#property-modification-functions">Property Modification Functions</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="reference-modules.html" class="btn btn-neutral float-left" title="Module API Reference" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="reference-sources.html" class="btn btn-neutral float-right" title="Source API Reference (obs_source_t)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2017-2022, Hugh Bailey.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

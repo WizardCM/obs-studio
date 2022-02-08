@@ -1,0 +1,1258 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Output API Reference (obs_output_t) &mdash; OBS Studio 27.1.3 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Encoder API Reference (obs_encoder_t)" href="reference-encoders.html" />
+    <link rel="prev" title="Scene API Reference (obs_scene_t)" href="reference-scenes.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> OBS Studio
+          </a>
+              <div class="version">
+                27.1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="backend-design.html">OBS Studio Backend Design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plugins.html">Plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="frontends.html">Frontends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="graphics.html">Rendering Graphics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scripting.html">Python/Lua Scripting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-core.html">OBS Core API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-modules.html">Module API Reference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="reference-core-objects.html">Core API Object Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="reference-sources.html">Source API Reference (obs_source_t)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-scenes.html">Scene API Reference (obs_scene_t)</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Output API Reference (obs_output_t)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#output-definition-structure-obs-output-info">Output Definition Structure (obs_output_info)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#output-signals">Output Signals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#general-output-functions">General Output Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#functions-used-by-outputs">Functions used by outputs</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="reference-encoders.html">Encoder API Reference (obs_encoder_t)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-services.html">Service API Reference (obs_service_t)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-settings.html">Data Settings API Reference (obs_data_t)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-properties.html">Properties API Reference (obs_properties_t)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reference-libobs-util.html">Platform/Utility API Reference (libobs/util)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-libobs-callback.html">Callback API Reference (libobs/callback)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-libobs-graphics.html">Graphics API Reference (libobs/graphics)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-libobs-media-io.html">Media I/O API Reference (libobs/media-io)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-frontend-api.html">OBS Studio Frontend API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">OBS Studio</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="reference-core-objects.html">Core API Object Reference</a> &raquo;</li>
+      <li>Output API Reference (obs_output_t)</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/reference-outputs.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="output-api-reference-obs-output-t">
+<h1>Output API Reference (obs_output_t)<a class="headerlink" href="#output-api-reference-obs-output-t" title="Permalink to this headline"></a></h1>
+<p>Outputs allow the ability to output the currently rendering audio/video.
+Streaming and recording are two common examples of outputs, but not the
+only types of outputs.  Outputs can receive the raw data or receive
+encoded data.  The <a class="reference external" href="https://github.com/jp9000/obs-studio/blob/master/libobs/obs-output.h">libobs/obs-output.h</a> file is the dedicated header
+for implementing outputs</p>
+<dl class="c type">
+<dt class="sig sig-object c" id="c.obs_output_t">
+<span class="k"><span class="pre">type</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_output_t</span></span></span><a class="headerlink" href="#c.obs_output_t" title="Permalink to this definition"></a><br /></dt>
+<dd><p>A reference-counted output object.</p>
+</dd></dl>
+
+<dl class="c type">
+<dt class="sig sig-object c" id="c.obs_weak_output_t">
+<span class="k"><span class="pre">type</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_weak_output_t</span></span></span><a class="headerlink" href="#c.obs_weak_output_t" title="Permalink to this definition"></a><br /></dt>
+<dd><p>A weak reference to an output object.</p>
+</dd></dl>
+
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;obs.h&gt;</span><span class="cp"></span>
+</pre></div>
+</div>
+<section id="output-definition-structure-obs-output-info">
+<h2>Output Definition Structure (obs_output_info)<a class="headerlink" href="#output-definition-structure-obs-output-info" title="Permalink to this headline"></a></h2>
+<dl class="c type">
+<dt class="sig sig-object c">
+<span class="sig-name descname"><span class="pre">struct</span> <span class="pre">obs_output_info</span></span></dt>
+<dd><p>Output definition structure.</p>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.obs_output_info.id">
+<span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">obs_output_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">id</span></span></span><a class="headerlink" href="#c.obs_output_info.id" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Unique string identifier for the source (required).</p>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.obs_output_info.flags">
+<span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">obs_output_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">flags</span></span></span><a class="headerlink" href="#c.obs_output_info.flags" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Output capability flags (required).</p>
+<p>(Author’s note: This should be renamed to “capability_flags”)</p>
+<p>A bitwise OR combination of one or more of the following values:</p>
+<ul>
+<li><p><strong>OBS_OUTPUT_VIDEO</strong> - Can output video.</p></li>
+<li><p><strong>OBS_OUTPUT_AUDIO</strong> - Can output audio.</p></li>
+<li><p><strong>OBS_OUTPUT_AV</strong> - Combines OBS_OUTPUT_VIDEO and OBS_OUTPUT_AUDIO.</p></li>
+<li><p><strong>OBS_OUTPUT_ENCODED</strong> - Output is encoded.</p>
+<p>When this capability flag is used, the output must have encoders
+assigned to it via the <a class="reference internal" href="#c.obs_output_set_video_encoder" title="obs_output_set_video_encoder"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_output_set_video_encoder()</span></code></a>
+and/or <a class="reference internal" href="#c.obs_output_set_audio_encoder" title="obs_output_set_audio_encoder"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_output_set_audio_encoder()</span></code></a> functions in order
+to be started.</p>
+</li>
+<li><p><strong>OBS_OUTPUT_SERVICE</strong> - Output requires a service object.</p>
+<p>When this capability flag is used, the output must have a service
+assigned to it via the <a class="reference internal" href="#c.obs_output_set_service" title="obs_output_set_service"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_output_set_service()</span></code></a> function
+in order to be started.</p>
+<p>This is usually used with live streaming outputs that stream to
+specific services.</p>
+</li>
+<li><p><strong>OBS_OUTPUT_MULTI_TRACK</strong> - Output supports multiple audio tracks.</p>
+<p>When this capability flag is used, specifies that this output
+supports multiple encoded audio tracks simultaneously.</p>
+</li>
+<li><p><strong>OBS_OUTPUT_CAN_PAUSE</strong> - Output supports pausing.</p>
+<p>When this capability flag is used, the output supports pausing.
+When an output is paused, raw or encoded audio/video data will be
+halted when paused down to the exact point to the closest video
+frame.  Audio data will be correctly truncated down to the exact
+audio sample according to that video frame timing.</p>
+</li>
+</ul>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.obs_output_info.get_name">
+<span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">obs_output_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">get_name</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">type_data</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.obs_output_info.get_name" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Get the translated name of the output type.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Param type_data</dt>
+<dd class="field-odd"><p>The type_data variable of this structure</p>
+</dd>
+<dt class="field-even">Return</dt>
+<dd class="field-even"><p>The translated name of the output type</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.obs_output_info.create">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">obs_output_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">create</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><a class="reference internal" href="reference-settings.html#c.obs_data_t" title="obs_data_t"><span class="n"><span class="pre">obs_data_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">settings</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_output_t" title="obs_output_t"><span class="n"><span class="pre">obs_output_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">output</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.obs_output_info.create" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Creates the implementation data for the output.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Param settings</dt>
+<dd class="field-odd"><p>Settings to initialize the output with</p>
+</dd>
+<dt class="field-even">Param output</dt>
+<dd class="field-even"><p>Output that this data is associated with</p>
+</dd>
+<dt class="field-odd">Return</dt>
+<dd class="field-odd"><p>The implementation data associated with this output</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.obs_output_info.destroy">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">obs_output_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">destroy</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.obs_output_info.destroy" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Destroys the implementation data for the output.</p>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.obs_output_info.start">
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">obs_output_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">start</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.obs_output_info.start" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Starts the output.  If needed, this function can spawn a thread,
+return <em>true</em> immediately, and then signal for failure later.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return</dt>
+<dd class="field-odd"><p><em>true</em> if successful or deferring to a signal to indicate
+failure, <em>false</em> on failure to start</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.obs_output_info.stop">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">obs_output_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">stop</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="n"><span class="pre">ts</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.obs_output_info.stop" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Requests an output to stop at a specified time.  The <em>ts</em> parameter
+indicates when the stop should occur.  Output will actually stop when
+either the <a class="reference internal" href="#c.obs_output_end_data_capture" title="obs_output_end_data_capture"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_output_end_data_capture()</span></code></a> or
+<a class="reference internal" href="#c.obs_output_signal_stop" title="obs_output_signal_stop"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_output_signal_stop()</span></code></a> functions are called.  If <em>ts</em> is
+0, an immediate stop was requested.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Param ts</dt>
+<dd class="field-odd"><p>The timestamp to stop.  If 0, the output should attempt to
+stop immediately rather than wait for any more data to
+process</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.obs_output_info.raw_video">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">obs_output_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">raw_video</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">video_data</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">frame</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.obs_output_info.raw_video" title="Permalink to this definition"></a><br /></dt>
+<dd><p>This is called when the output receives raw video data.  Only applies
+to outputs that are not encoded.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Param frame</dt>
+<dd class="field-odd"><p>The raw video frame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.obs_output_info.raw_audio">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">obs_output_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">raw_audio</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">audio_data</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">frames</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.obs_output_info.raw_audio" title="Permalink to this definition"></a><br /></dt>
+<dd><p>This is called when the output receives raw audio data.  Only applies
+to outputs that are not encoded.</p>
+<p><strong>This callback must be used with single-track raw outputs.</strong></p>
+<dl class="field-list simple">
+<dt class="field-odd">Param frames</dt>
+<dd class="field-odd"><p>The raw audio frames</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.obs_output_info.raw_audio2">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">obs_output_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">raw_audio2</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">idx</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">audio_data</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">frames</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.obs_output_info.raw_audio2" title="Permalink to this definition"></a><br /></dt>
+<dd><p>This is called when the output receives raw audio data.  Only applies
+to outputs that are not encoded.</p>
+<p><strong>This callback must be used with multi-track raw outputs.</strong></p>
+<dl class="field-list simple">
+<dt class="field-odd">Param idx</dt>
+<dd class="field-odd"><p>The audio track index</p>
+</dd>
+<dt class="field-even">Param frames</dt>
+<dd class="field-even"><p>The raw audio frames</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.obs_output_info.encoded_packet">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">obs_output_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">encoded_packet</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">encoder_packet</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">packet</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.obs_output_info.encoded_packet" title="Permalink to this definition"></a><br /></dt>
+<dd><p>This is called when the output receives encoded video/audio data.
+Only applies to outputs that are encoded.  Packets will always be
+given in monotonic timestamp order.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Param packet</dt>
+<dd class="field-odd"><p>The video or audio packet.  If NULL, an encoder error
+occurred, and the output should call
+<a class="reference internal" href="#c.obs_output_signal_stop" title="obs_output_signal_stop"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_output_signal_stop()</span></code></a> with the error code
+<strong>OBS_OUTPUT_ENCODE_ERROR</strong>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.obs_output_info.update">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">obs_output_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">update</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="reference-settings.html#c.obs_data_t" title="obs_data_t"><span class="n"><span class="pre">obs_data_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">settings</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.obs_output_info.update" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Updates the settings for this output.</p>
+<p>(Optional)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Param settings</dt>
+<dd class="field-odd"><p>New settings for this output</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.obs_output_info.get_defaults">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">obs_output_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">get_defaults</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><a class="reference internal" href="reference-settings.html#c.obs_data_t" title="obs_data_t"><span class="n"><span class="pre">obs_data_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">settings</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.obs_output_info.get_defaults" title="Permalink to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.obs_output_info.get_defaults2">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">obs_output_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">get_defaults2</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">type_data</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="reference-settings.html#c.obs_data_t" title="obs_data_t"><span class="n"><span class="pre">obs_data_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">settings</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.obs_output_info.get_defaults2" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Sets the default settings for this output.</p>
+<p>(Optional)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Param settings</dt>
+<dd class="field-odd"><p>Default settings.  Call obs_data_set_default*
+functions on this object to set default setting
+values</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.obs_output_info.get_properties">
+<a class="reference internal" href="reference-properties.html#c.obs_properties_t" title="obs_properties_t"><span class="n"><span class="pre">obs_properties_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">obs_output_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">get_properties</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.obs_output_info.get_properties" title="Permalink to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.obs_output_info.get_properties2">
+<a class="reference internal" href="reference-properties.html#c.obs_properties_t" title="obs_properties_t"><span class="n"><span class="pre">obs_properties_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">obs_output_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">get_properties2</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">type_data</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.obs_output_info.get_properties2" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Gets the property information of this output.</p>
+<p>(Optional)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return</dt>
+<dd class="field-odd"><p>The properties of the output</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.obs_output_info.unused1">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">obs_output_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">unused1</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.obs_output_info.unused1" title="Permalink to this definition"></a><br /></dt>
+<dd><p>This callback is no longer used.</p>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.obs_output_info.get_total_bytes">
+<span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">obs_output_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">get_total_bytes</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.obs_output_info.get_total_bytes" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Returns the number of total bytes processed by this output.</p>
+<p>(Optional)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return</dt>
+<dd class="field-odd"><p>Total bytes processed by this output since it started</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.obs_output_info.get_dropped_frames">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">obs_output_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">get_dropped_frames</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.obs_output_info.get_dropped_frames" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Returns the number of dropped frames.</p>
+<p>(Optional)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return</dt>
+<dd class="field-odd"><p>Number of dropped frames due to network congestion by this
+output since it started</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.obs_output_info.type_data">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">obs_output_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">type_data</span></span></span><a class="headerlink" href="#c.obs_output_info.type_data" title="Permalink to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.obs_output_info.free_type_data">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">obs_output_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">free_type_data</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">type_data</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.obs_output_info.free_type_data" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Private data associated with this entry.  Note that this is not the
+same as the implementation data; this is used to differentiate
+between two different types if the same callbacks are used for more
+than one different type.</p>
+<p>(Optional)</p>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.obs_output_info.get_congestion">
+<span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">obs_output_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">get_congestion</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.obs_output_info.get_congestion" title="Permalink to this definition"></a><br /></dt>
+<dd><p>This function is used to indicate how currently congested the output
+is.  Useful for visualizing how much data is backed up on streaming
+outputs.</p>
+<p>(Optional)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return</dt>
+<dd class="field-odd"><p>Current congestion value (0.0f..1.0f)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.obs_output_info.get_connect_time_ms">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">obs_output_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">get_connect_time_ms</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.obs_output_info.get_connect_time_ms" title="Permalink to this definition"></a><br /></dt>
+<dd><p>This function is used to determine how many milliseconds it took to
+connect to its current server.</p>
+<p>(Optional)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return</dt>
+<dd class="field-odd"><p>Milliseconds it took to connect to its current server</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.obs_output_info.encoded_video_codecs">
+<span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">obs_output_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">encoded_video_codecs</span></span></span><a class="headerlink" href="#c.obs_output_info.encoded_video_codecs" title="Permalink to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.obs_output_info.encoded_audio_codecs">
+<span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">obs_output_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">encoded_audio_codecs</span></span></span><a class="headerlink" href="#c.obs_output_info.encoded_audio_codecs" title="Permalink to this definition"></a><br /></dt>
+<dd><p>This variable specifies which codecs are supported by an encoded
+output, separated by semicolon.</p>
+<p>(Optional, though recommended)</p>
+</dd></dl>
+
+</section>
+<section id="output-signals">
+<span id="output-signal-handler-reference"></span><h2>Output Signals<a class="headerlink" href="#output-signals" title="Permalink to this headline"></a></h2>
+<p><strong>start</strong> (ptr output)</p>
+<blockquote>
+<div><p>Called when the output starts.</p>
+</div></blockquote>
+<p><strong>stop</strong> (ptr output, int code)</p>
+<blockquote>
+<div><p>Called when the output stops.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>code</strong> - Can be one of the following values:</p></li>
+</ul>
+<div class="line-block">
+<div class="line">OBS_OUTPUT_SUCCESS        - Successfully stopped</div>
+<div class="line">OBS_OUTPUT_BAD_PATH       - The specified path was invalid</div>
+<div class="line">OBS_OUTPUT_CONNECT_FAILED - Failed to connect to a server</div>
+<div class="line">OBS_OUTPUT_INVALID_STREAM - Invalid stream path</div>
+<div class="line">OBS_OUTPUT_ERROR          - Generic error</div>
+<div class="line">OBS_OUTPUT_DISCONNECTED   - Unexpectedly disconnected</div>
+<div class="line">OBS_OUTPUT_UNSUPPORTED    - The settings, video/audio format, or codecs are unsupported by this output</div>
+<div class="line">OBS_OUTPUT_NO_SPACE       - Ran out of disk space</div>
+<div class="line">OBS_OUTPUT_ENCODE_ERROR   - Encoder error</div>
+</div>
+</dd>
+</dl>
+</div></blockquote>
+<p><strong>pause</strong> (ptr output)</p>
+<blockquote>
+<div><p>Called when the output has been paused.</p>
+</div></blockquote>
+<p><strong>unpause</strong> (ptr output)</p>
+<blockquote>
+<div><p>Called when the output has been unpaused.</p>
+</div></blockquote>
+<p><strong>starting</strong> (ptr output)</p>
+<blockquote>
+<div><p>Called when the output is starting.</p>
+</div></blockquote>
+<p><strong>stopping</strong> (ptr output)</p>
+<blockquote>
+<div><p>Called when the output is stopping.</p>
+</div></blockquote>
+<p><strong>activate</strong> (ptr output)</p>
+<blockquote>
+<div><p>Called when the output activates (starts capturing data).</p>
+</div></blockquote>
+<p><strong>deactivate</strong> (ptr output)</p>
+<blockquote>
+<div><p>Called when the output deactivates (stops capturing data).</p>
+</div></blockquote>
+<p><strong>reconnect</strong> (ptr output)</p>
+<blockquote>
+<div><p>Called when the output is reconnecting.</p>
+</div></blockquote>
+<p><strong>reconnect_success</strong> (ptr output)</p>
+<blockquote>
+<div><p>Called when the output has successfully reconnected.</p>
+</div></blockquote>
+</section>
+<section id="general-output-functions">
+<h2>General Output Functions<a class="headerlink" href="#general-output-functions" title="Permalink to this headline"></a></h2>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_register_output">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_register_output</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">obs_output_info</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">info</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_register_output" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Registers an output type.  Typically used in
+<a class="reference internal" href="reference-modules.html#c.obs_module_load" title="obs_module_load"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_module_load()</span></code></a> or in the program’s initialization phase.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_output_get_display_name">
+<span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_output_get_display_name</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">id</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_output_get_display_name" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Calls the <a class="reference internal" href="#c.obs_output_info.get_name" title="obs_output_info.get_name"><code class="xref c c-member docutils literal notranslate"><span class="pre">obs_output_info.get_name</span></code></a> callback to get the
+translated display name of an output type.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>id</strong> – The output type string identifier</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The translated display name of an output type</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_output_create">
+<a class="reference internal" href="#c.obs_output_t" title="obs_output_t"><span class="n"><span class="pre">obs_output_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_output_create</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">id</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">name</span></span>, <a class="reference internal" href="reference-settings.html#c.obs_data_t" title="obs_data_t"><span class="n"><span class="pre">obs_data_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">settings</span></span>, <a class="reference internal" href="reference-settings.html#c.obs_data_t" title="obs_data_t"><span class="n"><span class="pre">obs_data_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">hotkey_data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_output_create" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Creates an output with the specified settings.</p>
+<p>The “output” context is used for anything related to outputting the
+final video/audio mix (E.g. streaming or recording).  Use
+obs_output_release to release it.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>id</strong> – The output type string identifier</p></li>
+<li><p><strong>name</strong> – The desired name of the output.  If this is
+not unique, it will be made to be unique</p></li>
+<li><p><strong>settings</strong> – The settings for the output, or <em>NULL</em> if
+none</p></li>
+<li><p><strong>hotkey_data</strong> – Saved hotkey data for the output, or <em>NULL</em>
+if none</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A reference to the newly created output, or
+<em>NULL</em> if failed</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_output_addref">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_output_addref</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_output_t" title="obs_output_t"><span class="n"><span class="pre">obs_output_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">output</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_output_addref" title="Permalink to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.obs_output_release">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_output_release</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_output_t" title="obs_output_t"><span class="n"><span class="pre">obs_output_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">output</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_output_release" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Adds/releases a reference to an output.  When the last reference is
+released, the output is destroyed.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_output_get_weak_output">
+<a class="reference internal" href="#c.obs_weak_output_t" title="obs_weak_output_t"><span class="n"><span class="pre">obs_weak_output_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_output_get_weak_output</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_output_t" title="obs_output_t"><span class="n"><span class="pre">obs_output_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">output</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_output_get_weak_output" title="Permalink to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.obs_weak_output_get_output">
+<a class="reference internal" href="#c.obs_output_t" title="obs_output_t"><span class="n"><span class="pre">obs_output_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_weak_output_get_output</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_weak_output_t" title="obs_weak_output_t"><span class="n"><span class="pre">obs_weak_output_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">weak</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_weak_output_get_output" title="Permalink to this definition"></a><br /></dt>
+<dd><p>These functions are used to get a weak reference from a strong output
+reference, or a strong output reference from a weak reference.  If
+the output is destroyed, <em>obs_weak_output_get_output</em> will return
+<em>NULL</em>.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_weak_output_addref">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_weak_output_addref</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_weak_output_t" title="obs_weak_output_t"><span class="n"><span class="pre">obs_weak_output_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">weak</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_weak_output_addref" title="Permalink to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.obs_weak_output_release">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_weak_output_release</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_weak_output_t" title="obs_weak_output_t"><span class="n"><span class="pre">obs_weak_output_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">weak</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_weak_output_release" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Adds/releases a weak reference to an output.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_output_get_name">
+<span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_output_get_name</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_output_t" title="obs_output_t"><span class="n"><span class="pre">obs_output_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">output</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_output_get_name" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The name of the output</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_output_start">
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_output_start</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_output_t" title="obs_output_t"><span class="n"><span class="pre">obs_output_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">output</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_output_start" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Starts the output.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><em>true</em> if output successfully started, <em>false</em> otherwise.  If
+the output failed to start,
+<a class="reference internal" href="#c.obs_output_get_last_error" title="obs_output_get_last_error"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_output_get_last_error()</span></code></a> may contain a specific
+error string related to the reason</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_output_stop">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_output_stop</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_output_t" title="obs_output_t"><span class="n"><span class="pre">obs_output_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">output</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_output_stop" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Requests the output to stop.  The output will wait until all data is
+sent up until the time the call was made, then when the output has
+successfully stopped, it will send the “stop” signal.  See
+<a class="reference internal" href="#output-signal-handler-reference"><span class="std std-ref">Output Signals</span></a> for more information on output
+signals.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_output_set_delay">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_output_set_delay</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_output_t" title="obs_output_t"><span class="n"><span class="pre">obs_output_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">output</span></span>, <span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="n"><span class="pre">delay_sec</span></span>, <span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="n"><span class="pre">flags</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_output_set_delay" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Sets the current output delay, in seconds (if the output supports delay)</p>
+<p>If delay is currently active, it will set the delay value, but will not
+affect the current delay, it will only affect the next time the output is
+activated.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>delay_sec</strong> – Amount to delay the output, in seconds</p></li>
+<li><p><strong>flags</strong> – <div class="line-block">
+<div class="line">Can be 0 or a combination of one of the following values:</div>
+<div class="line">OBS_OUTPUT_DELAY_PRESERVE - On reconnection, start where it left of on reconnection.  Note however that this option will consume extra memory to continually increase delay while waiting to reconnect</div>
+</div>
+</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_output_get_delay">
+<span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_output_get_delay</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_output_t" title="obs_output_t"><span class="n"><span class="pre">obs_output_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">output</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_output_get_delay" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Gets the currently set delay value, in seconds.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_output_get_active_delay">
+<span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_output_get_active_delay</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_output_t" title="obs_output_t"><span class="n"><span class="pre">obs_output_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">output</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_output_get_active_delay" title="Permalink to this definition"></a><br /></dt>
+<dd><p>If delay is active, gets the currently active delay value, in
+seconds.  The active delay can increase if the
+OBS_OUTPUT_DELAY_PRESERVE flag was set when setting a delay.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_output_force_stop">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_output_force_stop</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_output_t" title="obs_output_t"><span class="n"><span class="pre">obs_output_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">output</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_output_force_stop" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Attempts to get the output to stop immediately without waiting for
+data to send.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_output_active">
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_output_active</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_output_t" title="obs_output_t"><span class="n"><span class="pre">obs_output_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">output</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_output_active" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><em>true</em> if the output is currently active, <em>false</em> otherwise</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_output_defaults">
+<a class="reference internal" href="reference-settings.html#c.obs_data_t" title="obs_data_t"><span class="n"><span class="pre">obs_data_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_output_defaults</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">id</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_output_defaults" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>An incremented reference to the output’s default settings</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_output_properties">
+<a class="reference internal" href="reference-properties.html#c.obs_properties_t" title="obs_properties_t"><span class="n"><span class="pre">obs_properties_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_output_properties</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_output_t" title="obs_output_t"><span class="n"><span class="pre">obs_output_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">output</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_output_properties" title="Permalink to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.obs_get_output_properties">
+<a class="reference internal" href="reference-properties.html#c.obs_properties_t" title="obs_properties_t"><span class="n"><span class="pre">obs_properties_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_get_output_properties</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">id</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_get_output_properties" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Use these functions to get the properties of an output or output
+type.  Properties are optionally used (if desired) to automatically
+generate user interface widgets to allow users to update settings.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The properties list for a specific existing output.  Free
+with <a class="reference internal" href="reference-properties.html#c.obs_properties_destroy" title="obs_properties_destroy"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_properties_destroy()</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_output_update">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_output_update</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_output_t" title="obs_output_t"><span class="n"><span class="pre">obs_output_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">output</span></span>, <a class="reference internal" href="reference-settings.html#c.obs_data_t" title="obs_data_t"><span class="n"><span class="pre">obs_data_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">settings</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_output_update" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Updates the settings for this output context.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_output_can_pause">
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_output_can_pause</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_output_t" title="obs_output_t"><span class="n"><span class="pre">obs_output_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">output</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_output_can_pause" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><em>true</em> if the output can be paused, <em>false</em> otherwise</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_output_pause">
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_output_pause</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_output_t" title="obs_output_t"><span class="n"><span class="pre">obs_output_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">output</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n"><span class="pre">pause</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_output_pause" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Pause an output (if supported by the output).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><em>true</em> if the output was paused successfully, <em>false</em>
+otherwise</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_output_paused">
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_output_paused</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_output_t" title="obs_output_t"><span class="n"><span class="pre">obs_output_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">output</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_output_paused" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><em>true</em> if the output is paused, <em>false</em> otherwise</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_output_get_settings">
+<a class="reference internal" href="reference-settings.html#c.obs_data_t" title="obs_data_t"><span class="n"><span class="pre">obs_data_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_output_get_settings</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_output_t" title="obs_output_t"><span class="n"><span class="pre">obs_output_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">output</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_output_get_settings" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>An incremented reference to the output’s settings</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_output_get_signal_handler">
+<a class="reference internal" href="reference-libobs-callback.html#c.signal_handler_t" title="signal_handler_t"><span class="n"><span class="pre">signal_handler_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_output_get_signal_handler</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_output_t" title="obs_output_t"><span class="n"><span class="pre">obs_output_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">output</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_output_get_signal_handler" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The signal handler of the output</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_output_get_proc_handler">
+<a class="reference internal" href="reference-libobs-callback.html#c.proc_handler_t" title="proc_handler_t"><span class="n"><span class="pre">proc_handler_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_output_get_proc_handler</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_output_t" title="obs_output_t"><span class="n"><span class="pre">obs_output_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">output</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_output_get_proc_handler" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The procedure handler of the output</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_output_set_media">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_output_set_media</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_output_t" title="obs_output_t"><span class="n"><span class="pre">obs_output_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">output</span></span>, <a class="reference internal" href="reference-libobs-media-io.html#c.video_t" title="video_t"><span class="n"><span class="pre">video_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">video</span></span>, <a class="reference internal" href="reference-libobs-media-io.html#c.audio_t" title="audio_t"><span class="n"><span class="pre">audio_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">audio</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_output_set_media" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Sets the current video/audio handlers for the output (typically
+<a class="reference internal" href="reference-core.html#c.obs_get_video" title="obs_get_video"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_get_video()</span></code></a> and <a class="reference internal" href="reference-core.html#c.obs_get_audio" title="obs_get_audio"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_get_audio()</span></code></a>).  Only used
+with raw outputs so they can catch the raw video/audio frames.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_output_video">
+<a class="reference internal" href="reference-libobs-media-io.html#c.video_t" title="video_t"><span class="n"><span class="pre">video_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_output_video</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_output_t" title="obs_output_t"><span class="n"><span class="pre">obs_output_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">output</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_output_video" title="Permalink to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.obs_output_audio">
+<a class="reference internal" href="reference-libobs-media-io.html#c.audio_t" title="audio_t"><span class="n"><span class="pre">audio_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_output_audio</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_output_t" title="obs_output_t"><span class="n"><span class="pre">obs_output_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">output</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_output_audio" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Gets the current video/audio handlers for the output.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_output_set_mixer">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_output_set_mixer</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_output_t" title="obs_output_t"><span class="n"><span class="pre">obs_output_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">output</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">mixer_idx</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_output_set_mixer" title="Permalink to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.obs_output_get_mixer">
+<span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_output_get_mixer</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_output_t" title="obs_output_t"><span class="n"><span class="pre">obs_output_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">output</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_output_get_mixer" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Sets/gets the current audio mixer for non-encoded outputs.  For
+multi-track outputs, this would be the equivalent of setting the mask
+only for the specified mixer index.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_output_set_mixers">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_output_set_mixers</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_output_t" title="obs_output_t"><span class="n"><span class="pre">obs_output_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">output</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">mixers</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_output_set_mixers" title="Permalink to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.obs_output_get_mixers">
+<span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_output_get_mixers</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_output_t" title="obs_output_t"><span class="n"><span class="pre">obs_output_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">output</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_output_get_mixers" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Sets/gets the current audio mixers (via mask) for non-encoded
+multi-track outputs.  If used with single-track outputs, the
+single-track output will use either the first set mixer track in the
+bitmask, or the first track if none is set in the bitmask.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_output_set_video_encoder">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_output_set_video_encoder</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_output_t" title="obs_output_t"><span class="n"><span class="pre">obs_output_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">output</span></span>, <a class="reference internal" href="reference-encoders.html#c.obs_encoder_t" title="obs_encoder_t"><span class="n"><span class="pre">obs_encoder_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">encoder</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_output_set_video_encoder" title="Permalink to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.obs_output_set_audio_encoder">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_output_set_audio_encoder</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_output_t" title="obs_output_t"><span class="n"><span class="pre">obs_output_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">output</span></span>, <a class="reference internal" href="reference-encoders.html#c.obs_encoder_t" title="obs_encoder_t"><span class="n"><span class="pre">obs_encoder_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">encoder</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">idx</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_output_set_audio_encoder" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Sets the video/audio encoders for an encoded output.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>encoder</strong> – The video/audio encoder</p></li>
+<li><p><strong>idx</strong> – The audio encoder index if the output supports
+multiple audio streams at once</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_output_get_video_encoder">
+<a class="reference internal" href="reference-encoders.html#c.obs_encoder_t" title="obs_encoder_t"><span class="n"><span class="pre">obs_encoder_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_output_get_video_encoder</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_output_t" title="obs_output_t"><span class="n"><span class="pre">obs_output_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">output</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_output_get_video_encoder" title="Permalink to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.obs_output_get_audio_encoder">
+<a class="reference internal" href="reference-encoders.html#c.obs_encoder_t" title="obs_encoder_t"><span class="n"><span class="pre">obs_encoder_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_output_get_audio_encoder</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_output_t" title="obs_output_t"><span class="n"><span class="pre">obs_output_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">output</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">idx</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_output_get_audio_encoder" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Gets the video/audio encoders for an encoded output.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>idx</strong> – The audio encoder index if the output supports
+multiple audio streams at once</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The video/audio encoder.  The reference is not
+incremented</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_output_set_service">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_output_set_service</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_output_t" title="obs_output_t"><span class="n"><span class="pre">obs_output_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">output</span></span>, <a class="reference internal" href="reference-services.html#c.obs_service_t" title="obs_service_t"><span class="n"><span class="pre">obs_service_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">service</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_output_set_service" title="Permalink to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.obs_output_get_service">
+<a class="reference internal" href="reference-services.html#c.obs_service_t" title="obs_service_t"><span class="n"><span class="pre">obs_service_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_output_get_service</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_output_t" title="obs_output_t"><span class="n"><span class="pre">obs_output_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">output</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_output_get_service" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Sets/gets the service for outputs that require services (such as RTMP
+outputs).  <em>obs_output_get_service</em> does not return an incremented
+reference.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_output_set_reconnect_settings">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_output_set_reconnect_settings</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_output_t" title="obs_output_t"><span class="n"><span class="pre">obs_output_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">output</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">retry_count</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">retry_sec</span></span><span class="sig-paren">)</span><span class="p"><span class="pre">;</span></span><a class="headerlink" href="#c.obs_output_set_reconnect_settings" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Sets the auto-reconnect settings for outputs that support it.  The
+retry time will double on each retry to prevent overloading services.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>retry_count</strong> – Maximum retry count.  Set to 0 to disable
+reconnecting</p></li>
+<li><p><strong>retry_sec</strong> – Starting retry wait duration, in seconds</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_output_get_total_bytes">
+<span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_output_get_total_bytes</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_output_t" title="obs_output_t"><span class="n"><span class="pre">obs_output_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">output</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_output_get_total_bytes" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Total bytes sent/processed</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_output_get_frames_dropped">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_output_get_frames_dropped</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_output_t" title="obs_output_t"><span class="n"><span class="pre">obs_output_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">output</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_output_get_frames_dropped" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Number of frames that were dropped due to network congestion</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_output_get_total_frames">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_output_get_total_frames</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_output_t" title="obs_output_t"><span class="n"><span class="pre">obs_output_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">output</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_output_get_total_frames" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Total frames sent/processed</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_output_set_preferred_size">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_output_set_preferred_size</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_output_t" title="obs_output_t"><span class="n"><span class="pre">obs_output_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">output</span></span>, <span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="n"><span class="pre">width</span></span>, <span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="n"><span class="pre">height</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_output_set_preferred_size" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Sets the preferred scaled resolution for this output.  Set width and height
+to 0 to disable scaling.</p>
+<p>If this output uses an encoder, it will call obs_encoder_set_scaled_size on
+the encoder before the stream is started.  If the encoder is already active,
+then this function will trigger a warning and do nothing.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_output_get_width">
+<span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_output_get_width</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_output_t" title="obs_output_t"><span class="n"><span class="pre">obs_output_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">output</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_output_get_width" title="Permalink to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.obs_output_get_height">
+<span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_output_get_height</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_output_t" title="obs_output_t"><span class="n"><span class="pre">obs_output_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">output</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_output_get_height" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The width/height of the output</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_output_get_congestion">
+<span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_output_get_congestion</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_output_t" title="obs_output_t"><span class="n"><span class="pre">obs_output_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">output</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_output_get_congestion" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The congestion value.  This value is used to visualize the
+current congestion of a network output.  For example, if
+there is no congestion, the value will be 0.0f, if it’s
+fully congested, the value will be 1.0f</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_output_get_connect_time_ms">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_output_get_connect_time_ms</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_output_t" title="obs_output_t"><span class="n"><span class="pre">obs_output_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">output</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_output_get_connect_time_ms" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>How long the output took to connect to a server, in
+milliseconds</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_output_reconnecting">
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_output_reconnecting</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_output_t" title="obs_output_t"><span class="n"><span class="pre">obs_output_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">output</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_output_reconnecting" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><em>true</em> if the output is currently reconnecting to a server,
+<em>false</em> otherwise</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_output_get_supported_video_codecs">
+<span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_output_get_supported_video_codecs</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_output_t" title="obs_output_t"><span class="n"><span class="pre">obs_output_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">output</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_output_get_supported_video_codecs" title="Permalink to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.obs_output_get_supported_audio_codecs">
+<span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_output_get_supported_audio_codecs</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_output_t" title="obs_output_t"><span class="n"><span class="pre">obs_output_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">output</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_output_get_supported_audio_codecs" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Supported video/audio codecs of an encoded output, separated
+by semicolen</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_output_get_flags">
+<span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_output_get_flags</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_output_t" title="obs_output_t"><span class="n"><span class="pre">obs_output_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">output</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_output_get_flags" title="Permalink to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.obs_get_output_flags">
+<span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_get_output_flags</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">id</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_get_output_flags" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The output capability flags</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<hr class="docutils" />
+<section id="functions-used-by-outputs">
+<h2>Functions used by outputs<a class="headerlink" href="#functions-used-by-outputs" title="Permalink to this headline"></a></h2>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_output_set_last_error">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_output_set_last_error</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_output_t" title="obs_output_t"><span class="n"><span class="pre">obs_output_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">output</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">message</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_output_set_last_error" title="Permalink to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.obs_output_get_last_error">
+<span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_output_get_last_error</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_output_t" title="obs_output_t"><span class="n"><span class="pre">obs_output_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">output</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_output_get_last_error" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Sets/gets the translated error message that is presented to a user in
+case of disconnection, inability to connect, etc.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_output_set_video_conversion">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_output_set_video_conversion</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_output_t" title="obs_output_t"><span class="n"><span class="pre">obs_output_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">output</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">video_scale_info</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">conversion</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_output_set_video_conversion" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Optionally sets the video conversion information.  Only used by raw
+outputs.</p>
+<p>Relevant data types used with this function:</p>
+</dd></dl>
+
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">enum</span><span class="w"> </span><span class="nc">video_format</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">VIDEO_FORMAT_NONE</span><span class="p">,</span><span class="w"></span>
+
+<span class="w">        </span><span class="cm">/* planar 420 format */</span><span class="w"></span>
+<span class="w">        </span><span class="n">VIDEO_FORMAT_I420</span><span class="p">,</span><span class="w"> </span><span class="cm">/* three-plane */</span><span class="w"></span>
+<span class="w">        </span><span class="n">VIDEO_FORMAT_NV12</span><span class="p">,</span><span class="w"> </span><span class="cm">/* two-plane, luma and packed chroma */</span><span class="w"></span>
+
+<span class="w">        </span><span class="cm">/* packed 422 formats */</span><span class="w"></span>
+<span class="w">        </span><span class="n">VIDEO_FORMAT_YVYU</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">VIDEO_FORMAT_YUY2</span><span class="p">,</span><span class="w"> </span><span class="cm">/* YUYV */</span><span class="w"></span>
+<span class="w">        </span><span class="n">VIDEO_FORMAT_UYVY</span><span class="p">,</span><span class="w"></span>
+
+<span class="w">        </span><span class="cm">/* packed uncompressed formats */</span><span class="w"></span>
+<span class="w">        </span><span class="n">VIDEO_FORMAT_RGBA</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">VIDEO_FORMAT_BGRA</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">VIDEO_FORMAT_BGRX</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">VIDEO_FORMAT_Y800</span><span class="p">,</span><span class="w"> </span><span class="cm">/* grayscale */</span><span class="w"></span>
+
+<span class="w">        </span><span class="cm">/* planar 4:4:4 */</span><span class="w"></span>
+<span class="w">        </span><span class="n">VIDEO_FORMAT_I444</span><span class="p">,</span><span class="w"></span>
+<span class="p">};</span><span class="w"></span>
+
+<span class="k">enum</span><span class="w"> </span><span class="nc">video_colorspace</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">VIDEO_CS_DEFAULT</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">VIDEO_CS_601</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">VIDEO_CS_709</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">VIDEO_CS_SRGB</span><span class="p">,</span><span class="w"></span>
+<span class="p">};</span><span class="w"></span>
+
+<span class="k">enum</span><span class="w"> </span><span class="nc">video_range_type</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">VIDEO_RANGE_DEFAULT</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">VIDEO_RANGE_PARTIAL</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">VIDEO_RANGE_FULL</span><span class="w"></span>
+<span class="p">};</span><span class="w"></span>
+
+<span class="k">struct</span><span class="w"> </span><span class="nc">video_scale_info</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">enum</span><span class="w"> </span><span class="nc">video_format</span><span class="w">     </span><span class="n">format</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="kt">uint32_t</span><span class="w">              </span><span class="n">width</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="kt">uint32_t</span><span class="w">              </span><span class="n">height</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="k">enum</span><span class="w"> </span><span class="nc">video_range_type</span><span class="w"> </span><span class="n">range</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="k">enum</span><span class="w"> </span><span class="nc">video_colorspace</span><span class="w"> </span><span class="n">colorspace</span><span class="p">;</span><span class="w"></span>
+<span class="p">};</span><span class="w"></span>
+</pre></div>
+</div>
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_output_set_audio_conversion">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_output_set_audio_conversion</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_output_t" title="obs_output_t"><span class="n"><span class="pre">obs_output_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">output</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">audio_convert_info</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">conversion</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_output_set_audio_conversion" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Optionally sets the audio conversion information.  Only used by raw
+outputs.</p>
+<p>Relevant data types used with this function:</p>
+</dd></dl>
+
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">enum</span><span class="w"> </span><span class="nc">audio_format</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">AUDIO_FORMAT_UNKNOWN</span><span class="p">,</span><span class="w"></span>
+
+<span class="w">        </span><span class="n">AUDIO_FORMAT_U8BIT</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">AUDIO_FORMAT_16BIT</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">AUDIO_FORMAT_32BIT</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">AUDIO_FORMAT_FLOAT</span><span class="p">,</span><span class="w"></span>
+
+<span class="w">        </span><span class="n">AUDIO_FORMAT_U8BIT_PLANAR</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">AUDIO_FORMAT_16BIT_PLANAR</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">AUDIO_FORMAT_32BIT_PLANAR</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">AUDIO_FORMAT_FLOAT_PLANAR</span><span class="p">,</span><span class="w"></span>
+<span class="p">};</span><span class="w"></span>
+
+<span class="k">enum</span><span class="w"> </span><span class="nc">speaker_layout</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">SPEAKERS_UNKNOWN</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">SPEAKERS_MONO</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">SPEAKERS_STEREO</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">SPEAKERS_2POINT1</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">SPEAKERS_4POINT0</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">SPEAKERS_4POINT1</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">SPEAKERS_5POINT1</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">SPEAKERS_5POINT1_SURROUND</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">SPEAKERS_7POINT1</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">SPEAKERS_7POINT1_SURROUND</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">SPEAKERS_SURROUND</span><span class="p">,</span><span class="w"></span>
+<span class="p">};</span><span class="w"></span>
+
+<span class="k">struct</span><span class="w"> </span><span class="nc">audio_convert_info</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="kt">uint32_t</span><span class="w">            </span><span class="n">samples_per_sec</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="k">enum</span><span class="w"> </span><span class="nc">audio_format</span><span class="w">   </span><span class="n">format</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="k">enum</span><span class="w"> </span><span class="nc">speaker_layout</span><span class="w"> </span><span class="n">speakers</span><span class="p">;</span><span class="w"></span>
+<span class="p">};</span><span class="w"></span>
+</pre></div>
+</div>
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_output_can_begin_data_capture">
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_output_can_begin_data_capture</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_output_t" title="obs_output_t"><span class="n"><span class="pre">obs_output_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">output</span></span>, <span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="n"><span class="pre">flags</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_output_can_begin_data_capture" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Determines whether video/audio capture (encoded or raw) is able to
+start.  Call this before initializing any output data to ensure that
+the output can start.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>flags</strong> – Set to 0 to initialize both audio/video, otherwise a
+bitwise OR combination of OBS_OUTPUT_VIDEO and/or
+OBS_OUTPUT_AUDIO</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><em>true</em> if data capture can begin</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_output_initialize_encoders">
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_output_initialize_encoders</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_output_t" title="obs_output_t"><span class="n"><span class="pre">obs_output_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">output</span></span>, <span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="n"><span class="pre">flags</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_output_initialize_encoders" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Initializes any encoders/services associated with the output.  This
+must be called for encoded outputs before calling
+<a class="reference internal" href="#c.obs_output_begin_data_capture" title="obs_output_begin_data_capture"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_output_begin_data_capture()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>flags</strong> – Set to 0 to initialize both audio/video, otherwise a
+bitwise OR combination of OBS_OUTPUT_VIDEO and/or
+OBS_OUTPUT_AUDIO</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><em>true</em> if successful, <em>false</em> otherwise</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_output_begin_data_capture">
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_output_begin_data_capture</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_output_t" title="obs_output_t"><span class="n"><span class="pre">obs_output_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">output</span></span>, <span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="n"><span class="pre">flags</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_output_begin_data_capture" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Begins data capture from raw media or encoders.  This is typically
+when the output actually activates (starts) internally.  Video/audio
+data will start being sent to the callbacks of the output.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>flags</strong> – Set to 0 to initialize both audio/video, otherwise a
+bitwise OR combination of OBS_OUTPUT_VIDEO and/or
+OBS_OUTPUT_AUDIO</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><em>true</em> if successful, <em>false</em> otherwise.  Typically the
+return value does not need to be checked if
+<a class="reference internal" href="#c.obs_output_can_begin_data_capture" title="obs_output_can_begin_data_capture"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_output_can_begin_data_capture()</span></code></a> was
+called</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_output_end_data_capture">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_output_end_data_capture</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_output_t" title="obs_output_t"><span class="n"><span class="pre">obs_output_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">output</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_output_end_data_capture" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Ends data capture of an output.  This is typically when the output
+actually intentionally deactivates (stops).  Video/audio data will
+stop being sent to the callbacks of the output.  The output will
+trigger the “stop” signal with the OBS_OUTPUT_SUCCESS code to
+indicate that the output has stopped successfully.  See
+<a class="reference internal" href="#output-signal-handler-reference"><span class="std std-ref">Output Signals</span></a> for more information on output
+signals.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_output_signal_stop">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_output_signal_stop</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_output_t" title="obs_output_t"><span class="n"><span class="pre">obs_output_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">output</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">code</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_output_signal_stop" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Ends data capture of an output with an output code, indicating that
+the output stopped unexpectedly.  This is typically used if for
+example the server was disconnected for some reason, or if there was
+an error saving to file.  The output will trigger the “stop” signal
+with the the desired code to indicate that the output has stopped
+successfully.  See <a class="reference internal" href="#output-signal-handler-reference"><span class="std std-ref">Output Signals</span></a> for more
+information on output signals.</p>
+<p><a class="reference internal" href="#c.obs_output_set_last_error" title="obs_output_set_last_error"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_output_set_last_error()</span></code></a> may be used in conjunction with
+these error codes to optionally relay more detailed error information
+to the user</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>code</strong> – <div class="line-block">
+<div class="line">Can be one of the following values:</div>
+<div class="line">OBS_OUTPUT_SUCCESS        - Successfully stopped</div>
+<div class="line">OBS_OUTPUT_BAD_PATH       - The specified path was invalid</div>
+<div class="line">OBS_OUTPUT_CONNECT_FAILED - Failed to connect to a server</div>
+<div class="line">OBS_OUTPUT_INVALID_STREAM - Invalid stream path</div>
+<div class="line">OBS_OUTPUT_ERROR          - Generic error</div>
+<div class="line">OBS_OUTPUT_DISCONNECTED   - Unexpectedly disconnected</div>
+<div class="line">OBS_OUTPUT_UNSUPPORTED    - The settings, video/audio format, or codecs are unsupported by this output</div>
+<div class="line">OBS_OUTPUT_NO_SPACE       - Ran out of disk space</div>
+</div>
+</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_output_get_pause_offset">
+<span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_output_get_pause_offset</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_output_t" title="obs_output_t"><span class="n"><span class="pre">obs_output_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">output</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_output_get_pause_offset" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Returns the current pause offset of the output.  Used with raw
+outputs to calculate system timestamps when using calculated
+timestamps (see FFmpeg output for an example).</p>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="reference-scenes.html" class="btn btn-neutral float-left" title="Scene API Reference (obs_scene_t)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="reference-encoders.html" class="btn btn-neutral float-right" title="Encoder API Reference (obs_encoder_t)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2017-2022, Hugh Bailey.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

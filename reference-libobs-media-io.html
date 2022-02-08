@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Media I/O API Reference (libobs/media-io) &mdash; OBS Studio 27.1.3 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="OBS Studio Frontend API" href="reference-frontend-api.html" />
+    <link rel="prev" title="Core Graphics API" href="reference-libobs-graphics-graphics.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> OBS Studio
+          </a>
+              <div class="version">
+                27.1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="backend-design.html">OBS Studio Backend Design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plugins.html">Plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="frontends.html">Frontends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="graphics.html">Rendering Graphics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scripting.html">Python/Lua Scripting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-core.html">OBS Core API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-modules.html">Module API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-core-objects.html">Core API Object Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-libobs-util.html">Platform/Utility API Reference (libobs/util)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-libobs-callback.html">Callback API Reference (libobs/callback)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-libobs-graphics.html">Graphics API Reference (libobs/graphics)</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Media I/O API Reference (libobs/media-io)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#video-handler">Video Handler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#audio-handler">Audio Handler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#resampler">Resampler</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reference-frontend-api.html">OBS Studio Frontend API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">OBS Studio</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Media I/O API Reference (libobs/media-io)</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/reference-libobs-media-io.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="media-i-o-api-reference-libobs-media-io">
+<h1>Media I/O API Reference (libobs/media-io)<a class="headerlink" href="#media-i-o-api-reference-libobs-media-io" title="Permalink to this headline"></a></h1>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;obs.h&gt;</span><span class="cp"></span>
+</pre></div>
+</div>
+<section id="video-handler">
+<h2>Video Handler<a class="headerlink" href="#video-handler" title="Permalink to this headline"></a></h2>
+<dl class="c type">
+<dt class="sig sig-object c" id="c.video_t">
+<span class="k"><span class="pre">type</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">video_t</span></span></span><a class="headerlink" href="#c.video_t" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Video output handler object</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c type">
+<dt class="sig sig-object c">
+<span class="sig-name descname"><span class="pre">enum</span> <span class="pre">video_format</span></span></dt>
+<dd><p>Video format.  Can be one of the following values:</p>
+<ul class="simple">
+<li><p>VIDEO_FORMAT_I420</p></li>
+<li><p>VIDEO_FORMAT_NV12</p></li>
+<li><p>VIDEO_FORMAT_YVYU</p></li>
+<li><p>VIDEO_FORMAT_YUY2</p></li>
+<li><p>VIDEO_FORMAT_UYVY</p></li>
+<li><p>VIDEO_FORMAT_RGBA</p></li>
+<li><p>VIDEO_FORMAT_BGRA</p></li>
+<li><p>VIDEO_FORMAT_BGRX</p></li>
+<li><p>VIDEO_FORMAT_Y800</p></li>
+<li><p>VIDEO_FORMAT_I444</p></li>
+</ul>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c type">
+<dt class="sig sig-object c">
+<span class="sig-name descname"><span class="pre">enum</span> <span class="pre">video_colorspace</span></span></dt>
+<dd><p>YUV color space.  Can be one of the following values:</p>
+<ul class="simple">
+<li><p>VIDEO_CS_DEFAULT - Equivalent to VIDEO_CS_709</p></li>
+<li><p>VIDEO_CS_601     - 601 color space</p></li>
+<li><p>VIDEO_CS_709     - 709 color space</p></li>
+<li><p>VIDEO_CS_SRGB    - sRGB color space</p></li>
+</ul>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c type">
+<dt class="sig sig-object c">
+<span class="sig-name descname"><span class="pre">enum</span> <span class="pre">video_range_type</span></span></dt>
+<dd><p>YUV color range.</p>
+<ul class="simple">
+<li><p>VIDEO_RANGE_DEFAULT - Equivalent to VIDEO_RANGE_PARTIAL</p></li>
+<li><p>VIDEO_RANGE_PARTIAL - Partial range</p></li>
+<li><p>VIDEO_RANGE_FULL    - Full range</p></li>
+</ul>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c type">
+<dt class="sig sig-object c">
+<span class="sig-name descname"><span class="pre">struct</span> <span class="pre">video_data</span></span></dt>
+<dd><p>Video frame structure.</p>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.video_data.data">
+<span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">video_data</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">data</span></span></span><span class="p"><span class="pre">[</span></span><span class="n"><span class="pre">MAX_AV_PLANES</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#c.video_data.data" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.video_data.linesize">
+<span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">video_data</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">linesize</span></span></span><span class="p"><span class="pre">[</span></span><span class="n"><span class="pre">MAX_AV_PLANES</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#c.video_data.linesize" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.video_data.timestamp">
+<span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">video_data</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">timestamp</span></span></span><a class="headerlink" href="#c.video_data.timestamp" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<hr class="docutils" />
+<dl class="c type">
+<dt class="sig sig-object c">
+<span class="sig-name descname"><span class="pre">struct</span> <span class="pre">video_output_info</span></span></dt>
+<dd><p>Video output handler information</p>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.video_output_info.name">
+<span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">video_output_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">name</span></span></span><a class="headerlink" href="#c.video_output_info.name" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.video_output_info.format">
+<span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="n"><span class="pre">video_format</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">video_output_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">format</span></span></span><a class="headerlink" href="#c.video_output_info.format" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.video_output_info.fps_num">
+<span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">video_output_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">fps_num</span></span></span><a class="headerlink" href="#c.video_output_info.fps_num" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.video_output_info.fps_den">
+<span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">video_output_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">fps_den</span></span></span><a class="headerlink" href="#c.video_output_info.fps_den" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.video_output_info.width">
+<span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">video_output_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">width</span></span></span><a class="headerlink" href="#c.video_output_info.width" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.video_output_info.height">
+<span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">video_output_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">height</span></span></span><a class="headerlink" href="#c.video_output_info.height" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.video_output_info.cache_size">
+<span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">video_output_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">cache_size</span></span></span><a class="headerlink" href="#c.video_output_info.cache_size" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.video_output_info.colorspace">
+<span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="n"><span class="pre">video_colorspace</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">video_output_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">colorspace</span></span></span><a class="headerlink" href="#c.video_output_info.colorspace" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.video_output_info.range">
+<span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="n"><span class="pre">video_range_type</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">video_output_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">range</span></span></span><a class="headerlink" href="#c.video_output_info.range" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.video_format_from_fourcc">
+<span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="n"><span class="pre">video_format</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">video_format_from_fourcc</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="n"><span class="pre">fourcc</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.video_format_from_fourcc" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Converts a fourcc value to a video format.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>forcecc</strong> – Fourcc value</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Video format</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.video_format_get_parameters">
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">video_format_get_parameters</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="n"><span class="pre">video_colorspace</span></span><span class="w"> </span><span class="n"><span class="pre">color_space</span></span>, <span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="n"><span class="pre">video_range_type</span></span><span class="w"> </span><span class="n"><span class="pre">range</span></span>, <span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="n"><span class="pre">matrix</span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">16</span></span><span class="p"><span class="pre">]</span></span>, <span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="n"><span class="pre">min_range</span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">3</span></span><span class="p"><span class="pre">]</span></span>, <span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="n"><span class="pre">max_range</span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">3</span></span><span class="p"><span class="pre">]</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.video_format_get_parameters" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Converts a color space/range to matrix/min/max values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>color_space</strong> – Color space to convert</p></li>
+<li><p><strong>range</strong> – Color range to convert</p></li>
+<li><p><strong>matrix</strong> – Pointer to the matrix</p></li>
+<li><p><strong>min_range</strong> – Pointer to get the minimum range value</p></li>
+<li><p><strong>max_range</strong> – Pointer to get the maximum range value</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.video_output_connect">
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">video_output_connect</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.video_t" title="video_t"><span class="n"><span class="pre">video_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">video</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">video_scale_info</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">conversion</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">callback</span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">param</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">video_data</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">frame</span></span><span class="p"><span class="pre">)</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">param</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.video_output_connect" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Connects a raw video callback to the video output handler.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>video</strong> – Video output handler object</p></li>
+<li><p><strong>callback</strong> – Callback to receive video data</p></li>
+<li><p><strong>param</strong> – Private data to pass to the callback</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.video_output_disconnect">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">video_output_disconnect</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.video_t" title="video_t"><span class="n"><span class="pre">video_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">video</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">callback</span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">param</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">video_data</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">frame</span></span><span class="p"><span class="pre">)</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">param</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.video_output_disconnect" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Disconnects a raw video callback from the video output handler.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>video</strong> – Video output handler object</p></li>
+<li><p><strong>callback</strong> – Callback</p></li>
+<li><p><strong>param</strong> – Private data</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.video_output_get_info">
+<span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">video_output_info</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">video_output_get_info</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.video_t" title="video_t"><span class="n"><span class="pre">video_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">video</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.video_output_get_info" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Gets the full video information of the video output handler.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>video</strong> – Video output handler object</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Video output info structure pointer</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.video_output_get_frame_time">
+<span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">video_output_get_frame_time</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.video_t" title="video_t"><span class="n"><span class="pre">video_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">video</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.video_output_get_frame_time" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Gets the frame interval of the video output handler.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>video</strong> – Video output handler object</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Video frame interval in nanoseconds</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.video_output_get_format">
+<span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="n"><span class="pre">video_format</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">video_output_get_format</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.video_t" title="video_t"><span class="n"><span class="pre">video_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">video</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.video_output_get_format" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Gets the video format of the video output handler.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>video</strong> – Video output handler object</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Video format</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.video_output_get_width">
+<span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">video_output_get_width</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.video_t" title="video_t"><span class="n"><span class="pre">video_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">video</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.video_output_get_width" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.video_output_get_height">
+<span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">video_output_get_height</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.video_t" title="video_t"><span class="n"><span class="pre">video_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">video</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.video_output_get_height" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Gets the width/height of the video output handler.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>video</strong> – Video output handler object</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Width/height</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.video_output_get_frame_rate">
+<span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">video_output_get_frame_rate</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.video_t" title="video_t"><span class="n"><span class="pre">video_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">video</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.video_output_get_frame_rate" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Gets the frame rate (as a floating point) of the video output
+handler.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>video</strong> – Video output handler object</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Frame rate</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.video_output_get_skipped_frames">
+<span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">video_output_get_skipped_frames</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.video_t" title="video_t"><span class="n"><span class="pre">video_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">video</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.video_output_get_skipped_frames" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Gets the skipped frame count of the video output handler.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>video</strong> – Video output handler object</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Skipped frame count</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.video_output_get_total_frames">
+<span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">video_output_get_total_frames</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.video_t" title="video_t"><span class="n"><span class="pre">video_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">video</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.video_output_get_total_frames" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Gets the total frames processed of the video output handler.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>video</strong> – Video output handler object</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Total frames processed</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<hr class="docutils" />
+<section id="audio-handler">
+<h2>Audio Handler<a class="headerlink" href="#audio-handler" title="Permalink to this headline"></a></h2>
+<dl class="c type">
+<dt class="sig sig-object c" id="c.audio_t">
+<span class="k"><span class="pre">type</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">audio_t</span></span></span><a class="headerlink" href="#c.audio_t" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<hr class="docutils" />
+<dl class="c type">
+<dt class="sig sig-object c">
+<span class="sig-name descname"><span class="pre">enum</span> <span class="pre">audio_format</span></span></dt>
+<dd><p>Audio format.  Can be one of the following values:</p>
+<ul class="simple">
+<li><p>AUDIO_FORMAT_UNKNOWN</p></li>
+<li><p>AUDIO_FORMAT_U8BIT</p></li>
+<li><p>AUDIO_FORMAT_16BIT</p></li>
+<li><p>AUDIO_FORMAT_32BIT</p></li>
+<li><p>AUDIO_FORMAT_FLOAT</p></li>
+<li><p>AUDIO_FORMAT_U8BIT_PLANAR</p></li>
+<li><p>AUDIO_FORMAT_16BIT_PLANAR</p></li>
+<li><p>AUDIO_FORMAT_32BIT_PLANAR</p></li>
+<li><p>AUDIO_FORMAT_FLOAT_PLANAR</p></li>
+</ul>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c type">
+<dt class="sig sig-object c">
+<span class="sig-name descname"><span class="pre">enum</span> <span class="pre">speaker_layout</span></span></dt>
+<dd><p>Speaker layout.  Can be one of the following values:</p>
+<ul class="simple">
+<li><p>SPEAKERS_UNKNOWN</p></li>
+<li><p>SPEAKERS_MONO</p></li>
+<li><p>SPEAKERS_STEREO</p></li>
+<li><p>SPEAKERS_2POINT1</p></li>
+<li><p>SPEAKERS_4POINT0</p></li>
+<li><p>SPEAKERS_4POINT1</p></li>
+<li><p>SPEAKERS_5POINT1</p></li>
+<li><p>SPEAKERS_5POINT1_SURROUND</p></li>
+<li><p>SPEAKERS_7POINT1</p></li>
+<li><p>SPEAKERS_7POINT1_SURROUND</p></li>
+<li><p>SPEAKERS_SURROUND</p></li>
+</ul>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c type">
+<dt class="sig sig-object c">
+<span class="sig-name descname"><span class="pre">struct</span> <span class="pre">audio_data</span></span></dt>
+<dd><p>Audio data structure.</p>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.audio_data.data">
+<span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">audio_data</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">data</span></span></span><span class="p"><span class="pre">[</span></span><span class="n"><span class="pre">MAX_AV_PLANES</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#c.audio_data.data" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.audio_data.frames">
+<span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">audio_data</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">frames</span></span></span><a class="headerlink" href="#c.audio_data.frames" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.audio_data.timestamp">
+<span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">audio_data</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">timestamp</span></span></span><a class="headerlink" href="#c.audio_data.timestamp" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<hr class="docutils" />
+<dl class="c type">
+<dt class="sig sig-object c">
+<span class="sig-name descname"><span class="pre">struct</span> <span class="pre">audio_output_data</span></span></dt>
+<dd></dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.audio_output_data.data">
+<span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">audio_output_data</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">data</span></span></span><span class="p"><span class="pre">[</span></span><span class="n"><span class="pre">MAX_AUDIO_CHANNELS</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#c.audio_output_data.data" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<hr class="docutils" />
+<dl class="c type">
+<dt class="sig sig-object c">
+<span class="sig-name descname"><span class="pre">struct</span> <span class="pre">audio_output_info</span></span></dt>
+<dd></dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.audio_output_info.name">
+<span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">audio_output_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">name</span></span></span><a class="headerlink" href="#c.audio_output_info.name" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.audio_output_info.samples_per_sec">
+<span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">audio_output_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">samples_per_sec</span></span></span><a class="headerlink" href="#c.audio_output_info.samples_per_sec" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.audio_output_info.format">
+<span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="n"><span class="pre">audio_format</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">audio_output_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">format</span></span></span><a class="headerlink" href="#c.audio_output_info.format" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.audio_output_info.speakers">
+<span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="n"><span class="pre">speaker_layout</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">audio_output_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">speakers</span></span></span><a class="headerlink" href="#c.audio_output_info.speakers" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.audio_output_info.input_callback">
+<span class="n"><span class="pre">audio_input_callback_t</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">audio_output_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">input_callback</span></span></span><a class="headerlink" href="#c.audio_output_info.input_callback" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.audio_output_info.input_param">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">audio_output_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">input_param</span></span></span><a class="headerlink" href="#c.audio_output_info.input_param" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<hr class="docutils" />
+<dl class="c type">
+<dt class="sig sig-object c">
+<span class="sig-name descname"><span class="pre">struct</span> <span class="pre">audio_convert_info</span></span></dt>
+<dd></dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.audio_convert_info.samples_per_sec">
+<span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">audio_convert_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">samples_per_sec</span></span></span><a class="headerlink" href="#c.audio_convert_info.samples_per_sec" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.audio_convert_info.format">
+<span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="n"><span class="pre">audio_format</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">audio_convert_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">format</span></span></span><a class="headerlink" href="#c.audio_convert_info.format" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.audio_convert_info.speakers">
+<span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="n"><span class="pre">speaker_layout</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">audio_convert_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">speakers</span></span></span><a class="headerlink" href="#c.audio_convert_info.speakers" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<hr class="docutils" />
+<dl class="c type">
+<dt class="sig sig-object c">
+<span class="sig-name descname"><span class="pre">typedef</span> <span class="pre">bool</span> <span class="pre">(*audio_input_callback_t)(void</span> <span class="pre">*param,</span> <span class="pre">uint64_t</span> <span class="pre">start_ts,</span> <span class="pre">uint64_t</span> <span class="pre">end_ts,</span> <span class="pre">uint64_t</span> <span class="pre">*new_ts,</span> <span class="pre">uint32_t</span> <span class="pre">active_mixers,</span> <span class="pre">struct</span> <span class="pre">audio_output_data</span> <span class="pre">*mixes)</span></span></dt>
+<dd><p>Audio input callback (typically used internally).</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.get_audio_channels">
+<span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_audio_channels</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="n"><span class="pre">speaker_layout</span></span><span class="w"> </span><span class="n"><span class="pre">speakers</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.get_audio_channels" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Converts a speaker layout to its audio channel count.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>speakers</strong> – Speaker layout enumeration</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Channel count</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.get_audio_bytes_per_channel">
+<span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_audio_bytes_per_channel</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="n"><span class="pre">audio_format</span></span><span class="w"> </span><span class="n"><span class="pre">format</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.get_audio_bytes_per_channel" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Gets the audio bytes per channel for a specific audio format.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>format</strong> – Audio format</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Bytes per channel</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.is_audio_planar">
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">is_audio_planar</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="n"><span class="pre">audio_format</span></span><span class="w"> </span><span class="n"><span class="pre">format</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.is_audio_planar" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Returns whether the audio format is a planar format.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>format</strong> – Audio format</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><em>true</em> if audio is planar, <em>false</em> otherwise</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.get_audio_planes">
+<span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_audio_planes</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="n"><span class="pre">audio_format</span></span><span class="w"> </span><span class="n"><span class="pre">format</span></span>, <span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="n"><span class="pre">speaker_layout</span></span><span class="w"> </span><span class="n"><span class="pre">speakers</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.get_audio_planes" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Gets the number of audio planes for a specific audio format and
+speaker layout.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>format</strong> – Audio format</p></li>
+<li><p><strong>speakers</strong> – Speaker layout</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Number of audio planes</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.get_audio_size">
+<span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_audio_size</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="n"><span class="pre">audio_format</span></span><span class="w"> </span><span class="n"><span class="pre">format</span></span>, <span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="n"><span class="pre">speaker_layout</span></span><span class="w"> </span><span class="n"><span class="pre">speakers</span></span>, <span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="n"><span class="pre">frames</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.get_audio_size" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Gets the audio block size for a specific frame out with the given
+format and speaker layout.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>format</strong> – Audio format</p></li>
+<li><p><strong>speakers</strong> – Speaker layout</p></li>
+<li><p><strong>frames</strong> – Audio frame count</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Audio block size</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.audio_frames_to_ns">
+<span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">audio_frames_to_ns</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">sample_rate</span></span>, <span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="n"><span class="pre">frames</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.audio_frames_to_ns" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Helper function to convert a specific number of audio frames to
+nanoseconds based upon its sample rate.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sample_rate</strong> – Sample rate</p></li>
+<li><p><strong>frames</strong> – Frame count</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Nanoseconds</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.ns_to_audio_frames">
+<span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ns_to_audio_frames</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">sample_rate</span></span>, <span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="n"><span class="pre">ns</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.ns_to_audio_frames" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Helper function to convert a specific number of nanoseconds to audio
+frame count based upon its sample rate.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sample_rate</strong> – Sample rate</p></li>
+<li><p><strong>ns</strong> – Nanoseconds</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Frame count</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c type">
+<dt class="sig sig-object c">
+<span class="sig-name descname"><span class="pre">typedef</span> <span class="pre">void</span> <span class="pre">(*audio_output_callback_t)(void</span> <span class="pre">*param,</span> <span class="pre">size_t</span> <span class="pre">mix_idx,</span> <span class="pre">struct</span> <span class="pre">audio_data</span> <span class="pre">*data)</span></span></dt>
+<dd><p>Audio output callback.  Typically used internally.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.audio_output_connect">
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">audio_output_connect</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.audio_t" title="audio_t"><span class="n"><span class="pre">audio_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">audio</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">mix_idx</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">audio_convert_info</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">conversion</span></span>, <span class="n"><span class="pre">audio_output_callback_t</span></span><span class="w"> </span><span class="n"><span class="pre">callback</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">param</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.audio_output_connect" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Connects a raw audio callback to the audio output handler.
+Optionally allows audio conversion if necessary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>audio</strong> – Audio output handler object</p></li>
+<li><p><strong>mix_idx</strong> – Mix index to get raw audio from</p></li>
+<li><p><strong>conversion</strong> – Audio conversion information, or <em>NULL</em> for no
+conversion</p></li>
+<li><p><strong>callback</strong> – Raw audio callback</p></li>
+<li><p><strong>param</strong> – Private data to pass to the callback</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.audio_output_disconnect">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">audio_output_disconnect</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.audio_t" title="audio_t"><span class="n"><span class="pre">audio_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">audio</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">mix_idx</span></span>, <span class="n"><span class="pre">audio_output_callback_t</span></span><span class="w"> </span><span class="n"><span class="pre">callback</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">param</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.audio_output_disconnect" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Disconnects a raw audio callback from the audio output handler.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>audio</strong> – Audio output handler object</p></li>
+<li><p><strong>mix_idx</strong> – Mix index to get raw audio from</p></li>
+<li><p><strong>callback</strong> – Raw audio callback</p></li>
+<li><p><strong>param</strong> – Private data to pass to the callback</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.audio_output_get_block_size">
+<span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">audio_output_get_block_size</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.audio_t" title="audio_t"><span class="n"><span class="pre">audio_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">audio</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.audio_output_get_block_size" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Gets the audio block size of an audio output handler.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>audio</strong> – Audio output handler object</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Audio block size</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.audio_output_get_planes">
+<span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">audio_output_get_planes</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.audio_t" title="audio_t"><span class="n"><span class="pre">audio_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">audio</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.audio_output_get_planes" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Gets the plane count of an audio output handler.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>audio</strong> – Audio output handler object</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Audio plane count</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.audio_output_get_channels">
+<span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">audio_output_get_channels</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.audio_t" title="audio_t"><span class="n"><span class="pre">audio_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">audio</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.audio_output_get_channels" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Gets the channel count of an audio output handler.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>audio</strong> – Audio output handler object</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Audio channel count</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.audio_output_get_sample_rate">
+<span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">audio_output_get_sample_rate</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.audio_t" title="audio_t"><span class="n"><span class="pre">audio_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">audio</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.audio_output_get_sample_rate" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Gets the sample rate of an audio output handler.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>audio</strong> – Audio output handler object</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Audio sample rate</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.audio_output_get_info">
+<span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">audio_output_info</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">audio_output_get_info</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.audio_t" title="audio_t"><span class="n"><span class="pre">audio_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">audio</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.audio_output_get_info" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Gets all audio information for an audio output handler.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>audio</strong> – Audio output handler object</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Pointer to audio output information structure</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<hr class="docutils" />
+<section id="resampler">
+<h2>Resampler<a class="headerlink" href="#resampler" title="Permalink to this headline"></a></h2>
+<p>FFmpeg wrapper to resample audio.</p>
+<dl class="c type">
+<dt class="sig sig-object c">
+<span class="sig-name descname"><span class="pre">typedef</span> <span class="pre">struct</span> <span class="pre">audio_resampler</span> <span class="pre">audio_resampler_t</span></span></dt>
+<dd></dd></dl>
+
+<hr class="docutils" />
+<dl class="c type">
+<dt class="sig sig-object c">
+<span class="sig-name descname"><span class="pre">struct</span> <span class="pre">resample_info</span></span></dt>
+<dd></dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.resample_info.samples_per_sec">
+<span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">resample_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">samples_per_sec</span></span></span><a class="headerlink" href="#c.resample_info.samples_per_sec" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.resample_info.format">
+<span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="n"><span class="pre">audio_format</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">resample_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">format</span></span></span><a class="headerlink" href="#c.resample_info.format" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.resample_info.speakers">
+<span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="n"><span class="pre">speaker_layout</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">resample_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">speakers</span></span></span><a class="headerlink" href="#c.resample_info.speakers" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.audio_resampler_create">
+<span class="n"><span class="pre">audio_resampler_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">audio_resampler_create</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">resample_info</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">dst</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">resample_info</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">src</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.audio_resampler_create" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Creates an audio resampler.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dst</strong> – Destination audio information</p></li>
+<li><p><strong>src</strong> – Source audio information</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Audio resampler object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.audio_resampler_destroy">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">audio_resampler_destroy</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">audio_resampler_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">resampler</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.audio_resampler_destroy" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Destroys an audio resampler.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>resampler</strong> – Audio resampler object</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.audio_resampler_resample">
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">audio_resampler_resample</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">audio_resampler_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">resampler</span></span>, <span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">output</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span>, <span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">out_frames</span></span>, <span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">ts_offset</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">input</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span>, <span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="n"><span class="pre">in_frames</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.audio_resampler_resample" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Resamples audio frames.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>resampler</strong> – Audio resampler object</p></li>
+<li><p><strong>output</strong> – Pointer to receive converted audio frames</p></li>
+<li><p><strong>out_frames</strong> – Pointer to receive converted audio frame count</p></li>
+<li><p><strong>ts_offset</strong> – Pointer to receive timestamp offset (in
+nanoseconds)</p></li>
+<li><p><strong>input</strong> (<span><span class="c-expr sig sig-inline c">const</span></span>) – Input frames to convert</p></li>
+<li><p><strong>in_frames</strong> – Input frame count</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="reference-libobs-graphics-graphics.html" class="btn btn-neutral float-left" title="Core Graphics API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="reference-frontend-api.html" class="btn btn-neutral float-right" title="OBS Studio Frontend API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2017-2022, Hugh Bailey.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

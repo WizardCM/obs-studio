@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dynamic Arrays &mdash; OBS Studio 27.1.3 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Dynamic Strings And String Helpers" href="reference-libobs-util-dstr.html" />
+    <link rel="prev" title="Config Files" href="reference-libobs-util-config-file.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> OBS Studio
+          </a>
+              <div class="version">
+                27.1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="backend-design.html">OBS Studio Backend Design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plugins.html">Plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="frontends.html">Frontends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="graphics.html">Rendering Graphics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scripting.html">Python/Lua Scripting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-core.html">OBS Core API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-modules.html">Module API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-core-objects.html">Core API Object Reference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="reference-libobs-util.html">Platform/Utility API Reference (libobs/util)</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="reference-libobs-util-base.html">Logging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-libobs-util-bmem.html">Memory Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-libobs-util-circlebuf.html">Circular Buffers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-libobs-util-config-file.html">Config Files</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Dynamic Arrays</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#dynamic-array-macros">Dynamic Array Macros</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="reference-libobs-util-dstr.html">Dynamic Strings And String Helpers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-libobs-util-platform.html">Platform Helpers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-libobs-util-profiler.html">Profiler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-libobs-util-serializers.html">Serializer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-libobs-util-serializers.html#array-output-serializer">Array Output Serializer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-libobs-util-serializers.html#file-input-output-serializers">File Input/Output Serializers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-libobs-util-text-lookup.html">Text Lookup Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-libobs-util-threading.html">Threading</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reference-libobs-callback.html">Callback API Reference (libobs/callback)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-libobs-graphics.html">Graphics API Reference (libobs/graphics)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-libobs-media-io.html">Media I/O API Reference (libobs/media-io)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-frontend-api.html">OBS Studio Frontend API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">OBS Studio</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="reference-libobs-util.html">Platform/Utility API Reference (libobs/util)</a> &raquo;</li>
+      <li>Dynamic Arrays</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/reference-libobs-util-darray.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="dynamic-arrays">
+<h1>Dynamic Arrays<a class="headerlink" href="#dynamic-arrays" title="Permalink to this headline"></a></h1>
+<p>Dynamically resizing arrays (a C equivalent to std::vector).</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;util/darray.h&gt;</span><span class="cp"></span>
+</pre></div>
+</div>
+<dl class="c type">
+<dt class="sig sig-object c">
+<span class="sig-name descname"><span class="pre">struct</span> <span class="pre">darray</span></span></dt>
+<dd><p>The base dynamic array structure.</p>
+</dd></dl>
+
+<dl class="c type">
+<dt class="sig sig-object c" id="c.DARRAY">
+<span class="k"><span class="pre">type</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">DARRAY</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">type</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.DARRAY" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Macro for a dynamic array based upon an actual type.  Use this with
+da_* macros.</p>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.darray.array">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">darray</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">array</span></span></span><a class="headerlink" href="#c.darray.array" title="Permalink to this definition"></a><br /></dt>
+<dd><p>The array pointer.</p>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.darray.num">
+<span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">darray</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">num</span></span></span><a class="headerlink" href="#c.darray.num" title="Permalink to this definition"></a><br /></dt>
+<dd><p>The number of items within the array.</p>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.darray.capacity">
+<span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">darray</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">capacity</span></span></span><a class="headerlink" href="#c.darray.capacity" title="Permalink to this definition"></a><br /></dt>
+<dd><p>The capacity of the array.</p>
+</dd></dl>
+
+<section id="dynamic-array-macros">
+<h2>Dynamic Array Macros<a class="headerlink" href="#dynamic-array-macros" title="Permalink to this headline"></a></h2>
+<p>These macro functions are used with variables created with the
+<strong>DARRAY</strong> type macro.  When using these functions, do not use the
+dynamic array value with a reference (&amp;) operator.  For example:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cm">/* creates an array of integers: 0..9 */</span><span class="w"></span>
+<span class="n">DARRAY</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="w"> </span><span class="n">array_of_integers</span><span class="p">;</span><span class="w"></span>
+<span class="n">da_init</span><span class="p">(</span><span class="n">array_of_integers</span><span class="p">);</span><span class="w"></span>
+
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">size_t</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="n">da_push_back</span><span class="p">(</span><span class="n">array_of_integers</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">i</span><span class="p">);</span><span class="w"></span>
+
+<span class="p">[...]</span><span class="w"></span>
+
+<span class="cm">/* free when complete */</span><span class="w"></span>
+<span class="n">da_free</span><span class="p">(</span><span class="n">array_of_integers</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.da_init">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">da_init</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">da</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.da_init" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Initializes a dynamic array.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>da</strong> – The dynamic array</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.da_free">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">da_free</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">da</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.da_free" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Frees a dynamic array.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>da</strong> – The dynamic array</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.da_end">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">da_end</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">da</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.da_end" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Gets a pointer to the last value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>da</strong> – The dynamic array</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The last value of a dynamic array, or <em>NULL</em> if empty.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.da_reserve">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">da_reserve</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">da</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">capacity</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.da_reserve" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Reserves a specific amount of buffer space for the dynamic array.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>da</strong> – The dynamic array</p></li>
+<li><p><strong>capacity</strong> – New capacity of the dynamic array</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.da_resize">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">da_resize</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">da</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">new_size</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.da_resize" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Resizes the dynamic array with zeroed values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>da</strong> – The dynamic array</p></li>
+<li><p><strong>size</strong> – New size of the dynamic array</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.da_copy">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">da_copy</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">da_dst</span></span>, <span class="n"><span class="pre">da_src</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.da_copy" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Makes a copy of a dynamic array.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>da_dst</strong> – The dynamic array to copy to</p></li>
+<li><p><strong>da_src</strong> – The dynamic array to copy from</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.da_copy_array">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">da_copy_array</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">da</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">src_array</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">size</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.da_copy_array" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Makes a copy of an array pointer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>da</strong> – The dynamic array</p></li>
+<li><p><strong>src_array</strong> – The array pointer to make a copy from</p></li>
+<li><p><strong>size</strong> – New size of the dynamic array</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.da_move">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">da_move</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">da_dst</span></span>, <span class="n"><span class="pre">da_src</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.da_move" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Moves one dynamic array variable to another without allocating new
+data.  <em>da_dst</em> is freed before moving, <em>da_dst</em> is set to <em>da_src</em>,
+then <em>da_src</em> is then zeroed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>da_dst</strong> – Destination variable</p></li>
+<li><p><strong>da_src</strong> – Source variable</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.da_find">
+<span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">da_find</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">da</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">item_data</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">starting_idx</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.da_find" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Finds a value based upon its data.  If the value cannot be found, the
+return value will be DARRAY_INVALID (-1).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>da</strong> – The dynamic array</p></li>
+<li><p><strong>item_data</strong> – The item data to find</p></li>
+<li><p><strong>starting_idx</strong> – The index to start from or 0 to search the
+entire array</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.da_push_back">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">da_push_back</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">da</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.da_push_back" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Pushes data to the back of the array.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>da</strong> – The dynamic array</p></li>
+<li><p><strong>data</strong> – Pointer to the new data to push</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.da_push_back_new">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">da_push_back_new</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">da</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.da_push_back_new" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Pushes a zeroed value to the back of the array, and returns a pointer
+to it.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>da</strong> – The dynamic array</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Pointer to the new value</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.da_push_back_array">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">da_push_back_array</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">da</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">src_array</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">item_count</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.da_push_back_array" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Pushes an array of values to the back of the array.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>da</strong> – The dynamic array</p></li>
+<li><p><strong>src_array</strong> – Pointer of the array of values</p></li>
+<li><p><strong>item_count</strong> – Number of items to push back</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.da_insert">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">da_insert</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">da</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">idx</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.da_insert" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Inserts a value at a given index.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>da</strong> – The dynamic array:</p></li>
+<li><p><strong>idx</strong> – Index where the new item will be inserted</p></li>
+<li><p><strong>data</strong> – Pointer to the item data to insert</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.da_insert_new">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">da_insert_new</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">da</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">idx</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.da_insert_new" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Inserts a new zeroed value at a specific index, and returns a pointer
+to it.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>da</strong> – The dynamic array</p></li>
+<li><p><strong>idx</strong> – Index to insert at</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Pointer to the new value</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.da_insert_da">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">da_insert_da</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">da_dst</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">idx</span></span>, <span class="n"><span class="pre">da_src</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.da_insert_da" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Inserts a dynamic array in to another dynamic array at a specific
+index.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>da_dst</strong> – Destination dynamic array being inserted in to</p></li>
+<li><p><strong>idx</strong> – Index to insert the data at</p></li>
+<li><p><strong>da_src</strong> – The dynamic array to insert</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.da_erase">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">da_erase</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">da</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">idx</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.da_erase" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Erases an item at a specific index.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>da</strong> – The dynamic array</p></li>
+<li><p><strong>idx</strong> – The index of the value to remove</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.da_erase_item">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">da_erase_item</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">da</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">item_data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.da_erase_item" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Erases an item that matches the value specified</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>da</strong> – The dynamic array</p></li>
+<li><p><strong>item_data</strong> – Pointer to the data to remove</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.da_erase_range">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">da_erase_range</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">da</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">start_idx</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">end_idx</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.da_erase_range" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Erases a range of values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>da</strong> – The dynamic array</p></li>
+<li><p><strong>start_idx</strong> – The starting index</p></li>
+<li><p><strong>end_idx</strong> – The ending index</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.da_pop_back">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">da_pop_back</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">da</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.da_pop_back" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Removes one item from the end of a dynamic array.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>da</strong> – The dynamic array</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.da_join">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">da_join</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">da_dst</span></span>, <span class="n"><span class="pre">da_src</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.da_join" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Pushes <em>da_src</em> to the end of <em>da_dst</em> and frees <em>da_src</em>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>da_dst</strong> – The destination dynamic array</p></li>
+<li><p><strong>da_src</strong> – The source dynamic array</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.da_split">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">da_split</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">da_dst1</span></span>, <span class="n"><span class="pre">da_dst2</span></span>, <span class="n"><span class="pre">da_src</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">split_idx</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.da_split" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Creates two dynamic arrays by splitting another dynamic array at a
+specific index.  If the destination arrays are not freed, they will
+be freed before getting their new values.  The array being split will
+not be freed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>da_dst1</strong> – Dynamic array that will get the lower half</p></li>
+<li><p><strong>da_dst2</strong> – Dynamic array that will get the upper half</p></li>
+<li><p><strong>da_src</strong> – Dynamic array to split</p></li>
+<li><p><strong>split_idx</strong> – Index to split <em>da_src</em> at</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.da_move_item">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">da_move_item</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">da</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">src_idx</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">dst_idx</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.da_move_item" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Moves an item from one index to another, moving data between if
+necessary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>da</strong> – The dynamic array</p></li>
+<li><p><strong>src_idx</strong> – The index of the item to move</p></li>
+<li><p><strong>dst_idx</strong> – The new index of where the item will be moved to</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.da_swap">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">da_swap</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">da</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">idx1</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">idx2</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.da_swap" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Swaps two values at the given indices.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>da</strong> – The dynamic array</p></li>
+<li><p><strong>idx1</strong> – Index of the first item to swap</p></li>
+<li><p><strong>idx2</strong> – Index of the second item to swap</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="reference-libobs-util-config-file.html" class="btn btn-neutral float-left" title="Config Files" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="reference-libobs-util-dstr.html" class="btn btn-neutral float-right" title="Dynamic Strings And String Helpers" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2017-2022, Hugh Bailey.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

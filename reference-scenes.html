@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scene API Reference (obs_scene_t) &mdash; OBS Studio 27.1.3 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Output API Reference (obs_output_t)" href="reference-outputs.html" />
+    <link rel="prev" title="Source API Reference (obs_source_t)" href="reference-sources.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> OBS Studio
+          </a>
+              <div class="version">
+                27.1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="backend-design.html">OBS Studio Backend Design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plugins.html">Plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="frontends.html">Frontends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="graphics.html">Rendering Graphics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scripting.html">Python/Lua Scripting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-core.html">OBS Core API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-modules.html">Module API Reference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="reference-core-objects.html">Core API Object Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="reference-sources.html">Source API Reference (obs_source_t)</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Scene API Reference (obs_scene_t)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#scene-item-transform-structure-obs-transform-info">Scene Item Transform Structure (obs_transform_info)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#scene-item-crop-structure-obs-sceneitem-crop">Scene Item Crop Structure (obs_sceneitem_crop)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#scene-item-order-info-structure-obs-sceneitem-order-info">Scene Item Order Info Structure (*obs_sceneitem_order_info)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#scene-signals">Scene Signals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#general-scene-functions">General Scene Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#scene-item-functions">Scene Item Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#scene-item-group-functions">Scene Item Group Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="reference-outputs.html">Output API Reference (obs_output_t)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-encoders.html">Encoder API Reference (obs_encoder_t)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-services.html">Service API Reference (obs_service_t)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-settings.html">Data Settings API Reference (obs_data_t)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-properties.html">Properties API Reference (obs_properties_t)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reference-libobs-util.html">Platform/Utility API Reference (libobs/util)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-libobs-callback.html">Callback API Reference (libobs/callback)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-libobs-graphics.html">Graphics API Reference (libobs/graphics)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-libobs-media-io.html">Media I/O API Reference (libobs/media-io)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-frontend-api.html">OBS Studio Frontend API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">OBS Studio</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="reference-core-objects.html">Core API Object Reference</a> &raquo;</li>
+      <li>Scene API Reference (obs_scene_t)</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/reference-scenes.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="scene-api-reference-obs-scene-t">
+<h1>Scene API Reference (obs_scene_t)<a class="headerlink" href="#scene-api-reference-obs-scene-t" title="Permalink to this headline"></a></h1>
+<p>A scene is a source which contains and renders other sources using
+specific transforms and/or filtering</p>
+<dl class="c type">
+<dt class="sig sig-object c" id="c.obs_scene_t">
+<span class="k"><span class="pre">type</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_scene_t</span></span></span><a class="headerlink" href="#c.obs_scene_t" title="Permalink to this definition"></a><br /></dt>
+<dd><p>A reference-counted scene object.</p>
+</dd></dl>
+
+<dl class="c type">
+<dt class="sig sig-object c" id="c.obs_sceneitem_t">
+<span class="k"><span class="pre">type</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_sceneitem_t</span></span></span><a class="headerlink" href="#c.obs_sceneitem_t" title="Permalink to this definition"></a><br /></dt>
+<dd><p>A reference-counted scene item object.</p>
+</dd></dl>
+
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;obs.h&gt;</span><span class="cp"></span>
+</pre></div>
+</div>
+<section id="scene-item-transform-structure-obs-transform-info">
+<h2>Scene Item Transform Structure (obs_transform_info)<a class="headerlink" href="#scene-item-transform-structure-obs-transform-info" title="Permalink to this headline"></a></h2>
+<dl class="c type">
+<dt class="sig sig-object c">
+<span class="sig-name descname"><span class="pre">struct</span> <span class="pre">obs_transform_info</span></span></dt>
+<dd><p>Scene item transform structure.</p>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.obs_transform_info.pos">
+<span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">vec2</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">obs_transform_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">pos</span></span></span><a class="headerlink" href="#c.obs_transform_info.pos" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Position.</p>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.obs_transform_info.rot">
+<span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">obs_transform_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">rot</span></span></span><a class="headerlink" href="#c.obs_transform_info.rot" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Rotation (degrees).</p>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.obs_transform_info.scale">
+<span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">vec2</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">obs_transform_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">scale</span></span></span><a class="headerlink" href="#c.obs_transform_info.scale" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Scale.</p>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.obs_transform_info.alignment">
+<span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">obs_transform_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">alignment</span></span></span><a class="headerlink" href="#c.obs_transform_info.alignment" title="Permalink to this definition"></a><br /></dt>
+<dd><p>The alignment of the scene item relative to its position.</p>
+<p>Can be 0 or a bitwise OR combination of one of the following values:</p>
+<ul class="simple">
+<li><p><strong>OBS_ALIGN_CENTER</strong></p></li>
+<li><p><strong>OBS_ALIGN_LEFT</strong></p></li>
+<li><p><strong>OBS_ALIGN_RIGHT</strong></p></li>
+<li><p><strong>OBS_ALIGN_TOP</strong></p></li>
+<li><p><strong>OBS_ALIGN_BOTTOM</strong></p></li>
+</ul>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.obs_transform_info.bounds_type">
+<span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="n"><span class="pre">obs_bounds_type</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">obs_transform_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">bounds_type</span></span></span><a class="headerlink" href="#c.obs_transform_info.bounds_type" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Can be one of the following values:</p>
+<ul class="simple">
+<li><p><strong>OBS_BOUNDS_NONE</strong>            - No bounding box</p></li>
+<li><p><strong>OBS_BOUNDS_STRETCH</strong>         - Stretch to the bounding box without preserving aspect ratio</p></li>
+<li><p><strong>OBS_BOUNDS_SCALE_INNER</strong>     - Scales with aspect ratio to inner bounding box rectangle</p></li>
+<li><p><strong>OBS_BOUNDS_SCALE_OUTER</strong>     - Scales with aspect ratio to outer bounding box rectangle</p></li>
+<li><p><strong>OBS_BOUNDS_SCALE_TO_WIDTH</strong>  - Scales with aspect ratio to the bounding box width</p></li>
+<li><p><strong>OBS_BOUNDS_SCALE_TO_HEIGHT</strong> - Scales with aspect ratio to the bounding box height</p></li>
+<li><p><strong>OBS_BOUNDS_MAX_ONLY</strong>        - Scales with aspect ratio, but only to the size of the source maximum</p></li>
+</ul>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.obs_transform_info.bounds_alignment">
+<span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">obs_transform_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">bounds_alignment</span></span></span><a class="headerlink" href="#c.obs_transform_info.bounds_alignment" title="Permalink to this definition"></a><br /></dt>
+<dd><p>The alignment of the source within the bounding box.</p>
+<p>Can be 0 or a bitwise OR combination of one of the following values:</p>
+<ul class="simple">
+<li><p><strong>OBS_ALIGN_CENTER</strong></p></li>
+<li><p><strong>OBS_ALIGN_LEFT</strong></p></li>
+<li><p><strong>OBS_ALIGN_RIGHT</strong></p></li>
+<li><p><strong>OBS_ALIGN_TOP</strong></p></li>
+<li><p><strong>OBS_ALIGN_BOTTOM</strong></p></li>
+</ul>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.obs_transform_info.bounds">
+<span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">vec2</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">obs_transform_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">bounds</span></span></span><a class="headerlink" href="#c.obs_transform_info.bounds" title="Permalink to this definition"></a><br /></dt>
+<dd><p>The bounding box (if a bounding box is enabled).</p>
+</dd></dl>
+
+</section>
+<section id="scene-item-crop-structure-obs-sceneitem-crop">
+<h2>Scene Item Crop Structure (obs_sceneitem_crop)<a class="headerlink" href="#scene-item-crop-structure-obs-sceneitem-crop" title="Permalink to this headline"></a></h2>
+<dl class="c type">
+<dt class="sig sig-object c">
+<span class="sig-name descname"><span class="pre">struct</span> <span class="pre">obs_sceneitem_crop</span></span></dt>
+<dd><p>Scene item crop structure.</p>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.obs_sceneitem_crop.left">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">obs_sceneitem_crop</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">left</span></span></span><a class="headerlink" href="#c.obs_sceneitem_crop.left" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Left crop value.</p>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.obs_sceneitem_crop.top">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">obs_sceneitem_crop</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">top</span></span></span><a class="headerlink" href="#c.obs_sceneitem_crop.top" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Top crop value.</p>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.obs_sceneitem_crop.right">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">obs_sceneitem_crop</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">right</span></span></span><a class="headerlink" href="#c.obs_sceneitem_crop.right" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Right crop value.</p>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.obs_sceneitem_crop.bottom">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">obs_sceneitem_crop</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">bottom</span></span></span><a class="headerlink" href="#c.obs_sceneitem_crop.bottom" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Bottom crop value.</p>
+</dd></dl>
+
+</section>
+<section id="scene-item-order-info-structure-obs-sceneitem-order-info">
+<h2>Scene Item Order Info Structure (*obs_sceneitem_order_info)<a class="headerlink" href="#scene-item-order-info-structure-obs-sceneitem-order-info" title="Permalink to this headline"></a></h2>
+<dl class="c type">
+<dt class="sig sig-object c">
+<span class="sig-name descname"><span class="pre">struct</span> <span class="pre">obs_sceneitem_order_info</span></span></dt>
+<dd><p>Scene item order info structure.</p>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.obs_sceneitem_order_info.group">
+<a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">obs_sceneitem_order_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">group</span></span></span><a class="headerlink" href="#c.obs_sceneitem_order_info.group" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Specifies the group this scene item belongs to, or <em>NULL</em> if none.</p>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.obs_sceneitem_order_info.item">
+<a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">obs_sceneitem_order_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">item</span></span></span><a class="headerlink" href="#c.obs_sceneitem_order_info.item" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Specifies the scene item.</p>
+</dd></dl>
+
+</section>
+<section id="scene-signals">
+<span id="scene-signal-reference"></span><h2>Scene Signals<a class="headerlink" href="#scene-signals" title="Permalink to this headline"></a></h2>
+<p><strong>item_add</strong> (ptr scene, ptr item)</p>
+<blockquote>
+<div><p>Called when a scene item has been added to the scene.</p>
+</div></blockquote>
+<p><strong>item_remove</strong> (ptr scene, ptr item)</p>
+<blockquote>
+<div><p>Called when a scene item has been removed from the scen.</p>
+</div></blockquote>
+<p><strong>reorder</strong> (ptr scene)</p>
+<blockquote>
+<div><p>Called when scene items have been reoredered in the scene.</p>
+</div></blockquote>
+<p><strong>refresh</strong> (ptr scene)</p>
+<blockquote>
+<div><p>Called when the entire scene item list needs to be refreshed.
+Usually this is only used when groups have changed.</p>
+</div></blockquote>
+<p><strong>item_visible</strong> (ptr scene, ptr item, bool visible)</p>
+<blockquote>
+<div><p>Called when a scene item’s visibility state changes.</p>
+</div></blockquote>
+<p><strong>item_locked</strong> (ptr scene, ptr item, bool locked)</p>
+<blockquote>
+<div><p>Called when a scene item has been locked or unlocked.</p>
+</div></blockquote>
+<p><strong>item_select</strong> (ptr scene, ptr item)
+<strong>item_deselect</strong> (ptr scene, ptr item)</p>
+<blockquote>
+<div><p>Called when a scene item has been selected/deselected.</p>
+<p>(Author’s note: These should be replaced)</p>
+</div></blockquote>
+<p><strong>item_transform</strong> (ptr scene, ptr item)</p>
+<blockquote>
+<div><p>Called when a scene item’s transform has changed.</p>
+</div></blockquote>
+</section>
+<section id="general-scene-functions">
+<h2>General Scene Functions<a class="headerlink" href="#general-scene-functions" title="Permalink to this headline"></a></h2>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_scene_create">
+<a class="reference internal" href="#c.obs_scene_t" title="obs_scene_t"><span class="n"><span class="pre">obs_scene_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_scene_create</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">name</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_scene_create" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – Name of the scene source.  If it’s not unique, it will
+be made unique</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A reference to a scene</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_scene_create_private">
+<a class="reference internal" href="#c.obs_scene_t" title="obs_scene_t"><span class="n"><span class="pre">obs_scene_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_scene_create_private</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">name</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_scene_create_private" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – Name of the scene source.  Does not have to be unique,
+or can be <em>NULL</em></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A reference to a private scene</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_scene_duplicate">
+<a class="reference internal" href="#c.obs_scene_t" title="obs_scene_t"><span class="n"><span class="pre">obs_scene_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_scene_duplicate</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_scene_t" title="obs_scene_t"><span class="n"><span class="pre">obs_scene_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">scene</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">name</span></span>, <span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="n"><span class="pre">obs_scene_duplicate_type</span></span><span class="w"> </span><span class="n"><span class="pre">type</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_scene_duplicate" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Duplicates a scene.  When a scene is duplicated, its sources can be
+just referenced, or fully duplicated.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – Name of the new scene source</p></li>
+<li><p><strong>type</strong> – <div class="line-block">
+<div class="line">Type of duplication:</div>
+<div class="line">OBS_SCENE_DUP_REFS         - Duplicates the scene, but scene items are only duplicated with references</div>
+<div class="line">OBS_SCENE_DUP_COPY         - Duplicates the scene, and scene items are also fully duplicated when possible</div>
+<div class="line">OBS_SCENE_DUP_PRIVATE_REFS - Duplicates with references, but the scene is a private source</div>
+<div class="line">OBS_SCENE_DUP_PRIVATE_COPY - Fully duplicates scene items when possible, but the scene and duplicates sources are private sources</div>
+</div>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A reference to a new scene</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_scene_addref">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_scene_addref</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_scene_t" title="obs_scene_t"><span class="n"><span class="pre">obs_scene_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">scene</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_scene_addref" title="Permalink to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.obs_scene_release">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_scene_release</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_scene_t" title="obs_scene_t"><span class="n"><span class="pre">obs_scene_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">scene</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_scene_release" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Adds/releases a reference to a scene.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_scene_add">
+<a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_scene_add</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_scene_t" title="obs_scene_t"><span class="n"><span class="pre">obs_scene_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">scene</span></span>, <a class="reference internal" href="reference-sources.html#c.obs_source_t" title="obs_source_t"><span class="n"><span class="pre">obs_source_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">source</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_scene_add" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A new scene item for a source within a scene.  Does not
+increment the reference</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_scene_get_source">
+<a class="reference internal" href="reference-sources.html#c.obs_source_t" title="obs_source_t"><span class="n"><span class="pre">obs_source_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_scene_get_source</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_scene_t" title="obs_scene_t"><span class="n"><span class="pre">obs_scene_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">scene</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_scene_get_source" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The scene’s source.  Does not increment the reference</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_scene_from_source">
+<a class="reference internal" href="#c.obs_scene_t" title="obs_scene_t"><span class="n"><span class="pre">obs_scene_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_scene_from_source</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="reference-sources.html#c.obs_source_t" title="obs_source_t"><span class="n"><span class="pre">obs_source_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">source</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_scene_from_source" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The scene context, or <em>NULL</em> if not a scene.  Does not
+increase the reference</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_scene_find_source">
+<a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_scene_find_source</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_scene_t" title="obs_scene_t"><span class="n"><span class="pre">obs_scene_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">scene</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">name</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_scene_find_source" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – The name of the source to find</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The scene item if found, otherwise <em>NULL</em> if not found</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_scene_find_source_recursive">
+<a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_scene_find_source_recursive</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_scene_t" title="obs_scene_t"><span class="n"><span class="pre">obs_scene_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">scene</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">name</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_scene_find_source_recursive" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Same as obs_scene_find_source, but also searches groups within the
+scene.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – The name of the source to find</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The scene item if found, otherwise <em>NULL</em> if not found</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_scene_find_sceneitem_by_id">
+<a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_scene_find_sceneitem_by_id</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_scene_t" title="obs_scene_t"><span class="n"><span class="pre">obs_scene_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">scene</span></span>, <span class="n"><span class="pre">int64_t</span></span><span class="w"> </span><span class="n"><span class="pre">id</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_scene_find_sceneitem_by_id" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>id</strong> – The unique numeric identifier of the scene item</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The scene item if found, otherwise <em>NULL</em> if not found</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_scene_enum_items">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_scene_enum_items</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_scene_t" title="obs_scene_t"><span class="n"><span class="pre">obs_scene_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">scene</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">callback</span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><a class="reference internal" href="#c.obs_scene_t" title="obs_scene_t"><span class="n"><span class="pre">obs_scene_t</span></span></a><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">)</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">param</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_scene_enum_items" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Enumerates scene items within a scene.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_scene_reorder_items">
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_scene_reorder_items</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_scene_t" title="obs_scene_t"><span class="n"><span class="pre">obs_scene_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">scene</span></span>, <a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">item_order</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">item_order_size</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_scene_reorder_items" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Reorders items within a scene.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_scene_reorder_items2">
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_scene_reorder_items2</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_scene_t" title="obs_scene_t"><span class="n"><span class="pre">obs_scene_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">scene</span></span>, <span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">obs_sceneitem_order_info</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">item_order</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">item_order_size</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_scene_reorder_items2" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Reorders items within a scene with groups and group sub-items.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_scene_prune_sources">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_scene_prune_sources</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_scene_t" title="obs_scene_t"><span class="n"><span class="pre">obs_scene_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">scene</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_scene_prune_sources" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Releases all sources from a scene that have been marked as removed by obs_source_remove.</p>
+</dd></dl>
+
+<hr class="docutils" />
+</section>
+<section id="scene-item-functions">
+<span id="scene-item-reference"></span><h2>Scene Item Functions<a class="headerlink" href="#scene-item-functions" title="Permalink to this headline"></a></h2>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_sceneitem_addref">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_sceneitem_addref</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">item</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_sceneitem_addref" title="Permalink to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.obs_sceneitem_release">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_sceneitem_release</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">item</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_sceneitem_release" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Adds/releases a reference to a scene item.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_sceneitem_remove">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_sceneitem_remove</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">item</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_sceneitem_remove" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Removes the scene item from the scene.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_sceneitem_get_scene">
+<a class="reference internal" href="#c.obs_scene_t" title="obs_scene_t"><span class="n"><span class="pre">obs_scene_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_sceneitem_get_scene</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">item</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_sceneitem_get_scene" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The scene associated with the scene item.  Does not
+increment the reference</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_sceneitem_get_source">
+<a class="reference internal" href="reference-sources.html#c.obs_source_t" title="obs_source_t"><span class="n"><span class="pre">obs_source_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_sceneitem_get_source</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">item</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_sceneitem_get_source" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The source associated with the scene item.  Does not
+increment the reference</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_scene_sceneitem_from_source">
+<a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_scene_sceneitem_from_source</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_scene_t" title="obs_scene_t"><span class="n"><span class="pre">obs_scene_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">scene</span></span>, <a class="reference internal" href="reference-sources.html#c.obs_source_t" title="obs_source_t"><span class="n"><span class="pre">obs_source_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">source</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_scene_sceneitem_from_source" title="Permalink to this definition"></a><br /></dt>
+<dd><p>This will add a reference to the sceneitem.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The sceneitem associated with a source in a scene. Returns NULL if not found.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_sceneitem_set_id">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_sceneitem_set_id</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">item</span></span><span class="sig-paren">)</span><span class="p"><span class="pre">;</span></span><a class="headerlink" href="#c.obs_sceneitem_set_id" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Sets the unique numeric identifier of the sceneitem. This is dangerous function and should not
+normally be used. It can cause errors within obs.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_sceneitem_get_id">
+<span class="n"><span class="pre">int64_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_sceneitem_get_id</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">item</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_sceneitem_get_id" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Gets the numeric identifier of the sceneitem.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Gets the unique numeric identifier of the scene item.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_scene_save_transform_states">
+<a class="reference internal" href="reference-settings.html#c.obs_data_t" title="obs_data_t"><span class="n"><span class="pre">obs_data_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_scene_save_transform_states</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_scene_t" title="obs_scene_t"><span class="n"><span class="pre">obs_scene_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">scene</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n"><span class="pre">all_items</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_scene_save_transform_states" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c">
+<span class="sig-name descname"><span class="pre">void</span> <span class="pre">obs_scene_load_transform_states(oconst</span> <span class="pre">char</span> <span class="pre">*states)</span></span></dt>
+<dd><p>Saves all the transformation states for the sceneitms in scene. When all_items is false, it
+will only save selected items</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Data containing transformation states for all* sceneitems in scene</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_sceneitem_set_pos">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_sceneitem_set_pos</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">item</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">vec2</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">pos</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_sceneitem_set_pos" title="Permalink to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.obs_sceneitem_get_pos">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_sceneitem_get_pos</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">item</span></span>, <span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">vec2</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">pos</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_sceneitem_get_pos" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Sets/gets the position of a scene item.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_sceneitem_set_rot">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_sceneitem_set_rot</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">item</span></span>, <span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="n"><span class="pre">rot_deg</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_sceneitem_set_rot" title="Permalink to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.obs_sceneitem_get_rot">
+<span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_sceneitem_get_rot</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">item</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_sceneitem_get_rot" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Sets/gets the rotation of a scene item.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_sceneitem_set_scale">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_sceneitem_set_scale</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">item</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">vec2</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">scale</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_sceneitem_set_scale" title="Permalink to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.obs_sceneitem_get_scale">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_sceneitem_get_scale</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">item</span></span>, <span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">vec2</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">scale</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_sceneitem_get_scale" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Sets/gets the scaling of the scene item.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_sceneitem_set_alignment">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_sceneitem_set_alignment</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">item</span></span>, <span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="n"><span class="pre">alignment</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_sceneitem_set_alignment" title="Permalink to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.obs_sceneitem_get_alignment">
+<span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_sceneitem_get_alignment</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">item</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_sceneitem_get_alignment" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Sets/gets the alignment of the scene item relative to its position.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>alignment</strong> – <div class="line-block">
+<div class="line">Can be any bitwise OR combination of:</div>
+<div class="line">OBS_ALIGN_CENTER</div>
+<div class="line">OBS_ALIGN_LEFT</div>
+<div class="line">OBS_ALIGN_RIGHT</div>
+<div class="line">OBS_ALIGN_TOP</div>
+<div class="line">OBS_ALIGN_BOTTOM</div>
+</div>
+</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_sceneitem_set_order">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_sceneitem_set_order</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">item</span></span>, <span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="n"><span class="pre">obs_order_movement</span></span><span class="w"> </span><span class="n"><span class="pre">movement</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_sceneitem_set_order" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Changes the scene item’s order relative to the other scene items
+within the scene.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>movement</strong> – <div class="line-block">
+<div class="line">Can be one of the following:</div>
+<div class="line">OBS_ORDER_MOVE_UP</div>
+<div class="line">OBS_ORDER_MOVE_DOWN</div>
+<div class="line">OBS_ORDER_MOVE_TOP</div>
+<div class="line">OBS_ORDER_MOVE_BOTTOM</div>
+</div>
+</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_sceneitem_set_order_position">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_sceneitem_set_order_position</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">item</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">position</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_sceneitem_set_order_position" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Changes the sceneitem’s order index.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_sceneitem_get_order_position">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_sceneitem_get_order_position</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">item</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_sceneitem_get_order_position" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Gets position of sceneitem in its scene.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_sceneitem_set_bounds_type">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_sceneitem_set_bounds_type</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">item</span></span>, <span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="n"><span class="pre">obs_bounds_type</span></span><span class="w"> </span><span class="n"><span class="pre">type</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_sceneitem_set_bounds_type" title="Permalink to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.obs_sceneitem_get_bounds_type">
+<span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="n"><span class="pre">obs_bounds_type</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_sceneitem_get_bounds_type</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">item</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_sceneitem_get_bounds_type" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Sets/gets the bounding box type of a scene item.  Bounding boxes are
+used to stretch/position the source relative to a specific bounding
+box of a specific size.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>type</strong> – <div class="line-block">
+<div class="line">Can be one of the following values:</div>
+<div class="line">OBS_BOUNDS_NONE            - No bounding box</div>
+<div class="line">OBS_BOUNDS_STRETCH         - Stretch to the bounding box without preserving aspect ratio</div>
+<div class="line">OBS_BOUNDS_SCALE_INNER     - Scales with aspect ratio to inner bounding box rectangle</div>
+<div class="line">OBS_BOUNDS_SCALE_OUTER     - Scales with aspect ratio to outer bounding box rectangle</div>
+<div class="line">OBS_BOUNDS_SCALE_TO_WIDTH  - Scales with aspect ratio to the bounding box width</div>
+<div class="line">OBS_BOUNDS_SCALE_TO_HEIGHT - Scales with aspect ratio to the bounding box height</div>
+<div class="line">OBS_BOUNDS_MAX_ONLY        - Scales with aspect ratio, but only to the size of the source maximum</div>
+</div>
+</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_sceneitem_set_bounds_alignment">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_sceneitem_set_bounds_alignment</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">item</span></span>, <span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="n"><span class="pre">alignment</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_sceneitem_set_bounds_alignment" title="Permalink to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.obs_sceneitem_get_bounds_alignment">
+<span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_sceneitem_get_bounds_alignment</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">item</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_sceneitem_get_bounds_alignment" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Sets/gets the alignment of the source within the bounding box.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>alignment</strong> – <div class="line-block">
+<div class="line">Can be any bitwise OR combination of:</div>
+<div class="line">OBS_ALIGN_CENTER</div>
+<div class="line">OBS_ALIGN_LEFT</div>
+<div class="line">OBS_ALIGN_RIGHT</div>
+<div class="line">OBS_ALIGN_TOP</div>
+<div class="line">OBS_ALIGN_BOTTOM</div>
+</div>
+</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_sceneitem_set_bounds">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_sceneitem_set_bounds</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">item</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">vec2</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">bounds</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_sceneitem_set_bounds" title="Permalink to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.obs_sceneitem_get_bounds">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_sceneitem_get_bounds</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">item</span></span>, <span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">vec2</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">bounds</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_sceneitem_get_bounds" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Sets/gets the bounding box width/height of the scene item.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_sceneitem_set_info">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_sceneitem_set_info</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">item</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">obs_transform_info</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">info</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_sceneitem_set_info" title="Permalink to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.obs_sceneitem_get_info">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_sceneitem_get_info</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">item</span></span>, <span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">obs_transform_info</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">info</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_sceneitem_get_info" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Sets/gets the transform information of the scene item.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_sceneitem_get_draw_transform">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_sceneitem_get_draw_transform</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">item</span></span>, <span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">matrix4</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">transform</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_sceneitem_get_draw_transform" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Gets the transform matrix of the scene item used for drawing the
+source.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_sceneitem_get_box_transform">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_sceneitem_get_box_transform</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">item</span></span>, <span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">matrix4</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">transform</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_sceneitem_get_box_transform" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Gets the transform matrix of the scene item used for the bounding box
+or edges of the scene item.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_sceneitem_set_visible">
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_sceneitem_set_visible</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">item</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n"><span class="pre">visible</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_sceneitem_set_visible" title="Permalink to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.obs_sceneitem_visible">
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_sceneitem_visible</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">item</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_sceneitem_visible" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Sets/gets the visibility state of the scene item.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_sceneitem_set_locked">
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_sceneitem_set_locked</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">item</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n"><span class="pre">locked</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_sceneitem_set_locked" title="Permalink to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.obs_sceneitem_locked">
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_sceneitem_locked</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">item</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_sceneitem_locked" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Sets/gets the locked/unlocked state of the scene item.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_sceneitem_set_crop">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_sceneitem_set_crop</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">item</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">obs_sceneitem_crop</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">crop</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_sceneitem_set_crop" title="Permalink to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.obs_sceneitem_get_crop">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_sceneitem_get_crop</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">item</span></span>, <span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">obs_sceneitem_crop</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">crop</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_sceneitem_get_crop" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Sets/gets the cropping of the scene item.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_sceneitem_set_scale_filter">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_sceneitem_set_scale_filter</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">item</span></span>, <span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="n"><span class="pre">obs_scale_type</span></span><span class="w"> </span><span class="n"><span class="pre">filter</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_sceneitem_set_scale_filter" title="Permalink to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.obs_sceneitem_get_scale_filter">
+<span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="n"><span class="pre">obs_scale_type</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_sceneitem_get_scale_filter</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">item</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_sceneitem_get_scale_filter" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Sets/gets the scale filter used for the scene item.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filter</strong> – <div class="line-block">
+<div class="line">Can be one of the following values:</div>
+<div class="line">OBS_SCALE_DISABLE</div>
+<div class="line">OBS_SCALE_POINT</div>
+<div class="line">OBS_SCALE_BICUBIC</div>
+<div class="line">OBS_SCALE_BILINEAR</div>
+<div class="line">OBS_SCALE_LANCZOS</div>
+</div>
+</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_sceneitem_set_blending_mode">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_sceneitem_set_blending_mode</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">item</span></span>, <span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="n"><span class="pre">obs_blending_type</span></span><span class="w"> </span><span class="n"><span class="pre">type</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_sceneitem_set_blending_mode" title="Permalink to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.obs_sceneitem_get_blending_mode">
+<span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="n"><span class="pre">obs_blending_type</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_sceneitem_get_blending_mode</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">item</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_sceneitem_get_blending_mode" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Sets/gets the blending mode used for the scene item.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>type</strong> – <div class="line-block">
+<div class="line">Can be one of the following values:</div>
+<div class="line">OBS_BLEND_NORMAL</div>
+<div class="line">OBS_BLEND_ADDITIVE</div>
+<div class="line">OBS_BLEND_SUBTRACT</div>
+<div class="line">OBS_BLEND_SCREEN</div>
+<div class="line">OBS_BLEND_MULTIPLY</div>
+<div class="line">OBS_BLEND_LIGHTEN</div>
+<div class="line">OBS_BLEND_DARKEN</div>
+</div>
+</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_sceneitem_defer_update_begin">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_sceneitem_defer_update_begin</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">item</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_sceneitem_defer_update_begin" title="Permalink to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.obs_sceneitem_defer_update_end">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_sceneitem_defer_update_end</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">item</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_sceneitem_defer_update_end" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Allows the ability to call any one of the transform functions without
+updating the internal matrices until obs_sceneitem_defer_update_end
+has been called.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_sceneitem_get_private_settings">
+<a class="reference internal" href="reference-settings.html#c.obs_data_t" title="obs_data_t"><span class="n"><span class="pre">obs_data_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_sceneitem_get_private_settings</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">item</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_sceneitem_get_private_settings" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>An incremented reference to the private settings of the
+scene item.  Allows the front-end to set custom information
+which is saved with the scene item</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_sceneitem_set_show_transition">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_sceneitem_set_show_transition</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">item</span></span>, <a class="reference internal" href="reference-sources.html#c.obs_source_t" title="obs_source_t"><span class="n"><span class="pre">obs_source_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">transition</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_sceneitem_set_show_transition" title="Permalink to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.obs_sceneitem_set_hide_transition">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_sceneitem_set_hide_transition</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">item</span></span>, <a class="reference internal" href="reference-sources.html#c.obs_source_t" title="obs_source_t"><span class="n"><span class="pre">obs_source_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">transition</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_sceneitem_set_hide_transition" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Set a transition for showing or hiding a scene item. Set <em>NULL</em> to remove the transition.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_sceneitem_get_show_transition">
+<a class="reference internal" href="reference-sources.html#c.obs_source_t" title="obs_source_t"><span class="n"><span class="pre">obs_source_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_sceneitem_get_show_transition</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">item</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_sceneitem_get_show_transition" title="Permalink to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.obs_sceneitem_get_hide_transition">
+<a class="reference internal" href="reference-sources.html#c.obs_source_t" title="obs_source_t"><span class="n"><span class="pre">obs_source_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_sceneitem_get_hide_transition</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">item</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_sceneitem_get_hide_transition" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The transition for showing or hiding a scene item. <em>NULL</em> if no transition is set.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_sceneitem_set_show_transition_duration">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_sceneitem_set_show_transition_duration</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">item</span></span>, <span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="n"><span class="pre">duration_ms</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_sceneitem_set_show_transition_duration" title="Permalink to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.obs_sceneitem_set_hide_transition_duration">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_sceneitem_set_hide_transition_duration</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">item</span></span>, <span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="n"><span class="pre">duration_ms</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_sceneitem_set_hide_transition_duration" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Set transition duration for showing or hiding a scene item.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_sceneitem_get_show_transition_duration">
+<span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_sceneitem_get_show_transition_duration</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">item</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_sceneitem_get_show_transition_duration" title="Permalink to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.obs_sceneitem_get_hide_transition_duration">
+<span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_sceneitem_get_hide_transition_duration</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">item</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_sceneitem_get_hide_transition_duration" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The transition duration in ms for showing or hiding a scene item.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_sceneitem_do_transition">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_sceneitem_do_transition</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">item</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n"><span class="pre">visible</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_sceneitem_do_transition" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Start the transition for showing or hiding a scene item.</p>
+</dd></dl>
+
+<hr class="docutils" />
+</section>
+<section id="scene-item-group-functions">
+<span id="scene-item-group-reference"></span><h2>Scene Item Group Functions<a class="headerlink" href="#scene-item-group-functions" title="Permalink to this headline"></a></h2>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_scene_add_group">
+<a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_scene_add_group</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_scene_t" title="obs_scene_t"><span class="n"><span class="pre">obs_scene_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">scene</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">name</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_scene_add_group" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Adds a group with the specified name.  Does not signal the scene with
+the <em>refresh</em> signal.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>scene</strong> – Scene to add the group to</p></li>
+<li><p><strong>name</strong> – Name of the group</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The new group’s scene item</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_scene_add_group2">
+<a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_scene_add_group2</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_scene_t" title="obs_scene_t"><span class="n"><span class="pre">obs_scene_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">scene</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">name</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n"><span class="pre">signal</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_scene_add_group2" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Adds a group with the specified name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>scene</strong> – Scene to add the group to</p></li>
+<li><p><strong>name</strong> – Name of the group</p></li>
+<li><p><strong>signal</strong> – If <em>true</em>, signals the scene with the <em>refresh</em>
+signal</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The new group’s scene item</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_scene_insert_group">
+<a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_scene_insert_group</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_scene_t" title="obs_scene_t"><span class="n"><span class="pre">obs_scene_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">scene</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">name</span></span>, <a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">items</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">count</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_scene_insert_group" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Creates a group out of the specified scene items.  The group will be
+inserted at the top scene item.  Does not signal the scene with the
+<em>refresh</em> signal.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>scene</strong> – Scene to add the group to</p></li>
+<li><p><strong>name</strong> – Name of the group</p></li>
+<li><p><strong>items</strong> – Array of scene items to put in a group</p></li>
+<li><p><strong>count</strong> – Number of scene items in the array</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The new group’s scene item</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_scene_insert_group2">
+<a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_scene_insert_group2</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_scene_t" title="obs_scene_t"><span class="n"><span class="pre">obs_scene_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">scene</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">name</span></span>, <a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">items</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">count</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n"><span class="pre">signal</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_scene_insert_group2" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Creates a group out of the specified scene items.  The group will be
+inserted at the top scene item.  Does not signal a refresh.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>scene</strong> – Scene to add the group to</p></li>
+<li><p><strong>name</strong> – Name of the group</p></li>
+<li><p><strong>items</strong> – Array of scene items to put in a group</p></li>
+<li><p><strong>count</strong> – Number of scene items in the array</p></li>
+<li><p><strong>signal</strong> – If <em>true</em>, signals the scene with the <em>refresh</em>
+signal</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The new group’s scene item</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_scene_get_group">
+<a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_scene_get_group</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_scene_t" title="obs_scene_t"><span class="n"><span class="pre">obs_scene_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">scene</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">name</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_scene_get_group" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Finds a group within a scene by its name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>scene</strong> – Scene to find the group within</p></li>
+<li><p><strong>name</strong> – The name of the group to find</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The group scene item, or <em>NULL</em> if not found</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_group_from_source">
+<a class="reference internal" href="#c.obs_scene_t" title="obs_scene_t"><span class="n"><span class="pre">obs_scene_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_group_from_source</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="reference-sources.html#c.obs_source_t" title="obs_source_t"><span class="n"><span class="pre">obs_source_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">source</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_group_from_source" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The group context, or <em>NULL</em> if not a group.  Does not
+increase the reference</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_group_or_scene_from_source">
+<a class="reference internal" href="#c.obs_scene_t" title="obs_scene_t"><span class="n"><span class="pre">obs_scene_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_group_or_scene_from_source</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="reference-sources.html#c.obs_source_t" title="obs_source_t"><span class="n"><span class="pre">obs_source_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">source</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_group_or_scene_from_source" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The context for the source, regardless of if it is a
+group or a scene.  <em>NULL</em> if neither.  Does not increase
+the reference</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_sceneitem_is_group">
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_sceneitem_is_group</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">item</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_sceneitem_is_group" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>item</strong> – Scene item</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><em>true</em> if scene item is a group, <em>false</em> otherwise</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_sceneitem_group_get_scene">
+<a class="reference internal" href="#c.obs_scene_t" title="obs_scene_t"><span class="n"><span class="pre">obs_scene_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_sceneitem_group_get_scene</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">group</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_sceneitem_group_get_scene" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>group</strong> – Group scene item</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Scene of the group, or <em>NULL</em> if not a group</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_sceneitem_group_ungroup">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_sceneitem_group_ungroup</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">group</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_sceneitem_group_ungroup" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Ungroups the specified group.  Scene items within the group will be
+placed where the group was.  Does not signal the scene with the
+<em>refresh</em> signal.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_sceneitem_group_ungroup2">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_sceneitem_group_ungroup2</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">group</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n"><span class="pre">signal</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_sceneitem_group_ungroup2" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Ungroups the specified group.  Scene items within the group will be
+placed where the group was.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>group</strong> – Group scene item</p></li>
+<li><p><strong>signal</strong> – If <em>true</em>, signals the scene with the <em>refresh</em>
+signal</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_sceneitem_group_add_item">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_sceneitem_group_add_item</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">group</span></span>, <a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">item</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_sceneitem_group_add_item" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Adds a scene item to a group.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_sceneitem_group_remove_item">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_sceneitem_group_remove_item</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">item</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_sceneitem_group_remove_item" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Removes a scene item from a group.  The item will be placed before
+the group in the main scene.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_sceneitem_get_group">
+<a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_sceneitem_get_group</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">item</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_sceneitem_get_group" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Returns the parent group of a scene item.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>item</strong> – Scene item to get the group of</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The parent group of the scene item, or <em>NULL</em> if not in
+a group</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_sceneitem_group_from_scene">
+<a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_sceneitem_group_from_scene</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_scene_t" title="obs_scene_t"><span class="n"><span class="pre">obs_scene_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">scene</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_sceneitem_group_from_scene" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The group associated with the scene, or <em>NULL</em> if the
+specified scene is not a group.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_sceneitem_group_from_source">
+<a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_sceneitem_group_from_source</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="reference-sources.html#c.obs_source_t" title="obs_source_t"><span class="n"><span class="pre">obs_source_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">source</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_sceneitem_group_from_source" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The group associated with the scene’s source, or <em>NULL</em> if
+the specified source is not a group.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_sceneitem_group_enum_items">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_sceneitem_group_enum_items</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">group</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">callback</span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><a class="reference internal" href="#c.obs_scene_t" title="obs_scene_t"><span class="n"><span class="pre">obs_scene_t</span></span></a><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">)</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">param</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_sceneitem_group_enum_items" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Enumerates scene items within a group.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_sceneitem_defer_group_resize_begin">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_sceneitem_defer_group_resize_begin</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">item</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_sceneitem_defer_group_resize_begin" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_sceneitem_defer_group_resize_end">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_sceneitem_defer_group_resize_end</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">item</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_sceneitem_defer_group_resize_end" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Allows the ability to call any one of the transform functions on
+scene items within a group without updating the internal matrices of
+the group until obs_sceneitem_defer_group_resize_end has been called.</p>
+<p>This is necessary if the user is resizing items while they are within
+a group, as the group’s transform will automatically update its
+transform every frame otherwise.</p>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="reference-sources.html" class="btn btn-neutral float-left" title="Source API Reference (obs_source_t)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="reference-outputs.html" class="btn btn-neutral float-right" title="Output API Reference (obs_output_t)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2017-2022, Hugh Bailey.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

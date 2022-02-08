@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Graphics API Reference (libobs/graphics) &mdash; OBS Studio 27.1.3 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Effects (Shaders)" href="reference-libobs-graphics-effects.html" />
+    <link rel="prev" title="Callback API Reference (libobs/callback)" href="reference-libobs-callback.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> OBS Studio
+          </a>
+              <div class="version">
+                27.1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="backend-design.html">OBS Studio Backend Design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plugins.html">Plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="frontends.html">Frontends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="graphics.html">Rendering Graphics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scripting.html">Python/Lua Scripting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-core.html">OBS Core API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-modules.html">Module API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-core-objects.html">Core API Object Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-libobs-util.html">Platform/Utility API Reference (libobs/util)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-libobs-callback.html">Callback API Reference (libobs/callback)</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Graphics API Reference (libobs/graphics)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reference-libobs-graphics-effects.html">Effects (Shaders)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-libobs-graphics-vec2.html">2-Component Vector</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-libobs-graphics-vec3.html">3-Component Vector</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-libobs-graphics-vec4.html">4-Component Vector</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-libobs-graphics-quat.html">Quaternion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-libobs-graphics-matrix4.html">Matrix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-libobs-graphics-math.html">Extra Math Functions/Macros</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-libobs-graphics-image-file.html">Image File Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-libobs-graphics-axisang.html">Axis Angle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-libobs-graphics-graphics.html">Core Graphics API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reference-libobs-media-io.html">Media I/O API Reference (libobs/media-io)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-frontend-api.html">OBS Studio Frontend API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">OBS Studio</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Graphics API Reference (libobs/graphics)</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/reference-libobs-graphics.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="graphics-api-reference-libobs-graphics">
+<h1>Graphics API Reference (libobs/graphics)<a class="headerlink" href="#graphics-api-reference-libobs-graphics" title="Permalink to this headline"></a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="reference-libobs-graphics-effects.html">Effects (Shaders)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-libobs-graphics-vec2.html">2-Component Vector</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-libobs-graphics-vec3.html">3-Component Vector</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-libobs-graphics-vec4.html">4-Component Vector</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-libobs-graphics-quat.html">Quaternion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-libobs-graphics-matrix4.html">Matrix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-libobs-graphics-math.html">Extra Math Functions/Macros</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-libobs-graphics-image-file.html">Image File Helper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-libobs-graphics-axisang.html">Axis Angle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-libobs-graphics-graphics.html">Core Graphics API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reference-libobs-graphics-graphics.html#graphics-enumerations">Graphics Enumerations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-libobs-graphics-graphics.html#graphics-structures">Graphics Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-libobs-graphics-graphics.html#initialization-functions">Initialization Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-libobs-graphics-graphics.html#matrix-stack-functions">Matrix Stack Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-libobs-graphics-graphics.html#draw-functions">Draw Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-libobs-graphics-graphics.html#swap-chains">Swap Chains</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-libobs-graphics-graphics.html#resource-loading">Resource Loading</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-libobs-graphics-graphics.html#id1">Draw Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-libobs-graphics-graphics.html#texture-functions">Texture Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-libobs-graphics-graphics.html#cube-texture-functions">Cube Texture Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-libobs-graphics-graphics.html#staging-surface-functions">Staging Surface Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-libobs-graphics-graphics.html#z-stencil-functions">Z-Stencil Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-libobs-graphics-graphics.html#sampler-state-functions">Sampler State Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-libobs-graphics-graphics.html#vertex-buffer-functions">Vertex Buffer Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-libobs-graphics-graphics.html#index-buffer-functions">Index Buffer Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-libobs-graphics-graphics.html#display-duplicator-windows-only">Display Duplicator (Windows Only)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-libobs-graphics-graphics.html#render-helper-functions">Render Helper Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-libobs-graphics-graphics.html#graphics-types">Graphics Types</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="reference-libobs-callback.html" class="btn btn-neutral float-left" title="Callback API Reference (libobs/callback)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="reference-libobs-graphics-effects.html" class="btn btn-neutral float-right" title="Effects (Shaders)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2017-2022, Hugh Bailey.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

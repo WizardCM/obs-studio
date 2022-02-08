@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Plugins &mdash; OBS Studio 27.1.3 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Frontends" href="frontends.html" />
+    <link rel="prev" title="OBS Studio Backend Design" href="backend-design.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> OBS Studio
+          </a>
+              <div class="version">
+                27.1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="backend-design.html">OBS Studio Backend Design</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Plugins</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#plugin-module-headers">Plugin Module Headers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#common-directory-structure-and-cmakelists-txt">Common Directory Structure and CMakeLists.txt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#native-plugin-initialization">Native Plugin Initialization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sources">Sources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#outputs">Outputs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#encoders">Encoders</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#services">Services</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#settings">Settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#properties">Properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#localization">Localization</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="frontends.html">Frontends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="graphics.html">Rendering Graphics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scripting.html">Python/Lua Scripting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-core.html">OBS Core API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-modules.html">Module API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-core-objects.html">Core API Object Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-libobs-util.html">Platform/Utility API Reference (libobs/util)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-libobs-callback.html">Callback API Reference (libobs/callback)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-libobs-graphics.html">Graphics API Reference (libobs/graphics)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-libobs-media-io.html">Media I/O API Reference (libobs/media-io)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-frontend-api.html">OBS Studio Frontend API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">OBS Studio</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Plugins</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/plugins.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="plugins">
+<h1>Plugins<a class="headerlink" href="#plugins" title="Permalink to this headline"></a></h1>
+<p>Almost all custom functionality is added through plugin modules, which
+are typically dynamic libraries or scripts.  The ability to capture
+and/or output audio/video, make a recording, output to an RTMP stream,
+encode in x264 are all examples of things that are accomplished via
+plugin modules.</p>
+<p>Plugins can implement sources, outputs, encoders, and services.</p>
+<section id="plugin-module-headers">
+<h2>Plugin Module Headers<a class="headerlink" href="#plugin-module-headers" title="Permalink to this headline"></a></h2>
+<p>These are some notable headers commonly used by plugins:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/jp9000/obs-studio/blob/master/libobs/obs-module.h">libobs/obs-module.h</a> – The primary header used for creating plugin
+modules.  This file automatically includes the following files:</p>
+<ul>
+<li><p><a class="reference external" href="https://github.com/jp9000/obs-studio/blob/master/libobs/obs.h">libobs/obs.h</a> – The main libobs header.  This file automatically
+includes the following files:</p>
+<ul>
+<li><p><a class="reference external" href="https://github.com/jp9000/obs-studio/blob/master/libobs/obs-source.h">libobs/obs-source.h</a> – Used for implementing sources in plugin
+modules</p></li>
+<li><p><a class="reference external" href="https://github.com/jp9000/obs-studio/blob/master/libobs/obs-output.h">libobs/obs-output.h</a> – Used for implementing outputs in plugin
+modules</p></li>
+<li><p><a class="reference external" href="https://github.com/jp9000/obs-studio/blob/master/libobs/obs-encoder.h">libobs/obs-encoder.h</a> – Used for implementing encoders in
+plugin modules</p></li>
+<li><p><a class="reference external" href="https://github.com/jp9000/obs-studio/blob/master/libobs/obs-service.h">libobs/obs-service.h</a> – Used for implementing services in
+plugin modules</p></li>
+<li><p><a class="reference external" href="https://github.com/jp9000/obs-studio/blob/master/libobs/obs-data.h">libobs/obs-data.h</a> – Used for managing settings for libobs
+objects</p></li>
+<li><p><a class="reference external" href="https://github.com/jp9000/obs-studio/blob/master/libobs/obs-properties.h">libobs/obs-properties.h</a> – Used for generating properties for
+libobs objects</p></li>
+<li><p><a class="reference external" href="https://github.com/jp9000/obs-studio/blob/master/libobs/graphics/graphics.h">libobs/graphics/graphics.h</a> – Used for graphics rendering</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="common-directory-structure-and-cmakelists-txt">
+<h2>Common Directory Structure and CMakeLists.txt<a class="headerlink" href="#common-directory-structure-and-cmakelists-txt" title="Permalink to this headline"></a></h2>
+<p>The common way source files are organized is to have one file for plugin
+initialization, and then specific files for each individual object
+you’re implementing.  For example, if you were to create a plugin called
+‘my-plugin’, you’d have something like my-plugin.c where plugin
+initialization is done, my-source.c for the definition of a custom
+source, my-output.c for the definition of a custom output, etc.  (This
+is not a rule of course)</p>
+<p>This is an example of a common directory structure for a native plugin
+module:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">my</span><span class="o">-</span><span class="n">plugin</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">locale</span><span class="o">/</span><span class="n">en</span><span class="o">-</span><span class="n">US</span><span class="o">.</span><span class="n">ini</span>
+<span class="n">my</span><span class="o">-</span><span class="n">plugin</span><span class="o">/</span><span class="n">CMakeLists</span><span class="o">.</span><span class="n">txt</span>
+<span class="n">my</span><span class="o">-</span><span class="n">plugin</span><span class="o">/</span><span class="n">my</span><span class="o">-</span><span class="n">plugin</span><span class="o">.</span><span class="n">c</span>
+<span class="n">my</span><span class="o">-</span><span class="n">plugin</span><span class="o">/</span><span class="n">my</span><span class="o">-</span><span class="n">source</span><span class="o">.</span><span class="n">c</span>
+<span class="n">my</span><span class="o">-</span><span class="n">plugin</span><span class="o">/</span><span class="n">my</span><span class="o">-</span><span class="n">output</span><span class="o">.</span><span class="n">c</span>
+<span class="n">my</span><span class="o">-</span><span class="n">plugin</span><span class="o">/</span><span class="n">my</span><span class="o">-</span><span class="n">encoder</span><span class="o">.</span><span class="n">c</span>
+<span class="n">my</span><span class="o">-</span><span class="n">plugin</span><span class="o">/</span><span class="n">my</span><span class="o">-</span><span class="n">service</span><span class="o">.</span><span class="n">c</span>
+</pre></div>
+</div>
+<p>This would be an example of a common CMakeLists.txt file associated with
+these files:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># my-plugin/CMakeLists.txt
+
+project(my-plugin)
+
+set(my-plugin_SOURCES
+      my-plugin.c
+      my-source.c
+      my-output.c
+      my-encoder.c
+      my-service.c)
+
+add_library(my-plugin MODULE
+      ${my-plugin_SOURCES})
+target_link_libraries(my-plugin
+      libobs)
+
+install_obs_plugin_with_data(my-plugin data)
+</pre></div>
+</div>
+</section>
+<section id="native-plugin-initialization">
+<h2>Native Plugin Initialization<a class="headerlink" href="#native-plugin-initialization" title="Permalink to this headline"></a></h2>
+<p>To create a native plugin module, you will need to include the
+<a class="reference external" href="https://github.com/jp9000/obs-studio/blob/master/libobs/obs-module.h">libobs/obs-module.h</a> header, use <code class="xref c c-func docutils literal notranslate"><span class="pre">OBS_DECLARE_MODULE()</span></code> macro,
+then create a definition of the function <a class="reference internal" href="reference-modules.html#c.obs_module_load" title="obs_module_load"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_module_load()</span></code></a>.
+In your <a class="reference internal" href="reference-modules.html#c.obs_module_load" title="obs_module_load"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_module_load()</span></code></a> function, you then register any of
+your custom sources, outputs, encoders, or services.  See the
+<a class="reference internal" href="reference-modules.html"><span class="doc">Module API Reference</span></a> for more information.</p>
+<p>The following is an example of my-plugin.c, which would register one
+object of each type:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cm">/* my-plugin.c */</span><span class="w"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;obs-module.h&gt;</span><span class="cp"></span>
+
+<span class="cm">/* Defines common functions (required) */</span><span class="w"></span>
+<span class="n">OBS_DECLARE_MODULE</span><span class="p">()</span><span class="w"></span>
+
+<span class="cm">/* Implements common ini-based locale (optional) */</span><span class="w"></span>
+<span class="n">OBS_MODULE_USE_DEFAULT_LOCALE</span><span class="p">(</span><span class="s">&quot;my-plugin&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;en-US&quot;</span><span class="p">)</span><span class="w"></span>
+
+<span class="k">extern</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">obs_source_info</span><span class="w">  </span><span class="n">my_source</span><span class="p">;</span><span class="w">  </span><span class="cm">/* Defined in my-source.c  */</span><span class="w"></span>
+<span class="k">extern</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">obs_output_info</span><span class="w">  </span><span class="n">my_output</span><span class="p">;</span><span class="w">  </span><span class="cm">/* Defined in my-output.c  */</span><span class="w"></span>
+<span class="k">extern</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">obs_encoder_info</span><span class="w"> </span><span class="n">my_encoder</span><span class="p">;</span><span class="w"> </span><span class="cm">/* Defined in my-encoder.c */</span><span class="w"></span>
+<span class="k">extern</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">obs_service_info</span><span class="w"> </span><span class="n">my_service</span><span class="p">;</span><span class="w"> </span><span class="cm">/* Defined in my-service.c */</span><span class="w"></span>
+
+<span class="kt">bool</span><span class="w"> </span><span class="nf">obs_module_load</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">obs_register_source</span><span class="p">(</span><span class="o">&amp;</span><span class="n">my_source</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="n">obs_register_output</span><span class="p">(</span><span class="o">&amp;</span><span class="n">my_output</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="n">obs_register_encoder</span><span class="p">(</span><span class="o">&amp;</span><span class="n">my_encoder</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="n">obs_register_service</span><span class="p">(</span><span class="o">&amp;</span><span class="n">my_service</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</section>
+<section id="sources">
+<span id="plugins-sources"></span><h2>Sources<a class="headerlink" href="#sources" title="Permalink to this headline"></a></h2>
+<p>Sources are used to render video and/or audio on stream.  Things such as
+capturing displays/games/audio, playing a video, showing an image, or
+playing audio.  Sources can also be used to implement audio and video
+filters as well as transitions.  The <a class="reference external" href="https://github.com/jp9000/obs-studio/blob/master/libobs/obs-source.h">libobs/obs-source.h</a> file is the
+dedicated header for implementing sources.  See the
+<a class="reference internal" href="reference-sources.html"><span class="doc">Source API Reference (obs_source_t)</span></a> for more information.</p>
+<p>For example, to implement a source object, you need to define an
+<code class="xref c c-type docutils literal notranslate"><span class="pre">obs_source_info</span></code> structure and fill it out with information and
+callbacks related to your source:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cm">/* my-source.c */</span><span class="w"></span>
+
+<span class="p">[...]</span><span class="w"></span>
+
+<span class="k">struct</span><span class="w"> </span><span class="nc">obs_source_info</span><span class="w"> </span><span class="n">my_source</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="p">.</span><span class="n">id</span><span class="w">           </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;my_source&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="p">.</span><span class="n">type</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="n">OBS_SOURCE_TYPE_INPUT</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="p">.</span><span class="n">output_flags</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">OBS_SOURCE_VIDEO</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="p">.</span><span class="n">get_name</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="n">my_source_name</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="p">.</span><span class="n">create</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="n">my_source_create</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="p">.</span><span class="n">destroy</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="n">my_source_destroy</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="p">.</span><span class="n">update</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="n">my_source_update</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="p">.</span><span class="n">video_render</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">my_source_render</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="p">.</span><span class="n">get_width</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="n">my_source_width</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="p">.</span><span class="n">get_height</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">my_source_height</span><span class="w"></span>
+<span class="p">};</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Then, in my-plugin.c, you would call <a class="reference internal" href="reference-sources.html#c.obs_register_source" title="obs_register_source"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_register_source()</span></code></a> in
+<a class="reference internal" href="reference-modules.html#c.obs_module_load" title="obs_module_load"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_module_load()</span></code></a> to register the source with libobs.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cm">/* my-plugin.c */</span><span class="w"></span>
+
+<span class="p">[...]</span><span class="w"></span>
+
+<span class="k">extern</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">obs_source_info</span><span class="w">  </span><span class="n">my_source</span><span class="p">;</span><span class="w">  </span><span class="cm">/* Defined in my-source.c  */</span><span class="w"></span>
+
+<span class="kt">bool</span><span class="w"> </span><span class="nf">obs_module_load</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">obs_register_source</span><span class="p">(</span><span class="o">&amp;</span><span class="n">my_source</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">        </span><span class="p">[...]</span><span class="w"></span>
+
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Some simple examples of sources:</p>
+<ul class="simple">
+<li><p>Synchronous video source: The <a class="reference external" href="https://github.com/jp9000/obs-studio/blob/master/plugins/image-source/image-source.c">image source</a></p></li>
+<li><p>Asynchronous video source: The <a class="reference external" href="https://github.com/jp9000/obs-studio/blob/master/test/test-input/test-random.c">random texture test source</a></p></li>
+<li><p>Audio source: The <a class="reference external" href="https://github.com/jp9000/obs-studio/blob/master/test/test-input/test-sinewave.c">sine wave test source</a></p></li>
+<li><p>Video filter: The <a class="reference external" href="https://github.com/jp9000/obs-studio/blob/master/test/test-input/test-filter.c">test video filter</a></p></li>
+<li><p>Audio filter: The <a class="reference external" href="https://github.com/jp9000/obs-studio/blob/master/plugins/obs-filters/gain-filter.c">gain audio filter</a></p></li>
+</ul>
+</section>
+<section id="outputs">
+<span id="plugins-outputs"></span><h2>Outputs<a class="headerlink" href="#outputs" title="Permalink to this headline"></a></h2>
+<p>Outputs allow the ability to output the currently rendering audio/video.
+Streaming and recording are two common examples of outputs, but not the
+only types of outputs.  Outputs can receive the raw data or receive
+encoded data.  The <a class="reference external" href="https://github.com/jp9000/obs-studio/blob/master/libobs/obs-output.h">libobs/obs-output.h</a> file is the dedicated header
+for implementing outputs.  See the <a class="reference internal" href="reference-outputs.html"><span class="doc">Output API Reference (obs_output_t)</span></a> for more
+information.</p>
+<p>For example, to implement an output object, you need to define an
+<code class="xref c c-type docutils literal notranslate"><span class="pre">obs_output_info</span></code> structure and fill it out with information and
+callbacks related to your output:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cm">/* my-output.c */</span><span class="w"></span>
+
+<span class="p">[...]</span><span class="w"></span>
+
+<span class="k">struct</span><span class="w"> </span><span class="nc">obs_output_info</span><span class="w"> </span><span class="n">my_output</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="p">.</span><span class="n">id</span><span class="w">                   </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;my_output&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="p">.</span><span class="n">flags</span><span class="w">                </span><span class="o">=</span><span class="w"> </span><span class="n">OBS_OUTPUT_AV</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">OBS_OUTPUT_ENCODED</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="p">.</span><span class="n">get_name</span><span class="w">             </span><span class="o">=</span><span class="w"> </span><span class="n">my_output_name</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="p">.</span><span class="n">create</span><span class="w">               </span><span class="o">=</span><span class="w"> </span><span class="n">my_output_create</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="p">.</span><span class="n">destroy</span><span class="w">              </span><span class="o">=</span><span class="w"> </span><span class="n">my_output_destroy</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="p">.</span><span class="n">start</span><span class="w">                </span><span class="o">=</span><span class="w"> </span><span class="n">my_output_start</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="p">.</span><span class="n">stop</span><span class="w">                 </span><span class="o">=</span><span class="w"> </span><span class="n">my_output_stop</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="p">.</span><span class="n">encoded_packet</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="n">my_output_data</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="p">.</span><span class="n">get_total_bytes</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="n">my_output_total_bytes</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="p">.</span><span class="n">encoded_video_codecs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;h264&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="p">.</span><span class="n">encoded_audio_codecs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;aac&quot;</span><span class="w"></span>
+<span class="p">};</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Then, in my-plugin.c, you would call <a class="reference internal" href="reference-outputs.html#c.obs_register_output" title="obs_register_output"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_register_output()</span></code></a> in
+<a class="reference internal" href="reference-modules.html#c.obs_module_load" title="obs_module_load"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_module_load()</span></code></a> to register the output with libobs.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cm">/* my-plugin.c */</span><span class="w"></span>
+
+<span class="p">[...]</span><span class="w"></span>
+
+<span class="k">extern</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">obs_output_info</span><span class="w">  </span><span class="n">my_output</span><span class="p">;</span><span class="w">  </span><span class="cm">/* Defined in my-output.c  */</span><span class="w"></span>
+
+<span class="kt">bool</span><span class="w"> </span><span class="nf">obs_module_load</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">obs_register_output</span><span class="p">(</span><span class="o">&amp;</span><span class="n">my_output</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">        </span><span class="p">[...]</span><span class="w"></span>
+
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Some examples of outputs:</p>
+<ul class="simple">
+<li><p>Encoded video/audio outputs:</p>
+<ul>
+<li><p>The <a class="reference external" href="https://github.com/jp9000/obs-studio/blob/master/plugins/obs-outputs/flv-output.c">FLV output</a></p></li>
+<li><p>The <a class="reference external" href="https://github.com/jp9000/obs-studio/blob/master/plugins/obs-ffmpeg/obs-ffmpeg-mux.c">FFmpeg muxer output</a></p></li>
+<li><p>The <a class="reference external" href="https://github.com/jp9000/obs-studio/blob/master/plugins/obs-outputs/rtmp-stream.c">RTMP stream output</a></p></li>
+</ul>
+</li>
+<li><p>Raw video/audio outputs:</p>
+<ul>
+<li><p>The <a class="reference external" href="https://github.com/jp9000/obs-studio/blob/master/plugins/obs-ffmpeg/obs-ffmpeg-output.c">FFmpeg output</a></p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="encoders">
+<span id="plugins-encoders"></span><h2>Encoders<a class="headerlink" href="#encoders" title="Permalink to this headline"></a></h2>
+<p>Encoders are OBS-specific implementations of video/audio encoders, which
+are used with outputs that use encoders.  x264, NVENC, Quicksync are
+examples of encoder implementations.  The <a class="reference external" href="https://github.com/jp9000/obs-studio/blob/master/libobs/obs-encoder.h">libobs/obs-encoder.h</a> file
+is the dedicated header for implementing encoders.  See the
+<a class="reference internal" href="reference-encoders.html"><span class="doc">Encoder API Reference (obs_encoder_t)</span></a> for more information.</p>
+<p>For example, to implement an encoder object, you need to define an
+<code class="xref c c-type docutils literal notranslate"><span class="pre">obs_encoder_info</span></code> structure and fill it out with information
+and callbacks related to your encoder:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cm">/* my-encoder.c */</span><span class="w"></span>
+
+<span class="p">[...]</span><span class="w"></span>
+
+<span class="k">struct</span><span class="w"> </span><span class="nc">obs_encoder_info</span><span class="w"> </span><span class="n">my_encoder_encoder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="p">.</span><span class="n">id</span><span class="w">             </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;my_encoder&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="p">.</span><span class="n">type</span><span class="w">           </span><span class="o">=</span><span class="w"> </span><span class="n">OBS_ENCODER_VIDEO</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="p">.</span><span class="n">codec</span><span class="w">          </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;h264&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="p">.</span><span class="n">get_name</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="n">my_encoder_name</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="p">.</span><span class="n">create</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="n">my_encoder_create</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="p">.</span><span class="n">destroy</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="n">my_encoder_destroy</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="p">.</span><span class="n">encode</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="n">my_encoder_encode</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="p">.</span><span class="n">update</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="n">my_encoder_update</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="p">.</span><span class="n">get_extra_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">my_encoder_extra_data</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="p">.</span><span class="n">get_sei_data</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">my_encoder_sei</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="p">.</span><span class="n">get_video_info</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">my_encoder_video_info</span><span class="w"></span>
+<span class="p">};</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Then, in my-plugin.c, you would call <a class="reference internal" href="reference-encoders.html#c.obs_register_encoder" title="obs_register_encoder"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_register_encoder()</span></code></a>
+in <a class="reference internal" href="reference-modules.html#c.obs_module_load" title="obs_module_load"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_module_load()</span></code></a> to register the encoder with libobs.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cm">/* my-plugin.c */</span><span class="w"></span>
+
+<span class="p">[...]</span><span class="w"></span>
+
+<span class="k">extern</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">obs_encoder_info</span><span class="w"> </span><span class="n">my_encoder</span><span class="p">;</span><span class="w"> </span><span class="cm">/* Defined in my-encoder.c */</span><span class="w"></span>
+
+<span class="kt">bool</span><span class="w"> </span><span class="nf">obs_module_load</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">obs_register_encoder</span><span class="p">(</span><span class="o">&amp;</span><span class="n">my_encoder</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">        </span><span class="p">[...]</span><span class="w"></span>
+
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p><strong>IMPORTANT NOTE:</strong> Encoder settings currently have a few expected
+common setting values that should have a specific naming convention:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>“bitrate”</strong> - This value should be used for both video and audio
+encoders: bitrate, in kilobits.</p></li>
+<li><p><strong>“rate_control”</strong> - This is a setting used for video encoders.
+It’s generally expected to have at least a “CBR” rate control.
+Other common rate controls are “VBR”, “CQP”.</p></li>
+<li><p><strong>“keyint_sec”</strong> - For video encoders, sets the keyframe interval
+value, in seconds, or closest possible approximation.  <em>(Author’s
+note: This should have have been “keyint”, in frames.)</em></p></li>
+</ul>
+</div></blockquote>
+<p>Examples of encoders:</p>
+<ul class="simple">
+<li><p>Video encoders:</p>
+<ul>
+<li><p>The <a class="reference external" href="https://github.com/jp9000/obs-studio/tree/master/plugins/obs-x264">x264 encoder</a></p></li>
+<li><p>The <a class="reference external" href="https://github.com/jp9000/obs-studio/blob/master/plugins/obs-ffmpeg/obs-ffmpeg-nvenc.c">FFmpeg NVENC encoder</a></p></li>
+<li><p>The <a class="reference external" href="https://github.com/jp9000/obs-studio/tree/master/plugins/obs-qsv11">Quicksync encoder</a></p></li>
+</ul>
+</li>
+<li><p>Audio encoders:</p>
+<ul>
+<li><p>The <a class="reference external" href="https://github.com/jp9000/obs-studio/blob/master/plugins/obs-ffmpeg/obs-ffmpeg-audio-encoders.c">FFmpeg AAC/Opus encoder</a></p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="services">
+<span id="plugins-services"></span><h2>Services<a class="headerlink" href="#services" title="Permalink to this headline"></a></h2>
+<p>Services are custom implementations of streaming services, which are
+used with outputs that stream.  For example, you could have a custom
+implementation for streaming to Twitch, and another for YouTube to allow
+the ability to log in and use their APIs to do things such as get the
+RTMP servers or control the channel.  The <a class="reference external" href="https://github.com/jp9000/obs-studio/blob/master/libobs/obs-service.h">libobs/obs-service.h</a> file
+is the dedicated header for implementing services.  See the
+<a class="reference internal" href="reference-services.html"><span class="doc">Service API Reference (obs_service_t)</span></a> for more information.</p>
+<p><em>(Author’s note: the service API is incomplete as of this writing)</em></p>
+<p>For example, to implement a service object, you need to define an
+<code class="xref c c-type docutils literal notranslate"><span class="pre">obs_service_info</span></code> structure and fill it out with information
+and callbacks related to your service:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cm">/* my-service.c */</span><span class="w"></span>
+
+<span class="p">[...]</span><span class="w"></span>
+
+<span class="k">struct</span><span class="w"> </span><span class="nc">obs_service_info</span><span class="w"> </span><span class="n">my_service_service</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="p">.</span><span class="n">id</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;my_service&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="p">.</span><span class="n">get_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">my_service_name</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="p">.</span><span class="n">create</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">my_service_create</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="p">.</span><span class="n">destroy</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">my_service_destroy</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="p">.</span><span class="n">encode</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">my_service_encode</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="p">.</span><span class="n">update</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">my_service_update</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="p">.</span><span class="n">get_url</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">my_service_url</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="p">.</span><span class="n">get_key</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">my_service_key</span><span class="w"></span>
+<span class="p">};</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Then, in my-plugin.c, you would call <a class="reference internal" href="reference-services.html#c.obs_register_service" title="obs_register_service"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_register_service()</span></code></a> in
+<a class="reference internal" href="reference-modules.html#c.obs_module_load" title="obs_module_load"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_module_load()</span></code></a> to register the service with libobs.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cm">/* my-plugin.c */</span><span class="w"></span>
+
+<span class="p">[...]</span><span class="w"></span>
+
+<span class="k">extern</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">obs_service_info</span><span class="w"> </span><span class="n">my_service</span><span class="p">;</span><span class="w"> </span><span class="cm">/* Defined in my-service.c */</span><span class="w"></span>
+
+<span class="kt">bool</span><span class="w"> </span><span class="nf">obs_module_load</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">obs_register_service</span><span class="p">(</span><span class="o">&amp;</span><span class="n">my_service</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">        </span><span class="p">[...]</span><span class="w"></span>
+
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>The only two existing services objects are the “common RTMP services”
+and “custom RTMP service” objects in <a class="reference external" href="https://github.com/jp9000/obs-studio/tree/master/plugins/rtmp-services">plugins/rtmp-services</a></p>
+</section>
+<section id="settings">
+<h2>Settings<a class="headerlink" href="#settings" title="Permalink to this headline"></a></h2>
+<p>Settings (see <a class="reference external" href="https://github.com/jp9000/obs-studio/blob/master/libobs/obs-data.h">libobs/obs-data.h</a>) are used to get or set settings data
+typically associated with libobs objects, and can then be saved and
+loaded via Json text.  See the <a class="reference internal" href="reference-settings.html"><span class="doc">Data Settings API Reference (obs_data_t)</span></a> for more
+information.</p>
+<p>The <em>obs_data_t</em> is the equivalent of a Json object, where it’s a string
+table of sub-objects, and the <em>obs_data_array_t</em> is similarly used to
+store an array of <em>obs_data_t</em> objects, similar to Json arrays (though
+not quite identical).</p>
+<p>To create an <em>obs_data_t</em> or <em>obs_data_array_t</em> object, you’d call the
+<a class="reference internal" href="reference-settings.html#c.obs_data_create" title="obs_data_create"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_data_create()</span></code></a> or <a class="reference internal" href="reference-settings.html#c.obs_data_array_create" title="obs_data_array_create"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_data_array_create()</span></code></a>
+functions.  <em>obs_data_t</em> and <em>obs_data_array_t</em> objects are reference
+counted, so when you are finished with the object, call
+<a class="reference internal" href="reference-settings.html#c.obs_data_release" title="obs_data_release"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_data_release()</span></code></a> or <a class="reference internal" href="reference-settings.html#c.obs_data_array_release" title="obs_data_array_release"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_data_array_release()</span></code></a> to
+release those references.  Any time an <em>obs_data_t</em> or
+<em>obs_data_array_t</em> object is returned by a function, their references
+are incremented, so you must release those references each time.</p>
+<p>To set values for an <em>obs_data_t</em> object, you’d use one of the following
+functions:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cm">/* Set functions */</span><span class="w"></span>
+<span class="n">EXPORT</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">obs_data_set_string</span><span class="p">(</span><span class="n">obs_data_t</span><span class="w"> </span><span class="o">*</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">val</span><span class="p">);</span><span class="w"></span>
+<span class="n">EXPORT</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">obs_data_set_int</span><span class="p">(</span><span class="n">obs_data_t</span><span class="w"> </span><span class="o">*</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">val</span><span class="p">);</span><span class="w"></span>
+<span class="n">EXPORT</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">obs_data_set_double</span><span class="p">(</span><span class="n">obs_data_t</span><span class="w"> </span><span class="o">*</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">val</span><span class="p">);</span><span class="w"></span>
+<span class="n">EXPORT</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">obs_data_set_bool</span><span class="p">(</span><span class="n">obs_data_t</span><span class="w"> </span><span class="o">*</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">val</span><span class="p">);</span><span class="w"></span>
+<span class="n">EXPORT</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">obs_data_set_obj</span><span class="p">(</span><span class="n">obs_data_t</span><span class="w"> </span><span class="o">*</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">obs_data_t</span><span class="w"> </span><span class="o">*</span><span class="n">obj</span><span class="p">);</span><span class="w"></span>
+<span class="n">EXPORT</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">obs_data_set_array</span><span class="p">(</span><span class="n">obs_data_t</span><span class="w"> </span><span class="o">*</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">obs_data_array_t</span><span class="w"> </span><span class="o">*</span><span class="n">array</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Similarly, to get a value from an <em>obs_data_t</em> object, you’d use one of
+the following functions:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cm">/* Get functions */</span><span class="w"></span>
+<span class="n">EXPORT</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">obs_data_get_string</span><span class="p">(</span><span class="n">obs_data_t</span><span class="w"> </span><span class="o">*</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">);</span><span class="w"></span>
+<span class="n">EXPORT</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">obs_data_get_int</span><span class="p">(</span><span class="n">obs_data_t</span><span class="w"> </span><span class="o">*</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">);</span><span class="w"></span>
+<span class="n">EXPORT</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">obs_data_get_double</span><span class="p">(</span><span class="n">obs_data_t</span><span class="w"> </span><span class="o">*</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">);</span><span class="w"></span>
+<span class="n">EXPORT</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">obs_data_get_bool</span><span class="p">(</span><span class="n">obs_data_t</span><span class="w"> </span><span class="o">*</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">);</span><span class="w"></span>
+<span class="n">EXPORT</span><span class="w"> </span><span class="n">obs_data_t</span><span class="w"> </span><span class="o">*</span><span class="n">obs_data_get_obj</span><span class="p">(</span><span class="n">obs_data_t</span><span class="w"> </span><span class="o">*</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">);</span><span class="w"></span>
+<span class="n">EXPORT</span><span class="w"> </span><span class="n">obs_data_array_t</span><span class="w"> </span><span class="o">*</span><span class="n">obs_data_get_array</span><span class="p">(</span><span class="n">obs_data_t</span><span class="w"> </span><span class="o">*</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Unlike typical Json data objects, the <em>obs_data_t</em> object can also set
+default values.  This allows the ability to control what is returned if
+there is no value assigned to a specific string in an <em>obs_data_t</em>
+object when that data is loaded from a Json string or Json file.  Each
+libobs object also has a <em>get_defaults</em> callback which allows setting
+the default settings for the object on creation.</p>
+<p>These functions control the default values are as follows:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cm">/* Default value functions. */</span><span class="w"></span>
+<span class="n">EXPORT</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">obs_data_set_default_string</span><span class="p">(</span><span class="n">obs_data_t</span><span class="w"> </span><span class="o">*</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">val</span><span class="p">);</span><span class="w"></span>
+<span class="n">EXPORT</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">obs_data_set_default_int</span><span class="p">(</span><span class="n">obs_data_t</span><span class="w"> </span><span class="o">*</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">val</span><span class="p">);</span><span class="w"></span>
+<span class="n">EXPORT</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">obs_data_set_default_double</span><span class="p">(</span><span class="n">obs_data_t</span><span class="w"> </span><span class="o">*</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">val</span><span class="p">);</span><span class="w"></span>
+<span class="n">EXPORT</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">obs_data_set_default_bool</span><span class="p">(</span><span class="n">obs_data_t</span><span class="w"> </span><span class="o">*</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">val</span><span class="p">);</span><span class="w"></span>
+<span class="n">EXPORT</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">obs_data_set_default_obj</span><span class="p">(</span><span class="n">obs_data_t</span><span class="w"> </span><span class="o">*</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">obs_data_t</span><span class="w"> </span><span class="o">*</span><span class="n">obj</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+</section>
+<section id="properties">
+<h2>Properties<a class="headerlink" href="#properties" title="Permalink to this headline"></a></h2>
+<p>Properties (see <a class="reference external" href="https://github.com/jp9000/obs-studio/blob/master/libobs/obs-properties.h">libobs/obs-properties.h</a>) are used to automatically
+generate user interface to modify settings for a libobs object (if
+desired).  Each libobs object has a <em>get_properties</em> callback which is
+used to generate properties.  The properties API defines specific
+properties that are linked to the object’s settings, and the front-end
+uses those properties to generate widgets in order to allow the user to
+modify the settings.  For example, if you had a boolean setting, you
+would use <a class="reference internal" href="reference-properties.html#c.obs_properties_add_bool" title="obs_properties_add_bool"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_properties_add_bool()</span></code></a> to allow the user to be
+able to change that setting.  See the <a class="reference internal" href="reference-properties.html"><span class="doc">Properties API Reference (obs_properties_t)</span></a> for
+more information.</p>
+<p>An example of this:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">static</span><span class="w"> </span><span class="n">obs_properties_t</span><span class="w"> </span><span class="o">*</span><span class="nf">my_source_properties</span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">data</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">obs_properties_t</span><span class="w"> </span><span class="o">*</span><span class="n">ppts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">obs_properties_create</span><span class="p">();</span><span class="w"></span>
+<span class="w">        </span><span class="n">obs_properties_add_bool</span><span class="p">(</span><span class="n">ppts</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;my_bool&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                        </span><span class="n">obs_module_text</span><span class="p">(</span><span class="s">&quot;MyBool&quot;</span><span class="p">));</span><span class="w"></span>
+<span class="w">        </span><span class="n">UNUSED_PARAMETER</span><span class="p">(</span><span class="n">data</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">ppts</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="p">[...]</span><span class="w"></span>
+
+<span class="k">struct</span><span class="w"> </span><span class="nc">obs_source_info</span><span class="w"> </span><span class="n">my_source</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="p">.</span><span class="n">get_properties</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">my_source_properties</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="p">[...]</span><span class="w"></span>
+<span class="p">};</span><span class="w"></span>
+</pre></div>
+</div>
+<p>The <em>data</em> parameter is the object’s data if the object is present.
+Typically this is unused and probably shouldn’t be used if possible.  It
+can be null if the properties are retrieved without an object associated
+with it.</p>
+<p>Properties can also be modified depending on what settings are shown.
+For example, you can mark certain properties as disabled or invisible
+depending on what a particular setting is set to using the
+<a class="reference internal" href="reference-properties.html#c.obs_property_set_modified_callback" title="obs_property_set_modified_callback"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_property_set_modified_callback()</span></code></a> function.</p>
+<p>For example, if you wanted boolean property A to hide text property B:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">static</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="nf">setting_a_modified</span><span class="p">(</span><span class="n">obs_properties_t</span><span class="w"> </span><span class="o">*</span><span class="n">ppts</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="n">obs_property_t</span><span class="w"> </span><span class="o">*</span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="n">obs_data_t</span><span class="w"> </span><span class="o">*</span><span class="n">settings</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="kt">bool</span><span class="w"> </span><span class="n">enabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">obs_data_get_bool</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;setting_a&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">obs_properties_get</span><span class="p">(</span><span class="n">ppts</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;setting_b&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="n">obs_property_set_enabled</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="n">enabled</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">        </span><span class="cm">/* return true to update property widgets, false</span>
+<span class="cm">           otherwise */</span><span class="w"></span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="p">[...]</span><span class="w"></span>
+
+<span class="k">static</span><span class="w"> </span><span class="n">obs_properties_t</span><span class="w"> </span><span class="o">*</span><span class="n">my_source_properties</span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">data</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">obs_properties_t</span><span class="w"> </span><span class="o">*</span><span class="n">ppts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">obs_properties_create</span><span class="p">();</span><span class="w"></span>
+<span class="w">        </span><span class="n">obs_property_t</span><span class="w"> </span><span class="o">*</span><span class="n">p</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">        </span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">obs_properties_add_bool</span><span class="p">(</span><span class="n">ppts</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;setting_a&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                        </span><span class="n">obs_module_text</span><span class="p">(</span><span class="s">&quot;SettingA&quot;</span><span class="p">));</span><span class="w"></span>
+<span class="w">        </span><span class="n">obs_property_set_modified_callback</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="n">setting_a_modified</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">        </span><span class="n">obs_properties_add_text</span><span class="p">(</span><span class="n">ppts</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;setting_b&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                        </span><span class="n">obs_module_text</span><span class="p">(</span><span class="s">&quot;SettingB&quot;</span><span class="p">),</span><span class="w"></span>
+<span class="w">                        </span><span class="n">OBS_TEXT_DEFAULT</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">ppts</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</section>
+<section id="localization">
+<h2>Localization<a class="headerlink" href="#localization" title="Permalink to this headline"></a></h2>
+<p>Typically, most plugins bundled with OBS Studio will use a simple
+ini-file localization method, where each file is a different language.
+When using this method, the <code class="xref c c-func docutils literal notranslate"><span class="pre">OBS_MODULE_USE_DEFAULT_LOCALE()</span></code>
+macro is used which will automatically load/destroy the locale data with
+no extra effort on part of the plugin.  Then the
+<a class="reference internal" href="reference-modules.html#c.obs_module_text" title="obs_module_text"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_module_text()</span></code></a> function (which is automatically declared as
+an extern by <a class="reference external" href="https://github.com/jp9000/obs-studio/blob/master/libobs/obs-module.h">libobs/obs-module.h</a>) is used when text lookup is needed.</p>
+<p>There are two exports the module used to load/destroy locale: the
+<a class="reference internal" href="reference-modules.html#c.obs_module_set_locale" title="obs_module_set_locale"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_module_set_locale()</span></code></a> export, and the
+<a class="reference internal" href="reference-modules.html#c.obs_module_free_locale" title="obs_module_free_locale"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_module_free_locale()</span></code></a> export.  The
+<a class="reference internal" href="reference-modules.html#c.obs_module_set_locale" title="obs_module_set_locale"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_module_set_locale()</span></code></a> export is called by libobs to set the
+current language, and then the <a class="reference internal" href="reference-modules.html#c.obs_module_free_locale" title="obs_module_free_locale"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_module_free_locale()</span></code></a> export
+is called by libobs on destruction of the module.  If you wish to
+implement a custom locale implementation for your plugin, you’d want to
+define these exports along with the <a class="reference internal" href="reference-modules.html#c.obs_module_text" title="obs_module_text"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_module_text()</span></code></a> extern
+yourself instead of relying on the
+<code class="xref c c-func docutils literal notranslate"><span class="pre">OBS_MODULE_USE_DEFAULT_LOCALE()</span></code> macro.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="backend-design.html" class="btn btn-neutral float-left" title="OBS Studio Backend Design" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="frontends.html" class="btn btn-neutral float-right" title="Frontends" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2017-2022, Hugh Bailey.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

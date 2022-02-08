@@ -1,0 +1,1223 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OBS Studio Frontend API &mdash; OBS Studio 27.1.3 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Media I/O API Reference (libobs/media-io)" href="reference-libobs-media-io.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> OBS Studio
+          </a>
+              <div class="version">
+                27.1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="backend-design.html">OBS Studio Backend Design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plugins.html">Plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="frontends.html">Frontends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="graphics.html">Rendering Graphics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scripting.html">Python/Lua Scripting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-core.html">OBS Core API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-modules.html">Module API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-core-objects.html">Core API Object Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-libobs-util.html">Platform/Utility API Reference (libobs/util)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-libobs-callback.html">Callback API Reference (libobs/callback)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-libobs-graphics.html">Graphics API Reference (libobs/graphics)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-libobs-media-io.html">Media I/O API Reference (libobs/media-io)</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">OBS Studio Frontend API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#structures-enumerations">Structures/Enumerations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#functions">Functions</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">OBS Studio</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>OBS Studio Frontend API</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/reference-frontend-api.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="obs-studio-frontend-api">
+<h1>OBS Studio Frontend API<a class="headerlink" href="#obs-studio-frontend-api" title="Permalink to this headline"></a></h1>
+<p>The OBS Studio frontend API is the API specific to OBS Studio itself.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;obs-frontend-api.h&gt;</span><span class="cp"></span>
+</pre></div>
+</div>
+<section id="structures-enumerations">
+<h2>Structures/Enumerations<a class="headerlink" href="#structures-enumerations" title="Permalink to this headline"></a></h2>
+<dl class="c type">
+<dt class="sig sig-object c">
+<span class="sig-name descname"><span class="pre">enum</span> <span class="pre">obs_frontend_event</span></span></dt>
+<dd><p>Specifies a front-end event.  Can be one of the following values:</p>
+<ul>
+<li><p><strong>OBS_FRONTEND_EVENT_STREAMING_STARTING</strong></p>
+<p>Triggered when streaming is starting.</p>
+</li>
+<li><p><strong>OBS_FRONTEND_EVENT_STREAMING_STARTED</strong></p>
+<p>Triggered when streaming has successfully started.</p>
+</li>
+<li><p><strong>OBS_FRONTEND_EVENT_STREAMING_STOPPING</strong></p>
+<p>Triggered when streaming is stopping.</p>
+</li>
+<li><p><strong>OBS_FRONTEND_EVENT_STREAMING_STOPPED</strong></p>
+<p>Triggered when streaming has fully stopped.</p>
+</li>
+<li><p><strong>OBS_FRONTEND_EVENT_RECORDING_STARTING</strong></p>
+<p>Triggered when recording is starting.</p>
+</li>
+<li><p><strong>OBS_FRONTEND_EVENT_RECORDING_STARTED</strong></p>
+<p>Triggered when recording has successfully started.</p>
+</li>
+<li><p><strong>OBS_FRONTEND_EVENT_RECORDING_STOPPING</strong></p>
+<p>Triggered when recording is stopping.</p>
+</li>
+<li><p><strong>OBS_FRONTEND_EVENT_RECORDING_STOPPED</strong></p>
+<p>Triggered when recording has fully stopped.</p>
+</li>
+<li><p><strong>OBS_FRONTEND_EVENT_RECORDING_PAUSED</strong></p>
+<p>Triggered when the recording has been paused.</p>
+</li>
+<li><p><strong>OBS_FRONTEND_EVENT_RECORDING_UNPAUSED</strong></p>
+<p>Triggered when the recording has been unpaused.</p>
+</li>
+<li><p><strong>OBS_FRONTEND_EVENT_SCENE_CHANGED</strong></p>
+<p>Triggered when the current scene has changed.</p>
+</li>
+<li><p><strong>OBS_FRONTEND_EVENT_SCENE_LIST_CHANGED</strong></p>
+<p>Triggered when a scenes has been added/removed/reordered by the
+user.</p>
+</li>
+<li><p><strong>OBS_FRONTEND_EVENT_TRANSITION_CHANGED</strong></p>
+<p>Triggered when the current transition has changed by the user.</p>
+</li>
+<li><p><strong>OBS_FRONTEND_EVENT_TRANSITION_STOPPED</strong></p>
+<p>Triggered when a transition has completed.</p>
+</li>
+<li><p><strong>OBS_FRONTEND_EVENT_TRANSITION_LIST_CHANGED</strong></p>
+<p>Triggered when the user adds/removes transitions.</p>
+</li>
+<li><p><strong>OBS_FRONTEND_EVENT_TRANSITION_DURATION_CHANGED</strong></p>
+<dl class="simple">
+<dt>Triggered when the transition duration has been changed by the</dt><dd><p>user.</p>
+</dd>
+</dl>
+</li>
+<li><p><strong>OBS_FRONTEND_EVENT_TBAR_VALUE_CHANGED</strong></p>
+<p>Triggered when the transition bar is moved.</p>
+</li>
+<li><p><strong>OBS_FRONTEND_EVENT_SCENE_COLLECTION_CHANGING</strong></p>
+<p>Triggered when the current scene collection is about to change.</p>
+</li>
+<li><p><strong>OBS_FRONTEND_EVENT_SCENE_COLLECTION_CHANGED</strong></p>
+<p>Triggered when the current scene collection has changed.</p>
+</li>
+<li><p><strong>OBS_FRONTEND_EVENT_SCENE_COLLECTION_LIST_CHANGED</strong></p>
+<p>Triggered when a scene collection has been
+added/removed/renamed.</p>
+</li>
+<li><p><strong>OBS_FRONTEND_EVENT_PROFILE_CHANGING</strong></p>
+<p>Triggered when the current profile is about to change.</p>
+</li>
+<li><p><strong>OBS_FRONTEND_EVENT_PROFILE_CHANGED</strong></p>
+<p>Triggered when the current profile has changed.</p>
+</li>
+<li><p><strong>OBS_FRONTEND_EVENT_PROFILE_LIST_CHANGED</strong></p>
+<p>Triggered when a profile has been added/removed/renamed.</p>
+</li>
+<li><p><strong>OBS_FRONTEND_EVENT_FINISHED_LOADING</strong></p>
+<p>Triggered when the program has finished loading.</p>
+</li>
+<li><p><strong>OBS_FRONTEND_EVENT_SCRIPTING_SHUTDOWN</strong></p>
+<p>Triggered when scripts need to know that OBS is exiting.  The
+<strong>OBS_FRONTEND_EVENT_EXIT</strong> event is normally called after scripts
+have been destroyed.</p>
+</li>
+<li><p><strong>OBS_FRONTEND_EVENT_EXIT</strong></p>
+<p>Triggered when the program is about to exit.</p>
+</li>
+<li><p><strong>OBS_FRONTEND_EVENT_REPLAY_BUFFER_STARTING</strong></p>
+<p>Triggered when the replay buffer is starting.</p>
+</li>
+<li><p><strong>OBS_FRONTEND_EVENT_REPLAY_BUFFER_STARTED</strong></p>
+<p>Triggered when the replay buffer has successfully started.</p>
+</li>
+<li><p><strong>OBS_FRONTEND_EVENT_REPLAY_BUFFER_STOPPING</strong></p>
+<p>Triggered when the replay buffer is stopping.</p>
+</li>
+<li><p><strong>OBS_FRONTEND_EVENT_REPLAY_BUFFER_STOPPED</strong></p>
+<p>Triggered when the replay buffer has fully stopped.</p>
+</li>
+<li><p><strong>OBS_FRONTEND_EVENT_REPLAY_BUFFER_SAVED</strong></p>
+<p>Triggered when the replay buffer has been saved.</p>
+</li>
+<li><p><strong>OBS_FRONTEND_EVENT_STUDIO_MODE_ENABLED</strong></p>
+<p>Triggered when the user has turned on studio mode.</p>
+</li>
+<li><p><strong>OBS_FRONTEND_EVENT_STUDIO_MODE_DISABLED</strong></p>
+<p>Triggered when the user has turned off studio mode.</p>
+</li>
+<li><p><strong>OBS_FRONTEND_EVENT_PREVIEW_SCENE_CHANGED</strong></p>
+<p>Triggered when the current preview scene has changed in studio
+mode.</p>
+</li>
+<li><p><strong>OBS_FRONTEND_EVENT_SCENE_COLLECTION_CLEANUP</strong></p>
+<p>Triggered when a scene collection has been completely unloaded, and
+the program is either about to load a new scene collection, or the
+program is about to exit.</p>
+</li>
+<li><p><strong>OBS_FRONTEND_EVENT_VIRTUALCAM_STARTED</strong></p>
+<p>Triggered when the virtual camera is started.</p>
+</li>
+<li><p><strong>OBS_FRONTEND_EVENT_VIRTUALCAM_STOPPED</strong></p>
+<p>Triggered when the virtual camera is stopped.</p>
+</li>
+</ul>
+</dd></dl>
+
+<dl class="c type">
+<dt class="sig sig-object c">
+<span class="sig-name descname"><span class="pre">struct</span> <span class="pre">obs_frontend_source_list</span></span></dt>
+<dd><ul class="simple">
+<li><p>DARRAY(obs_source_t*) <strong>sources</strong></p></li>
+</ul>
+<p>Example usage:</p>
+</dd></dl>
+
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">obs_frontend_source_list</span><span class="w"> </span><span class="n">scenes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">0</span><span class="p">};</span><span class="w"></span>
+
+<span class="n">obs_frontend_get_scenes</span><span class="p">(</span><span class="o">&amp;</span><span class="n">scenes</span><span class="p">);</span><span class="w"></span>
+
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">size_t</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">scenes</span><span class="p">.</span><span class="n">num</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">obs_source_t</span><span class="w"> </span><span class="o">*</span><span class="n">source</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">scenes</span><span class="p">.</span><span class="n">sources</span><span class="p">.</span><span class="n">array</span><span class="p">[</span><span class="n">i</span><span class="p">];</span><span class="w"></span>
+
+<span class="w">        </span><span class="p">[...]</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="n">obs_frontend_source_list_free</span><span class="p">(</span><span class="o">&amp;</span><span class="n">scenes</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<dl class="c type">
+<dt class="sig sig-object c">
+<span class="sig-name descname"><span class="pre">typedef</span> <span class="pre">void</span> <span class="pre">(*obs_frontend_cb)(void</span> <span class="pre">*private_data)</span></span></dt>
+<dd><p>Frontend tool menu callback</p>
+</dd></dl>
+
+<dl class="c type">
+<dt class="sig sig-object c">
+<span class="sig-name descname"><span class="pre">typedef</span> <span class="pre">void</span> <span class="pre">(*obs_frontend_event_cb)(enum</span> <span class="pre">obs_frontend_event</span> <span class="pre">event,</span> <span class="pre">void</span> <span class="pre">*private_data)</span></span></dt>
+<dd><p>Frontend event callback</p>
+</dd></dl>
+
+<dl class="c type">
+<dt class="sig sig-object c">
+<span class="sig-name descname"><span class="pre">typedef</span> <span class="pre">void</span> <span class="pre">(*obs_frontend_save_cb)(obs_data_t</span> <span class="pre">*save_data,</span> <span class="pre">bool</span> <span class="pre">saving,</span> <span class="pre">void</span> <span class="pre">*private_data)</span></span></dt>
+<dd><p>Frontend save/load callback</p>
+</dd></dl>
+
+<dl class="c type">
+<dt class="sig sig-object c">
+<span class="sig-name descname"><span class="pre">typedef</span> <span class="pre">bool</span> <span class="pre">(*obs_frontend_translate_ui_cb)(const</span> <span class="pre">char</span> <span class="pre">*text,</span> <span class="pre">const</span> <span class="pre">char</span> <span class="pre">**out)</span></span></dt>
+<dd><p>Translation callback</p>
+</dd></dl>
+
+</section>
+<section id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="Permalink to this headline"></a></h2>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_frontend_source_list_free">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_source_list_free</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">obs_frontend_source_list</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">source_list</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_source_list_free" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Releases sources within a source list and frees the list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>source_list</strong> – Source list to free</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_frontend_get_main_window">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_get_main_window</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_get_main_window" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The QMainWindow pointer to the OBS Studio window</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_frontend_get_main_window_handle">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_get_main_window_handle</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_get_main_window_handle" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The native window handle of the OBS Studio window</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_frontend_get_scene_names">
+<span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_get_scene_names</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_get_scene_names" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The scene name list, ending with NULL.  The list is stored
+within one contiguous segment of memory, so freeing the
+returned pointer with <a class="reference internal" href="reference-libobs-util-bmem.html#c.bfree" title="bfree"><code class="xref c c-func docutils literal notranslate"><span class="pre">bfree()</span></code></a> will free the entire
+list.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_frontend_get_scenes">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_get_scenes</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">obs_frontend_source_list</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">sources</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_get_scenes" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sources</strong> – Pointer to a <code class="xref c c-type docutils literal notranslate"><span class="pre">obs_frontend_source_list</span></code>
+structure to receive the list of
+reference-incremented scenes.  Release with
+<a class="reference internal" href="#c.obs_frontend_source_list_free" title="obs_frontend_source_list_free"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_frontend_source_list_free()</span></code></a></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_frontend_get_current_scene">
+<a class="reference internal" href="reference-sources.html#c.obs_source_t" title="obs_source_t"><span class="n"><span class="pre">obs_source_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_get_current_scene</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_get_current_scene" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A new reference to the currently active scene</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_frontend_set_current_scene">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_set_current_scene</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="reference-sources.html#c.obs_source_t" title="obs_source_t"><span class="n"><span class="pre">obs_source_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">scene</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_set_current_scene" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>scene</strong> – The scene to set as the current scene</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_frontend_get_transitions">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_get_transitions</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">obs_frontend_source_list</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">sources</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_get_transitions" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sources</strong> – Pointer to a <code class="xref c c-type docutils literal notranslate"><span class="pre">obs_frontend_source_list</span></code>
+structure to receive the list of
+reference-incremented transitions.  Release with
+<a class="reference internal" href="#c.obs_frontend_source_list_free" title="obs_frontend_source_list_free"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_frontend_source_list_free()</span></code></a></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_frontend_get_current_transition">
+<a class="reference internal" href="reference-sources.html#c.obs_source_t" title="obs_source_t"><span class="n"><span class="pre">obs_source_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_get_current_transition</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_get_current_transition" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A new reference to the currently active transition</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_frontend_set_current_transition">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_set_current_transition</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="reference-sources.html#c.obs_source_t" title="obs_source_t"><span class="n"><span class="pre">obs_source_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">transition</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_set_current_transition" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>transition</strong> – The transition to set as the current transition</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_frontend_get_transition_duration">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_get_transition_duration</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_get_transition_duration" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The transition duration (in milliseconds) currently set in the UI</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_frontend_set_transition_duration">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_set_transition_duration</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">duration</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_set_transition_duration" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>duration</strong> – Desired transition duration, in milliseconds</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_frontend_release_tbar">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_release_tbar</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_release_tbar" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Emulate a mouse button release on the transition bar and determine transition status.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_frontend_set_tbar_position">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_set_tbar_position</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">position</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_set_tbar_position" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Set the value of the transition bar.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>position</strong> – The position to set the T-bar to, with a range of 0-1023</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_frontend_get_tbar_position">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_get_tbar_position</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_get_tbar_position" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Get the value of the transition bar.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The value of the position of the T-bar to, with a range of 0-1023</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_frontend_get_scene_collections">
+<span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_get_scene_collections</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_get_scene_collections" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The list of profile names, ending with NULL.  The list is
+stored within one contiguous segment of memory, so freeing
+the returned pointer with <a class="reference internal" href="reference-libobs-util-bmem.html#c.bfree" title="bfree"><code class="xref c c-func docutils literal notranslate"><span class="pre">bfree()</span></code></a> will free the
+entire list.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_frontend_get_current_scene_collection">
+<span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_get_current_scene_collection</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_get_current_scene_collection" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A new pointer to the current scene collection name.  Free
+with <a class="reference internal" href="reference-libobs-util-bmem.html#c.bfree" title="bfree"><code class="xref c c-func docutils literal notranslate"><span class="pre">bfree()</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_frontend_set_current_scene_collection">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_set_current_scene_collection</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">collection</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_set_current_scene_collection" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>profile</strong> – Name of the scene collection to activate</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_frontend_add_scene_collection">
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_add_scene_collection</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">name</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_add_scene_collection" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Add a new scene collection, then switch to it.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – Name of the scene collection to add/create</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_frontend_get_profiles">
+<span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_get_profiles</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_get_profiles" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The list of profile names, ending with NULL.  The list is
+stored within one contiguous segment of memory, so freeing
+the returned pointer with <a class="reference internal" href="reference-libobs-util-bmem.html#c.bfree" title="bfree"><code class="xref c c-func docutils literal notranslate"><span class="pre">bfree()</span></code></a> will free the
+entire list.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_frontend_get_current_profile">
+<span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_get_current_profile</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_get_current_profile" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A new pointer to the current profile name.  Free with
+<a class="reference internal" href="reference-libobs-util-bmem.html#c.bfree" title="bfree"><code class="xref c c-func docutils literal notranslate"><span class="pre">bfree()</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_frontend_get_current_profile_path">
+<span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_get_current_profile_path</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_get_current_profile_path" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A new pointer to the current profile’s path on the
+filesystem.  Free with <a class="reference internal" href="reference-libobs-util-bmem.html#c.bfree" title="bfree"><code class="xref c c-func docutils literal notranslate"><span class="pre">bfree()</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_frontend_set_current_profile">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_set_current_profile</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">profile</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_set_current_profile" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>profile</strong> – Name of the profile to activate</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_frontend_create_profile">
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_create_profile</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">name</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_create_profile" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – Name of the new profile to create (must be unique)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_frontend_duplicate_profile">
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_duplicate_profile</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">name</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_duplicate_profile" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – Name of the duplicate profile to create (must be unique)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_frontend_delete_profile">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_delete_profile</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">profile</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_delete_profile" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>profile</strong> – Name of the profile to delete</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_frontend_add_tools_menu_qaction">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_add_tools_menu_qaction</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">name</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_add_tools_menu_qaction" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Adds a QAction to the tools menu then returns it.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – Name for the new menu item</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A pointer to the added QAction</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_frontend_add_tools_menu_item">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_add_tools_menu_item</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">name</span></span>, <span class="n"><span class="pre">obs_frontend_cb</span></span><span class="w"> </span><span class="n"><span class="pre">callback</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">private_data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_add_tools_menu_item" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Adds a tools menu item and links the ::clicked signal to the
+callback.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – The name for the new menu item</p></li>
+<li><p><strong>callback</strong> – Callback to use when the menu item is clicked</p></li>
+<li><p><strong>private_data</strong> – Private data associated with the callback</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_frontend_add_dock">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_add_dock</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">dock</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_add_dock" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Adds a QDockWidget to the UI’s Docks menu.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dock</strong> – QDockWidget to add/create</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A pointer to the added QAction</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_frontend_add_event_callback">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_add_event_callback</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">obs_frontend_event_cb</span></span><span class="w"> </span><span class="n"><span class="pre">callback</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">private_data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_add_event_callback" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Adds a callback that will be called when a frontend event occurs.
+See <code class="xref c c-type docutils literal notranslate"><span class="pre">obs_frontend_event</span></code> on what sort of events can be
+triggered.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>callback</strong> – Callback to use when a frontend event occurs</p></li>
+<li><p><strong>private_data</strong> – Private data associated with the callback</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_frontend_remove_event_callback">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_remove_event_callback</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">obs_frontend_event_cb</span></span><span class="w"> </span><span class="n"><span class="pre">callback</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">private_data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_remove_event_callback" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Removes an event callback.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>callback</strong> – Callback to remove</p></li>
+<li><p><strong>private_data</strong> – Private data associated with the callback</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_frontend_add_save_callback">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_add_save_callback</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">obs_frontend_save_cb</span></span><span class="w"> </span><span class="n"><span class="pre">callback</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">private_data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_add_save_callback" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Adds a callback that will be called when the current scene collection
+is being saved/loaded.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>callback</strong> – Callback to use when saving/loading a scene
+collection</p></li>
+<li><p><strong>private_data</strong> – Private data associated with the callback</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_frontend_remove_save_callback">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_remove_save_callback</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">obs_frontend_save_cb</span></span><span class="w"> </span><span class="n"><span class="pre">callback</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">private_data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_remove_save_callback" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Removes a save/load callback.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>callback</strong> – Callback to remove</p></li>
+<li><p><strong>private_data</strong> – Private data associated with the callback</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_frontend_add_preload_callback">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_add_preload_callback</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">obs_frontend_save_cb</span></span><span class="w"> </span><span class="n"><span class="pre">callback</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">private_data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_add_preload_callback" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Adds a callback that will be called right before a scene collection
+is loaded.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>callback</strong> – Callback to use when pre-loading</p></li>
+<li><p><strong>private_data</strong> – Private data associated with the callback</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_frontend_remove_preload_callback">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_remove_preload_callback</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">obs_frontend_save_cb</span></span><span class="w"> </span><span class="n"><span class="pre">callback</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">private_data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_remove_preload_callback" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Removes a pre-load callback.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>callback</strong> – Callback to remove</p></li>
+<li><p><strong>private_data</strong> – Private data associated with the callback</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_frontend_push_ui_translation">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_push_ui_translation</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">obs_frontend_translate_ui_cb</span></span><span class="w"> </span><span class="n"><span class="pre">translate</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_push_ui_translation" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Pushes a UI translation callback.  This allows a front-end plugin to
+intercept when Qt is automatically generating translating data.
+Typically this is just called with obs_module_get_string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>translate</strong> – The translation callback to use</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_frontend_pop_ui_translation">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_pop_ui_translation</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_pop_ui_translation" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Pops the current UI translation callback.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_frontend_streaming_start">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_streaming_start</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_streaming_start" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Starts streaming.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_frontend_streaming_stop">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_streaming_stop</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_streaming_stop" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Stops streaming.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_frontend_streaming_active">
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_streaming_active</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_streaming_active" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><em>true</em> if streaming active, <em>false</em> otherwise</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_frontend_recording_start">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_recording_start</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_recording_start" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Starts recording.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_frontend_recording_stop">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_recording_stop</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_recording_stop" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Stops recording.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_frontend_recording_active">
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_recording_active</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_recording_active" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><em>true</em> if recording active, <em>false</em> otherwise</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_frontend_recording_pause">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_recording_pause</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n"><span class="pre">pause</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_recording_pause" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Pause</dt>
+<dd class="field-odd"><p><em>true</em> to pause recording, <em>false</em> to unpause</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_frontend_recording_paused">
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_recording_paused</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_recording_paused" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><em>true</em> if recording paused, <em>false</em> otherwise</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_frontend_replay_buffer_start">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_replay_buffer_start</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_replay_buffer_start" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Starts the replay buffer.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_frontend_replay_buffer_stop">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_replay_buffer_stop</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_replay_buffer_stop" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Stops the replay buffer.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_frontend_replay_buffer_save">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_replay_buffer_save</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_replay_buffer_save" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Saves a replay if the replay buffer is active.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_frontend_replay_buffer_active">
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_replay_buffer_active</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_replay_buffer_active" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><em>true</em> if replay buffer active, <em>false</em> otherwise</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_frontend_open_projector">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_open_projector</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">type</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">monitor</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">geometry</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">name</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_open_projector" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>type</strong> – “Preview”, “Source”, “Scene”, “StudioProgram”, or “Multiview” (case insensitive)</p></li>
+<li><p><strong>monitor</strong> – Monitor to open the projector on.  If -1, this opens a window.</p></li>
+<li><p><strong>geometry</strong> – If <em>monitor</em> is -1, size and position of the projector window.  Encoded in Base64 using Qt’s geometry encoding.</p></li>
+<li><p><strong>name</strong> – If <em>type</em> is “Source” or “Scene”, name of the source or scene to be displayed</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_frontend_save">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_save</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_save" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Saves the current scene collection.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_frontend_get_streaming_output">
+<a class="reference internal" href="reference-outputs.html#c.obs_output_t" title="obs_output_t"><span class="n"><span class="pre">obs_output_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_get_streaming_output</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_get_streaming_output" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A new reference to the current streaming output</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_frontend_get_recording_output">
+<a class="reference internal" href="reference-outputs.html#c.obs_output_t" title="obs_output_t"><span class="n"><span class="pre">obs_output_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_get_recording_output</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_get_recording_output" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A new reference to the current srecording output</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_frontend_get_replay_buffer_output">
+<a class="reference internal" href="reference-outputs.html#c.obs_output_t" title="obs_output_t"><span class="n"><span class="pre">obs_output_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_get_replay_buffer_output</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_get_replay_buffer_output" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A new reference to the current replay buffer output</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_frontend_get_profile_config">
+<a class="reference internal" href="reference-libobs-util-config-file.html#c.config_t" title="config_t"><span class="n"><span class="pre">config_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_get_profile_config</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_get_profile_config" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The config_t* associated with the current profile</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_frontend_get_global_config">
+<a class="reference internal" href="reference-libobs-util-config-file.html#c.config_t" title="config_t"><span class="n"><span class="pre">config_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_get_global_config</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_get_global_config" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The config_t* associated with the global config (global.ini)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_frontend_set_streaming_service">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_set_streaming_service</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="reference-services.html#c.obs_service_t" title="obs_service_t"><span class="n"><span class="pre">obs_service_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">service</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_set_streaming_service" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Sets the current streaming service to stream with.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>service</strong> – The streaming service to set</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_frontend_get_streaming_service">
+<a class="reference internal" href="reference-services.html#c.obs_service_t" title="obs_service_t"><span class="n"><span class="pre">obs_service_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_get_streaming_service</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_get_streaming_service" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A new reference to the current streaming service object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_frontend_save_streaming_service">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_save_streaming_service</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_save_streaming_service" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Saves the current streaming service data.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_frontend_preview_program_mode_active">
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_preview_program_mode_active</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_preview_program_mode_active" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><em>true</em> if studio mode is active, <em>false</em> otherwise</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_frontend_set_preview_program_mode">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_set_preview_program_mode</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n"><span class="pre">enable</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_set_preview_program_mode" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Activates/deactivates studio mode.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>enable</strong> – <em>true</em> to activate studio mode, <em>false</em> to deactivate
+studio mode</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_frontend_preview_program_trigger_transition">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_preview_program_trigger_transition</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_preview_program_trigger_transition" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Triggers a preview-to-program transition if studio mode is active.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_frontend_get_current_preview_scene">
+<a class="reference internal" href="reference-sources.html#c.obs_source_t" title="obs_source_t"><span class="n"><span class="pre">obs_source_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_get_current_preview_scene</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_get_current_preview_scene" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A new reference to the current preview scene if studio mode
+is active, or <em>NULL</em> if studio mode is not active.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_frontend_set_current_preview_scene">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_set_current_preview_scene</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="reference-sources.html#c.obs_source_t" title="obs_source_t"><span class="n"><span class="pre">obs_source_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">scene</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_set_current_preview_scene" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Sets the current preview scene in studio mode. Does nothing if studio
+mode is disabled.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>scene</strong> – The scene to set as the current preview</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_frontend_set_preview_enabled">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_set_preview_enabled</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n"><span class="pre">enable</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_set_preview_enabled" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Sets the enable state of the preview display.  Only relevant with
+studio mode disabled.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>enable</strong> – <em>true</em> to enable preview, <em>false</em> to disable preview</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_frontend_preview_enabled">
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_preview_enabled</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_preview_enabled" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><em>true</em> if the preview display is enabled, <em>false</em> otherwise</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_frontend_take_screenshot">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_take_screenshot</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_take_screenshot" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Takes a screenshot of the main OBS output.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_frontend_take_source_screenshot">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_take_source_screenshot</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="reference-sources.html#c.obs_source_t" title="obs_source_t"><span class="n"><span class="pre">obs_source_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">source</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_take_source_screenshot" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Takes a screenshot of the specified source.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>source</strong> – The source to take screenshot of</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_frontend_get_virtualcam_output">
+<a class="reference internal" href="reference-outputs.html#c.obs_output_t" title="obs_output_t"><span class="n"><span class="pre">obs_output_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_get_virtualcam_output</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_get_virtualcam_output" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A new reference to the current virtual camera output</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_frontend_start_virtualcam">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_start_virtualcam</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_start_virtualcam" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Starts the virtual camera.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_frontend_stop_virtualcam">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_stop_virtualcam</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_stop_virtualcam" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Stops the virtual camera.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_frontend_virtualcam_active">
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_virtualcam_active</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_virtualcam_active" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><em>true</em> if virtual camera is active, <em>false</em> otherwise</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_frontend_reset_video">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_reset_video</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_reset_video" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Reloads the UI canvas and resets libobs video with latest data from
+the current profile.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_frontend_open_source_properties">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_open_source_properties</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="reference-sources.html#c.obs_source_t" title="obs_source_t"><span class="n"><span class="pre">obs_source_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">source</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_open_source_properties" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Opens the properties window of the specified source.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>source</strong> – The source to open the properties window of</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_frontend_open_source_filters">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_open_source_filters</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="reference-sources.html#c.obs_source_t" title="obs_source_t"><span class="n"><span class="pre">obs_source_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">source</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_open_source_filters" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Opens the filters window of the specified source.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>source</strong> – The source to open the filters window of</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_frontend_open_source_interaction">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_open_source_interaction</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="reference-sources.html#c.obs_source_t" title="obs_source_t"><span class="n"><span class="pre">obs_source_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">source</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_open_source_interaction" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Opens the interact window of the specified source. Only call if
+source has the <em>OBS_SOURCE_INTERACTION</em> output flag.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>source</strong> – The source to open the interact window of</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_frontend_get_current_record_output_path">
+<span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_get_current_record_output_path</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_get_current_record_output_path" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A new pointer to the current record output path.  Free
+with <a class="reference internal" href="reference-libobs-util-bmem.html#c.bfree" title="bfree"><code class="xref c c-func docutils literal notranslate"><span class="pre">bfree()</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="reference-libobs-media-io.html" class="btn btn-neutral float-left" title="Media I/O API Reference (libobs/media-io)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2017-2022, Hugh Bailey.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

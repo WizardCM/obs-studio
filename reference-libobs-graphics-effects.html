@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Effects (Shaders) &mdash; OBS Studio 27.1.3 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="2-Component Vector" href="reference-libobs-graphics-vec2.html" />
+    <link rel="prev" title="Graphics API Reference (libobs/graphics)" href="reference-libobs-graphics.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> OBS Studio
+          </a>
+              <div class="version">
+                27.1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="backend-design.html">OBS Studio Backend Design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plugins.html">Plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="frontends.html">Frontends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="graphics.html">Rendering Graphics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scripting.html">Python/Lua Scripting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-core.html">OBS Core API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-modules.html">Module API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-core-objects.html">Core API Object Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-libobs-util.html">Platform/Utility API Reference (libobs/util)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-libobs-callback.html">Callback API Reference (libobs/callback)</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="reference-libobs-graphics.html">Graphics API Reference (libobs/graphics)</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Effects (Shaders)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-libobs-graphics-vec2.html">2-Component Vector</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-libobs-graphics-vec3.html">3-Component Vector</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-libobs-graphics-vec4.html">4-Component Vector</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-libobs-graphics-quat.html">Quaternion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-libobs-graphics-matrix4.html">Matrix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-libobs-graphics-math.html">Extra Math Functions/Macros</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-libobs-graphics-image-file.html">Image File Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-libobs-graphics-axisang.html">Axis Angle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-libobs-graphics-graphics.html">Core Graphics API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reference-libobs-media-io.html">Media I/O API Reference (libobs/media-io)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-frontend-api.html">OBS Studio Frontend API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">OBS Studio</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="reference-libobs-graphics.html">Graphics API Reference (libobs/graphics)</a> &raquo;</li>
+      <li>Effects (Shaders)</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/reference-libobs-graphics-effects.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="effects-shaders">
+<h1>Effects (Shaders)<a class="headerlink" href="#effects-shaders" title="Permalink to this headline"></a></h1>
+<p>Effects are a single collection of related shaders.  They’re used for
+easily writing vertex and pixel shaders together all in the same file in
+HLSL format.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;graphics/graphics.h&gt;</span><span class="cp"></span>
+</pre></div>
+</div>
+<dl class="c type">
+<dt class="sig sig-object c">
+<span class="sig-name descname"><span class="pre">typedef</span> <span class="pre">struct</span> <span class="pre">gs_effect</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">gs_effect_t</span></span></dt>
+<dd><p>Effect object.</p>
+</dd></dl>
+
+<dl class="c type">
+<dt class="sig sig-object c">
+<span class="sig-name descname"><span class="pre">typedef</span> <span class="pre">struct</span> <span class="pre">gs_effect_technique</span> <span class="pre">gs_technique_t</span></span></dt>
+<dd><p>Technique object.</p>
+</dd></dl>
+
+<dl class="c type">
+<dt class="sig sig-object c">
+<span class="sig-name descname"><span class="pre">typedef</span> <span class="pre">struct</span> <span class="pre">gs_effect_param</span>&#160;&#160;&#160;&#160; <span class="pre">gs_eparam_t</span></span></dt>
+<dd><p>Effect parameter object.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.gs_effect_create_from_file">
+<span class="n"><span class="pre">gs_effect_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">gs_effect_create_from_file</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">file</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">error_string</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.gs_effect_create_from_file" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Creates an effect from file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>file</strong> – Path to the effect file</p></li>
+<li><p><strong>error_string</strong> – Receives a pointer to the error string, which
+must be freed with <a class="reference internal" href="reference-libobs-util-bmem.html#c.bfree" title="bfree"><code class="xref c c-func docutils literal notranslate"><span class="pre">bfree()</span></code></a>.  If
+<em>NULL</em>, this parameter is ignored.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The effect object, or <em>NULL</em> on error</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.gs_effect_create">
+<span class="n"><span class="pre">gs_effect_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">gs_effect_create</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">effect_string</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">filename</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">error_string</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.gs_effect_create" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Creates an effect from a string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>effect_String</strong> – Effect string</p></li>
+<li><p><strong>error_string</strong> – Receives a pointer to the error string, which
+must be freed with <a class="reference internal" href="reference-libobs-util-bmem.html#c.bfree" title="bfree"><code class="xref c c-func docutils literal notranslate"><span class="pre">bfree()</span></code></a>.  If
+<em>NULL</em>, this parameter is ignored.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The effect object, or <em>NULL</em> on error</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.gs_effect_destroy">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">gs_effect_destroy</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">gs_effect_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">effect</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.gs_effect_destroy" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Destroys the effect</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>effect</strong> – Effect object</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.gs_effect_get_technique">
+<span class="n"><span class="pre">gs_technique_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">gs_effect_get_technique</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">gs_effect_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">effect</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">name</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.gs_effect_get_technique" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Gets a technique of the effect.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>effect</strong> – Effect object</p></li>
+<li><p><strong>name</strong> – Name of the technique</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Technique object, or <em>NULL</em> if not found</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.gs_effect_get_current_technique">
+<span class="n"><span class="pre">gs_technique_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">gs_effect_get_current_technique</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">gs_effect_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">effect</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.gs_effect_get_current_technique" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Gets the current active technique of the effect.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>effect</strong> – Effect object</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Technique object, or <em>NULL</em> if none currently active</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.gs_technique_begin">
+<span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">gs_technique_begin</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">gs_technique_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">technique</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.gs_technique_begin" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Begins a technique.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>technique</strong> – Technique object</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Number of passes this technique uses</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.gs_technique_end">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">gs_technique_end</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">gs_technique_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">technique</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.gs_technique_end" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Ends a technique.  Make sure all active passes have been ended before
+calling.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>technique</strong> – Technique object</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.gs_technique_begin_pass">
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">gs_technique_begin_pass</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">gs_technique_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">technique</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">pass</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.gs_technique_begin_pass" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Begins a pass.  Automatically loads the vertex/pixel shaders
+associated with this pass.  Draw after calling this function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>technique</strong> – Technique object</p></li>
+<li><p><strong>pass</strong> – Pass index</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><em>true</em> if the pass is valid, <em>false</em> otherwise</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.gs_technique_begin_pass_by_name">
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">gs_technique_begin_pass_by_name</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">gs_technique_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">technique</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">name</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.gs_technique_begin_pass_by_name" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Begins a pass by its name if the pass has a name.  Automatically
+loads the vertex/pixel shaders associated with this pass.  Draw after
+calling this function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>technique</strong> – Technique object</p></li>
+<li><p><strong>name</strong> – Name of the pass</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><em>true</em> if the pass is valid, <em>false</em> otherwise</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.gs_technique_end_pass">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">gs_technique_end_pass</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">gs_technique_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">technique</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.gs_technique_end_pass" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Ends a pass.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>technique</strong> – Technique object</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.gs_effect_get_num_params">
+<span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">gs_effect_get_num_params</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">gs_effect_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">effect</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.gs_effect_get_num_params" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Gets the number of parameters associated with the effect.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>effect</strong> – Effect object</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Number of parameters the effect has</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.gs_effect_get_param_by_idx">
+<span class="n"><span class="pre">gs_eparam_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">gs_effect_get_param_by_idx</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">gs_effect_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">effect</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">param</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.gs_effect_get_param_by_idx" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Gets a parameter of an effect by its index.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>effect</strong> – Effect object</p></li>
+<li><p><strong>param</strong> – Parameter index</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The effect parameter object, or <em>NULL</em> if index
+invalid</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.gs_effect_get_param_by_name">
+<span class="n"><span class="pre">gs_eparam_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">gs_effect_get_param_by_name</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">gs_effect_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">effect</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">name</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.gs_effect_get_param_by_name" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Gets parameter of an effect by its name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>effect</strong> – Effect object</p></li>
+<li><p><strong>name</strong> – Name of the parameter</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The effect parameter object, or <em>NULL</em> if not found</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.gs_param_get_num_annotations">
+<span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">gs_param_get_num_annotations</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">gs_eparam_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">param</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.gs_param_get_num_annotations" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Gets the number of annotations associated with the parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>param</strong> – Param object</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Number of annotations the param has</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.gs_param_get_annotation_by_idx">
+<span class="n"><span class="pre">gs_eparam_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">gs_param_get_annotation_by_idx</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">gs_eparam_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">param</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">annotation</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.gs_param_get_annotation_by_idx" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Gets an annotation of a param by its index.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>param</strong> – Param object</p></li>
+<li><p><strong>param</strong> – Annotation index</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The effect parameter object (annotation), or <em>NULL</em> if index
+invalid</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.gs_param_get_annotation_by_name">
+<span class="n"><span class="pre">gs_eparam_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">gs_param_get_annotation_by_name</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">gs_eparam_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">pardam</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">annotation</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.gs_param_get_annotation_by_name" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Gets parameter of an effect by its name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>param</strong> – Param object</p></li>
+<li><p><strong>name</strong> – Name of the annotation</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The effect parameter object (annotation), or <em>NULL</em> if not found</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.gs_effect_loop">
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">gs_effect_loop</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">gs_effect_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">effect</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">name</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.gs_effect_loop" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Helper function that automatically begins techniques/passes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>effect</strong> – Effect object</p></li>
+<li><p><strong>name</strong> – Name of the technique to execute</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><em>true</em> to draw, <em>false</em> when complete</p>
+</dd>
+</dl>
+<p>Here is an example of how this function is typically used:</p>
+</dd></dl>
+
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">gs_effect_loop</span><span class="p">(</span><span class="n">effect</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;my_technique&quot;</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="cm">/* perform drawing here */</span><span class="w"></span>
+<span class="w">        </span><span class="p">[...]</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.gs_effect_get_viewproj_matrix">
+<span class="n"><span class="pre">gs_eparam_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">gs_effect_get_viewproj_matrix</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">gs_effect_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">effect</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.gs_effect_get_viewproj_matrix" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Gets the view/projection matrix parameter (“viewproj”) of the effect.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>effect</strong> – Effect object</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The view/projection matrix parameter of the effect</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.gs_effect_get_world_matrix">
+<span class="n"><span class="pre">gs_eparam_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">gs_effect_get_world_matrix</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">gs_effect_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">effect</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.gs_effect_get_world_matrix" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Gets the world matrix parameter (“world”) of the effect.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>effect</strong> – Effect object</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The world matrix parameter of the effect</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.gs_effect_get_param_info">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">gs_effect_get_param_info</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">gs_eparam_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">param</span></span>, <span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">gs_effect_param_info</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">info</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.gs_effect_get_param_info" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Gets information about an effect parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>param</strong> – Effect parameter</p></li>
+<li><p><strong>info</strong> – Pointer to receive the data</p></li>
+</ul>
+</dd>
+</dl>
+<p>Relevant data types used with this function:</p>
+</dd></dl>
+
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">enum</span><span class="w"> </span><span class="nc">gs_shader_param_type</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">GS_SHADER_PARAM_UNKNOWN</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">GS_SHADER_PARAM_BOOL</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">GS_SHADER_PARAM_FLOAT</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">GS_SHADER_PARAM_INT</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">GS_SHADER_PARAM_STRING</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">GS_SHADER_PARAM_VEC2</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">GS_SHADER_PARAM_VEC3</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">GS_SHADER_PARAM_VEC4</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">GS_SHADER_PARAM_INT2</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">GS_SHADER_PARAM_INT3</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">GS_SHADER_PARAM_INT4</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">GS_SHADER_PARAM_MATRIX4X4</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">GS_SHADER_PARAM_TEXTURE</span><span class="p">,</span><span class="w"></span>
+<span class="p">};</span><span class="w"></span>
+
+<span class="k">struct</span><span class="w"> </span><span class="nc">gs_effect_param_info</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="k">enum</span><span class="w"> </span><span class="nc">gs_shader_param_type</span><span class="w"> </span><span class="n">type</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.gs_effect_set_bool">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">gs_effect_set_bool</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">gs_eparam_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">param</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n"><span class="pre">val</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.gs_effect_set_bool" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Sets a boolean parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>param</strong> – Effect parameter</p></li>
+<li><p><strong>val</strong> – Boolean value</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.gs_effect_set_float">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">gs_effect_set_float</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">gs_eparam_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">param</span></span>, <span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="n"><span class="pre">val</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.gs_effect_set_float" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Sets a floating point parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>param</strong> – Effect parameter</p></li>
+<li><p><strong>val</strong> – Floating point value</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.gs_effect_set_int">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">gs_effect_set_int</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">gs_eparam_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">param</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">val</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.gs_effect_set_int" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Sets a integer parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>param</strong> – Effect parameter</p></li>
+<li><p><strong>val</strong> – Integer value</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.gs_effect_set_matrix4">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">gs_effect_set_matrix4</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">gs_eparam_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">param</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">matrix4</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">val</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.gs_effect_set_matrix4" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Sets a matrix parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>param</strong> – Effect parameter</p></li>
+<li><p><strong>val</strong> – Matrix</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.gs_effect_set_vec2">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">gs_effect_set_vec2</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">gs_eparam_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">param</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">vec2</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">val</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.gs_effect_set_vec2" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Sets a 2-component vector parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>param</strong> – Effect parameter</p></li>
+<li><p><strong>val</strong> – Vector</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.gs_effect_set_vec3">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">gs_effect_set_vec3</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">gs_eparam_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">param</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">vec3</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">val</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.gs_effect_set_vec3" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Sets a 3-component vector parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>param</strong> – Effect parameter</p></li>
+<li><p><strong>val</strong> – Vector</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.gs_effect_set_vec4">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">gs_effect_set_vec4</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">gs_eparam_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">param</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">vec4</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">val</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.gs_effect_set_vec4" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Sets a 4-component vector parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>param</strong> – Effect parameter</p></li>
+<li><p><strong>val</strong> – Vector</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.gs_effect_set_color">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">gs_effect_set_color</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">gs_eparam_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">param</span></span>, <span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="n"><span class="pre">argb</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.gs_effect_set_color" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Convenience function for setting a color value via an integer value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>param</strong> – Effect parameter</p></li>
+<li><p><strong>argb</strong> – Integer color value (i.e. hex value would be
+0xAARRGGBB)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.gs_effect_set_texture">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">gs_effect_set_texture</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">gs_eparam_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">param</span></span>, <span class="n"><span class="pre">gs_texture_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">val</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.gs_effect_set_texture" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Sets a texture parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>param</strong> – Effect parameter</p></li>
+<li><p><strong>val</strong> – Texture</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.gs_effect_set_texture_srgb">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">gs_effect_set_texture_srgb</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">gs_eparam_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">param</span></span>, <span class="n"><span class="pre">gs_texture_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">val</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.gs_effect_set_texture_srgb" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Sets a texture parameter using SRGB view if available.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>param</strong> – Effect parameter</p></li>
+<li><p><strong>val</strong> – Texture</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.gs_effect_set_val">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">gs_effect_set_val</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">gs_eparam_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">param</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">val</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">size</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.gs_effect_set_val" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Sets a parameter with data manually.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>param</strong> – Effect parameter</p></li>
+<li><p><strong>val</strong> – Pointer to data</p></li>
+<li><p><strong>size</strong> – Size of data</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.gs_effect_set_default">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">gs_effect_set_default</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">gs_eparam_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">param</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.gs_effect_set_default" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Sets the parameter to its default value</p>
+<dl class="field-list simple">
+<dt class="field-odd">Param</dt>
+<dd class="field-odd"><p>Effect parameter</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.gs_effect_set_next_sampler">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">gs_effect_set_next_sampler</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">gs_eparam_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">param</span></span>, <span class="n"><span class="pre">gs_samplerstate_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">sampler</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.gs_effect_set_next_sampler" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Manually changes the sampler for an effect parameter the next time
+it’s used.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>param</strong> – Effect parameter</p></li>
+<li><p><strong>sampler</strong> – Sampler state object</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.gs_effect_get_val">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">gs_effect_get_val</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">gs_eparam_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">param</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.gs_effect_get_val" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Returns a copy of the param’s current value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>param</strong> – Effect parameter</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A pointer to the copied byte value of the param’s current value. Freed with <a class="reference internal" href="reference-libobs-util-bmem.html#c.bfree" title="bfree"><code class="xref c c-func docutils literal notranslate"><span class="pre">bfree()</span></code></a>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.gs_effect_get_default_val">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">gs_effect_get_default_val</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">gs_eparam_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">param</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.gs_effect_get_default_val" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Returns a copy of the param’s default value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>param</strong> – Effect parameter</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A pointer to the copied byte value of the param’s default value. Freed with <a class="reference internal" href="reference-libobs-util-bmem.html#c.bfree" title="bfree"><code class="xref c c-func docutils literal notranslate"><span class="pre">bfree()</span></code></a>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.gs_effect_get_val_size">
+<span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">gs_effect_get_val_size</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">gs_eparam_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">param</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.gs_effect_get_val_size" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Returns the size in bytes of the param’s current value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>param</strong> – Effect parameter</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The size in bytes of the param’s current value.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.gs_effect_get_default_val_size">
+<span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">gs_effect_get_default_val_size</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">gs_eparam_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">param</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.gs_effect_get_default_val_size" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Returns the size in bytes of the param’s default value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>param</strong> – Effect parameter</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The size in bytes of the param’s default value.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="reference-libobs-graphics.html" class="btn btn-neutral float-left" title="Graphics API Reference (libobs/graphics)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="reference-libobs-graphics-vec2.html" class="btn btn-neutral float-right" title="2-Component Vector" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2017-2022, Hugh Bailey.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

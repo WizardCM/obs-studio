@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Service API Reference (obs_service_t) &mdash; OBS Studio 27.1.3 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Data Settings API Reference (obs_data_t)" href="reference-settings.html" />
+    <link rel="prev" title="Encoder API Reference (obs_encoder_t)" href="reference-encoders.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> OBS Studio
+          </a>
+              <div class="version">
+                27.1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="backend-design.html">OBS Studio Backend Design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plugins.html">Plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="frontends.html">Frontends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="graphics.html">Rendering Graphics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scripting.html">Python/Lua Scripting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-core.html">OBS Core API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-modules.html">Module API Reference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="reference-core-objects.html">Core API Object Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="reference-sources.html">Source API Reference (obs_source_t)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-scenes.html">Scene API Reference (obs_scene_t)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-outputs.html">Output API Reference (obs_output_t)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-encoders.html">Encoder API Reference (obs_encoder_t)</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Service API Reference (obs_service_t)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#service-definition-structure">Service Definition Structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#general-service-functions">General Service Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="reference-settings.html">Data Settings API Reference (obs_data_t)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-properties.html">Properties API Reference (obs_properties_t)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reference-libobs-util.html">Platform/Utility API Reference (libobs/util)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-libobs-callback.html">Callback API Reference (libobs/callback)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-libobs-graphics.html">Graphics API Reference (libobs/graphics)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-libobs-media-io.html">Media I/O API Reference (libobs/media-io)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-frontend-api.html">OBS Studio Frontend API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">OBS Studio</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="reference-core-objects.html">Core API Object Reference</a> &raquo;</li>
+      <li>Service API Reference (obs_service_t)</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/reference-services.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="service-api-reference-obs-service-t">
+<h1>Service API Reference (obs_service_t)<a class="headerlink" href="#service-api-reference-obs-service-t" title="Permalink to this headline"></a></h1>
+<p>Services are custom implementations of streaming services, which are
+used with outputs that stream.  For example, you could have a custom
+implementation for streaming to Twitch, and another for YouTube to allow
+the ability to log in and use their APIs to do things such as get the
+RTMP servers or control the channel.  The <a class="reference external" href="https://github.com/jp9000/obs-studio/blob/master/libobs/obs-service.h">libobs/obs-service.h</a> file
+is the dedicated header for implementing services.</p>
+<p><em>(Author’s note: the service API is incomplete as of this writing)</em></p>
+<dl class="c type">
+<dt class="sig sig-object c" id="c.obs_service_t">
+<span class="k"><span class="pre">type</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_service_t</span></span></span><a class="headerlink" href="#c.obs_service_t" title="Permalink to this definition"></a><br /></dt>
+<dd><p>A reference-counted service object.</p>
+</dd></dl>
+
+<dl class="c type">
+<dt class="sig sig-object c" id="c.obs_weak_service_t">
+<span class="k"><span class="pre">type</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_weak_service_t</span></span></span><a class="headerlink" href="#c.obs_weak_service_t" title="Permalink to this definition"></a><br /></dt>
+<dd><p>A weak reference to a service object.</p>
+</dd></dl>
+
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;obs.h&gt;</span><span class="cp"></span>
+</pre></div>
+</div>
+<section id="service-definition-structure">
+<h2>Service Definition Structure<a class="headerlink" href="#service-definition-structure" title="Permalink to this headline"></a></h2>
+<dl class="c type">
+<dt class="sig sig-object c">
+<span class="sig-name descname"><span class="pre">struct</span> <span class="pre">obs_service_info</span></span></dt>
+<dd><p>Service definition structure.</p>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.obs_service_info.id">
+<span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">obs_service_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">id</span></span></span><a class="headerlink" href="#c.obs_service_info.id" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Unique string identifier for the service (required).</p>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.obs_service_info.get_name">
+<span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">obs_service_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">get_name</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">type_data</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.obs_service_info.get_name" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Get the translated name of the service type.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Param type_data</dt>
+<dd class="field-odd"><p>The type_data variable of this structure</p>
+</dd>
+<dt class="field-even">Return</dt>
+<dd class="field-even"><p>The translated name of the service type</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.obs_service_info.create">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">obs_service_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">create</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><a class="reference internal" href="reference-settings.html#c.obs_data_t" title="obs_data_t"><span class="n"><span class="pre">obs_data_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">settings</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_service_t" title="obs_service_t"><span class="n"><span class="pre">obs_service_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">service</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.obs_service_info.create" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Creates the implementation data for the service.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Param settings</dt>
+<dd class="field-odd"><p>Settings to initialize the service with</p>
+</dd>
+<dt class="field-even">Param service</dt>
+<dd class="field-even"><p>Source that this data is associated with</p>
+</dd>
+<dt class="field-odd">Return</dt>
+<dd class="field-odd"><p>The implementation data associated with this service</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.obs_service_info.destroy">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">obs_service_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">destroy</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.obs_service_info.destroy" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Destroys the implementation data for the service.</p>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.obs_service_info.get_defaults">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">obs_service_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">get_defaults</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><a class="reference internal" href="reference-settings.html#c.obs_data_t" title="obs_data_t"><span class="n"><span class="pre">obs_data_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">settings</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.obs_service_info.get_defaults" title="Permalink to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.obs_service_info.get_defaults2">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">obs_service_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">get_defaults2</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">type_data</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="reference-settings.html#c.obs_data_t" title="obs_data_t"><span class="n"><span class="pre">obs_data_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">settings</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.obs_service_info.get_defaults2" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Sets the default settings for this service.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Param settings</dt>
+<dd class="field-odd"><p>Default settings.  Call obs_data_set_default*
+functions on this object to set default setting
+values</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.obs_service_info.get_properties">
+<a class="reference internal" href="reference-properties.html#c.obs_properties_t" title="obs_properties_t"><span class="n"><span class="pre">obs_properties_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">obs_service_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">get_properties</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.obs_service_info.get_properties" title="Permalink to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.obs_service_info.get_properties2">
+<a class="reference internal" href="reference-properties.html#c.obs_properties_t" title="obs_properties_t"><span class="n"><span class="pre">obs_properties_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">obs_service_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">get_properties2</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">type_data</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.obs_service_info.get_properties2" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Gets the property information of this service.</p>
+<p>(Optional)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return</dt>
+<dd class="field-odd"><p>The properties of the service</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.obs_service_info.update">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">obs_service_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">update</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="reference-settings.html#c.obs_data_t" title="obs_data_t"><span class="n"><span class="pre">obs_data_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">settings</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.obs_service_info.update" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Updates the settings for this service.</p>
+<p>(Optional)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Param settings</dt>
+<dd class="field-odd"><p>New settings for this service</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.obs_service_info.initialize">
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">obs_service_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">initialize</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="reference-outputs.html#c.obs_output_t" title="obs_output_t"><span class="n"><span class="pre">obs_output_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">output</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.obs_service_info.initialize" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Called when getting ready to start up an output, before the encoders
+and output are initialized.</p>
+<p>(Optional)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Param output</dt>
+<dd class="field-odd"><p>Output context to use this service with</p>
+</dd>
+<dt class="field-even">Return</dt>
+<dd class="field-even"><p><em>true</em> to allow the output to start up,
+<em>false</em> to prevent output from starting up</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.obs_service_info.get_url">
+<span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">obs_service_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">get_url</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.obs_service_info.get_url" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return</dt>
+<dd class="field-odd"><p>The stream URL</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.obs_service_info.get_key">
+<span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">obs_service_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">get_key</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.obs_service_info.get_key" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return</dt>
+<dd class="field-odd"><p>The stream key</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.obs_service_info.get_username">
+<span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">obs_service_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">get_username</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.obs_service_info.get_username" title="Permalink to this definition"></a><br /></dt>
+<dd><p>(Optional)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return</dt>
+<dd class="field-odd"><p>The username</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.obs_service_info.get_password">
+<span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">obs_service_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">get_password</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.obs_service_info.get_password" title="Permalink to this definition"></a><br /></dt>
+<dd><p>(Optional)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return</dt>
+<dd class="field-odd"><p>The password</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.obs_service_info.apply_encoder_settings">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">obs_service_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">apply_encoder_settings</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="reference-settings.html#c.obs_data_t" title="obs_data_t"><span class="n"><span class="pre">obs_data_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">video_encoder_settings</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="reference-settings.html#c.obs_data_t" title="obs_data_t"><span class="n"><span class="pre">obs_data_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">audio_encoder_settings</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.obs_service_info.apply_encoder_settings" title="Permalink to this definition"></a><br /></dt>
+<dd><p>This function is called to apply custom encoder settings specific to
+this service.  For example, if a service requires a specific keyframe
+interval, or has a bitrate limit, the settings for the video and
+audio encoders can be optionally modified if the front-end optionally
+calls <a class="reference internal" href="#c.obs_service_apply_encoder_settings" title="obs_service_apply_encoder_settings"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_service_apply_encoder_settings()</span></code></a>.</p>
+<p>(Optional)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Param video_encoder_settings</dt>
+<dd class="field-odd"><p>The audio encoder settings to change</p>
+</dd>
+<dt class="field-even">Param audio_encoder_settings</dt>
+<dd class="field-even"><p>The video encoder settings to change</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.obs_service_info.type_data">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">obs_service_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">type_data</span></span></span><a class="headerlink" href="#c.obs_service_info.type_data" title="Permalink to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.obs_service_info.free_type_data">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">obs_service_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">free_type_data</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">type_data</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.obs_service_info.free_type_data" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Private data associated with this entry.  Note that this is not the
+same as the implementation data; this is used to differentiate
+between two different types if the same callbacks are used for more
+than one different type.</p>
+<p>(Optional)</p>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.obs_service_info.get_output_type">
+<span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">obs_service_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">get_output_type</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.obs_service_info.get_output_type" title="Permalink to this definition"></a><br /></dt>
+<dd><p>(Optional)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return</dt>
+<dd class="field-odd"><p>The output type that should be used with this service</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="general-service-functions">
+<h2>General Service Functions<a class="headerlink" href="#general-service-functions" title="Permalink to this headline"></a></h2>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_register_service">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_register_service</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">obs_service_info</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">info</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_register_service" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Registers a service type.  Typically used in
+<a class="reference internal" href="reference-modules.html#c.obs_module_load" title="obs_module_load"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_module_load()</span></code></a> or in the program’s initialization phase.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_service_get_display_name">
+<span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_service_get_display_name</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">id</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_service_get_display_name" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Calls the <a class="reference internal" href="#c.obs_service_info.get_name" title="obs_service_info.get_name"><code class="xref c c-member docutils literal notranslate"><span class="pre">obs_service_info.get_name</span></code></a> callback to get the
+translated display name of a service type.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>id</strong> – The service type string identifier</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The translated display name of a service type</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_service_create">
+<a class="reference internal" href="#c.obs_service_t" title="obs_service_t"><span class="n"><span class="pre">obs_service_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_service_create</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">id</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">name</span></span>, <a class="reference internal" href="reference-settings.html#c.obs_data_t" title="obs_data_t"><span class="n"><span class="pre">obs_data_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">settings</span></span>, <a class="reference internal" href="reference-settings.html#c.obs_data_t" title="obs_data_t"><span class="n"><span class="pre">obs_data_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">hotkey_data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_service_create" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Creates a service with the specified settings.</p>
+<p>The “service” context is used for encoding video/audio data.  Use
+obs_service_release to release it.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>id</strong> – The service type string identifier</p></li>
+<li><p><strong>name</strong> – The desired name of the service.  If this is
+not unique, it will be made to be unique</p></li>
+<li><p><strong>settings</strong> – The settings for the service, or <em>NULL</em> if
+none</p></li>
+<li><p><strong>hotkey_data</strong> – Saved hotkey data for the service, or <em>NULL</em>
+if none</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A reference to the newly created service, or
+<em>NULL</em> if failed</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_service_addref">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_service_addref</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_service_t" title="obs_service_t"><span class="n"><span class="pre">obs_service_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">service</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_service_addref" title="Permalink to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.obs_service_release">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_service_release</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_service_t" title="obs_service_t"><span class="n"><span class="pre">obs_service_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">service</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_service_release" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Adds/releases a reference to a service.  When the last reference is
+released, the service is destroyed.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_service_get_weak_service">
+<a class="reference internal" href="#c.obs_weak_service_t" title="obs_weak_service_t"><span class="n"><span class="pre">obs_weak_service_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_service_get_weak_service</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_service_t" title="obs_service_t"><span class="n"><span class="pre">obs_service_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">service</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_service_get_weak_service" title="Permalink to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.obs_weak_service_get_service">
+<a class="reference internal" href="#c.obs_service_t" title="obs_service_t"><span class="n"><span class="pre">obs_service_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_weak_service_get_service</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_weak_service_t" title="obs_weak_service_t"><span class="n"><span class="pre">obs_weak_service_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">weak</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_weak_service_get_service" title="Permalink to this definition"></a><br /></dt>
+<dd><p>These functions are used to get a weak reference from a strong service
+reference, or a strong service reference from a weak reference.  If
+the service is destroyed, <em>obs_weak_service_get_service</em> will return
+<em>NULL</em>.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_weak_service_addref">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_weak_service_addref</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_weak_service_t" title="obs_weak_service_t"><span class="n"><span class="pre">obs_weak_service_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">weak</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_weak_service_addref" title="Permalink to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.obs_weak_service_release">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_weak_service_release</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_weak_service_t" title="obs_weak_service_t"><span class="n"><span class="pre">obs_weak_service_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">weak</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_weak_service_release" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Adds/releases a weak reference to a service.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_service_get_name">
+<span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_service_get_name</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_service_t" title="obs_service_t"><span class="n"><span class="pre">obs_service_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">service</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_service_get_name" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The name of the service</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_service_defaults">
+<a class="reference internal" href="reference-settings.html#c.obs_data_t" title="obs_data_t"><span class="n"><span class="pre">obs_data_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_service_defaults</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">id</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_service_defaults" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>An incremented reference to the service’s default settings</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_service_properties">
+<a class="reference internal" href="reference-properties.html#c.obs_properties_t" title="obs_properties_t"><span class="n"><span class="pre">obs_properties_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_service_properties</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_service_t" title="obs_service_t"><span class="n"><span class="pre">obs_service_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">service</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_service_properties" title="Permalink to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.obs_get_service_properties">
+<a class="reference internal" href="reference-properties.html#c.obs_properties_t" title="obs_properties_t"><span class="n"><span class="pre">obs_properties_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_get_service_properties</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">id</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_get_service_properties" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Use these functions to get the properties of a service or service
+type.  Properties are optionally used (if desired) to automatically
+generate user interface widgets to allow users to update settings.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The properties list for a specific existing service.  Free
+with <a class="reference internal" href="reference-properties.html#c.obs_properties_destroy" title="obs_properties_destroy"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_properties_destroy()</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_service_get_settings">
+<a class="reference internal" href="reference-settings.html#c.obs_data_t" title="obs_data_t"><span class="n"><span class="pre">obs_data_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_service_get_settings</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_service_t" title="obs_service_t"><span class="n"><span class="pre">obs_service_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">service</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_service_get_settings" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>An incremented reference to the service’s settings</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_service_update">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_service_update</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_service_t" title="obs_service_t"><span class="n"><span class="pre">obs_service_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">service</span></span>, <a class="reference internal" href="reference-settings.html#c.obs_data_t" title="obs_data_t"><span class="n"><span class="pre">obs_data_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">settings</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_service_update" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Updates the settings for this service context.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_service_get_url">
+<span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_service_get_url</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_service_t" title="obs_service_t"><span class="n"><span class="pre">obs_service_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">service</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_service_get_url" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The URL currently used for this service</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_service_get_key">
+<span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_service_get_key</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_service_t" title="obs_service_t"><span class="n"><span class="pre">obs_service_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">service</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_service_get_key" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Stream key (if any) currently used for this service</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_service_get_username">
+<span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_service_get_username</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_service_t" title="obs_service_t"><span class="n"><span class="pre">obs_service_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">service</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_service_get_username" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>User name (if any) currently used for this service</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_service_get_password">
+<span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_service_get_password</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_service_t" title="obs_service_t"><span class="n"><span class="pre">obs_service_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">service</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_service_get_password" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Password (if any) currently used for this service</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_service_apply_encoder_settings">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_service_apply_encoder_settings</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_service_t" title="obs_service_t"><span class="n"><span class="pre">obs_service_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">service</span></span>, <a class="reference internal" href="reference-settings.html#c.obs_data_t" title="obs_data_t"><span class="n"><span class="pre">obs_data_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">video_encoder_settings</span></span>, <a class="reference internal" href="reference-settings.html#c.obs_data_t" title="obs_data_t"><span class="n"><span class="pre">obs_data_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">audio_encoder_settings</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_service_apply_encoder_settings" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Applies service-specific video encoder settings.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>video_encoder_settings</strong> – Video encoder settings.  Can be <em>NULL</em></p></li>
+<li><p><strong>audio_encoder_settings</strong> – Audio encoder settings.  Can be <em>NULL</em></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="reference-encoders.html" class="btn btn-neutral float-left" title="Encoder API Reference (obs_encoder_t)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="reference-settings.html" class="btn btn-neutral float-right" title="Data Settings API Reference (obs_data_t)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2017-2022, Hugh Bailey.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

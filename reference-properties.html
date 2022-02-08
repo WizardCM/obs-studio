@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Properties API Reference (obs_properties_t) &mdash; OBS Studio 27.1.3 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Platform/Utility API Reference (libobs/util)" href="reference-libobs-util.html" />
+    <link rel="prev" title="Data Settings API Reference (obs_data_t)" href="reference-settings.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> OBS Studio
+          </a>
+              <div class="version">
+                27.1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="backend-design.html">OBS Studio Backend Design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plugins.html">Plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="frontends.html">Frontends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="graphics.html">Rendering Graphics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scripting.html">Python/Lua Scripting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-core.html">OBS Core API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-modules.html">Module API Reference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="reference-core-objects.html">Core API Object Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="reference-sources.html">Source API Reference (obs_source_t)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-scenes.html">Scene API Reference (obs_scene_t)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-outputs.html">Output API Reference (obs_output_t)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-encoders.html">Encoder API Reference (obs_encoder_t)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-services.html">Service API Reference (obs_service_t)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-settings.html">Data Settings API Reference (obs_data_t)</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Properties API Reference (obs_properties_t)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#general-functions">General Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#property-object-functions">Property Object Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#property-enumeration-functions">Property Enumeration Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#property-modification-functions">Property Modification Functions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reference-libobs-util.html">Platform/Utility API Reference (libobs/util)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-libobs-callback.html">Callback API Reference (libobs/callback)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-libobs-graphics.html">Graphics API Reference (libobs/graphics)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-libobs-media-io.html">Media I/O API Reference (libobs/media-io)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-frontend-api.html">OBS Studio Frontend API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">OBS Studio</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="reference-core-objects.html">Core API Object Reference</a> &raquo;</li>
+      <li>Properties API Reference (obs_properties_t)</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/reference-properties.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="properties-api-reference-obs-properties-t">
+<h1>Properties API Reference (obs_properties_t)<a class="headerlink" href="#properties-api-reference-obs-properties-t" title="Permalink to this headline"></a></h1>
+<p>Properties are used to enumerate available settings for a libobs object.
+Typically this is used to automatically generate user interface widgets,
+though can be used to enumerate available and/or valid values for
+specific settings as well.</p>
+<dl class="c type">
+<dt class="sig sig-object c" id="c.obs_properties_t">
+<span class="k"><span class="pre">type</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_properties_t</span></span></span><a class="headerlink" href="#c.obs_properties_t" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Properties object (not reference counted).</p>
+</dd></dl>
+
+<dl class="c type">
+<dt class="sig sig-object c" id="c.obs_property_t">
+<span class="k"><span class="pre">type</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_property_t</span></span></span><a class="headerlink" href="#c.obs_property_t" title="Permalink to this definition"></a><br /></dt>
+<dd><p>A property object (not reference counted).</p>
+</dd></dl>
+
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;obs.h&gt;</span><span class="cp"></span>
+</pre></div>
+</div>
+<section id="general-functions">
+<h2>General Functions<a class="headerlink" href="#general-functions" title="Permalink to this headline"></a></h2>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_properties_create">
+<a class="reference internal" href="#c.obs_properties_t" title="obs_properties_t"><span class="n"><span class="pre">obs_properties_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_properties_create</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_properties_create" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A new properties object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_properties_create_param">
+<a class="reference internal" href="#c.obs_properties_t" title="obs_properties_t"><span class="n"><span class="pre">obs_properties_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_properties_create_param</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">param</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">destroy</span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">param</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_properties_create_param" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Creates a new properties object with specific private data <em>param</em>
+associated with the object, and is automatically freed with the
+object when the properties are destroyed via the <em>destroy</em> function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A new properties object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_properties_destroy">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_properties_destroy</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_properties_t" title="obs_properties_t"><span class="n"><span class="pre">obs_properties_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">props</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_properties_destroy" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_properties_set_flags">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_properties_set_flags</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_properties_t" title="obs_properties_t"><span class="n"><span class="pre">obs_properties_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">props</span></span>, <span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="n"><span class="pre">flags</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_properties_set_flags" title="Permalink to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.obs_properties_get_flags">
+<span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_properties_get_flags</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_properties_t" title="obs_properties_t"><span class="n"><span class="pre">obs_properties_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">props</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_properties_get_flags" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>flags</strong> – <p>0 or a bitwise OR combination of one of the following
+values:</p>
+<ul>
+<li><p>OBS_PROPERTIES_DEFER_UPDATE - A hint that tells the
+front-end to defers updating the settings until the
+user has finished editing all properties rather than
+immediately updating any settings</p></li>
+</ul>
+</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_properties_set_param">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_properties_set_param</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_properties_t" title="obs_properties_t"><span class="n"><span class="pre">obs_properties_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">props</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">param</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">destroy</span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">param</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_properties_set_param" title="Permalink to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.obs_properties_get_param">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_properties_get_param</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_properties_t" title="obs_properties_t"><span class="n"><span class="pre">obs_properties_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">props</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_properties_get_param" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Sets custom data associated with this properties object.  If private
+data is already associated with the object, that private data will be
+destroyed before assigning new private data to it.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_properties_apply_settings">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_properties_apply_settings</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_properties_t" title="obs_properties_t"><span class="n"><span class="pre">obs_properties_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">props</span></span>, <a class="reference internal" href="reference-settings.html#c.obs_data_t" title="obs_data_t"><span class="n"><span class="pre">obs_data_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">settings</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_properties_apply_settings" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Applies settings to the properties by calling all the necessary
+modification callbacks</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_properties_get_parent">
+<a class="reference internal" href="#c.obs_properties_t" title="obs_properties_t"><span class="n"><span class="pre">obs_properties_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_properties_get_parent</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_properties_t" title="obs_properties_t"><span class="n"><span class="pre">obs_properties_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">props</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_properties_get_parent" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</section>
+<hr class="docutils" />
+<section id="property-object-functions">
+<h2>Property Object Functions<a class="headerlink" href="#property-object-functions" title="Permalink to this headline"></a></h2>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_properties_add_bool">
+<a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_properties_add_bool</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_properties_t" title="obs_properties_t"><span class="n"><span class="pre">obs_properties_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">props</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">name</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">description</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_properties_add_bool" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Adds a boolean property.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – Setting identifier string</p></li>
+<li><p><strong>description</strong> – Localized name shown to user</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The property</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_properties_add_int">
+<a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_properties_add_int</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_properties_t" title="obs_properties_t"><span class="n"><span class="pre">obs_properties_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">props</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">name</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">description</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">min</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">max</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">step</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_properties_add_int" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Adds an integer property.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – Setting identifier string</p></li>
+<li><p><strong>description</strong> – Localized name shown to user</p></li>
+<li><p><strong>min</strong> – Minimum value</p></li>
+<li><p><strong>max</strong> – Maximum value</p></li>
+<li><p><strong>step</strong> – Step value</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The property</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_properties_add_float">
+<a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_properties_add_float</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_properties_t" title="obs_properties_t"><span class="n"><span class="pre">obs_properties_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">props</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">name</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">description</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">min</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">max</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">step</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_properties_add_float" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – Setting identifier string</p></li>
+<li><p><strong>description</strong> – Localized name shown to user</p></li>
+<li><p><strong>min</strong> – Minimum value</p></li>
+<li><p><strong>max</strong> – Maximum value</p></li>
+<li><p><strong>step</strong> – Step value</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The property</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_properties_add_int_slider">
+<a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_properties_add_int_slider</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_properties_t" title="obs_properties_t"><span class="n"><span class="pre">obs_properties_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">props</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">name</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">description</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">min</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">max</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">step</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_properties_add_int_slider" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – Setting identifier string</p></li>
+<li><p><strong>description</strong> – Localized name shown to user</p></li>
+<li><p><strong>min</strong> – Minimum value</p></li>
+<li><p><strong>max</strong> – Maximum value</p></li>
+<li><p><strong>step</strong> – Step value</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The property</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_properties_add_float_slider">
+<a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_properties_add_float_slider</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_properties_t" title="obs_properties_t"><span class="n"><span class="pre">obs_properties_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">props</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">name</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">description</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">min</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">max</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">step</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_properties_add_float_slider" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – Setting identifier string</p></li>
+<li><p><strong>description</strong> – Localized name shown to user</p></li>
+<li><p><strong>min</strong> – Minimum value</p></li>
+<li><p><strong>max</strong> – Maximum value</p></li>
+<li><p><strong>step</strong> – Step value</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The property</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_properties_add_text">
+<a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_properties_add_text</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_properties_t" title="obs_properties_t"><span class="n"><span class="pre">obs_properties_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">props</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">name</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">description</span></span>, <span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="n"><span class="pre">obs_text_type</span></span><span class="w"> </span><span class="n"><span class="pre">type</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_properties_add_text" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – Setting identifier string</p></li>
+<li><p><strong>description</strong> – Localized name shown to user</p></li>
+<li><p><strong>type</strong> – <p>Can be one of the following values:</p>
+<ul>
+<li><p><strong>OBS_TEXT_DEFAULT</strong> - Single line of text</p></li>
+<li><p><strong>OBS_TEXT_PASSWORD</strong> - Single line of text (passworded)</p></li>
+<li><p><strong>OBS_TEXT_MULTILINE</strong> - Multi-line text</p></li>
+</ul>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The property</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_properties_add_path">
+<a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_properties_add_path</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_properties_t" title="obs_properties_t"><span class="n"><span class="pre">obs_properties_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">props</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">name</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">description</span></span>, <span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="n"><span class="pre">obs_path_type</span></span><span class="w"> </span><span class="n"><span class="pre">type</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">filter</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">default_path</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_properties_add_path" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Adds a ‘path’ property.  Can be a directory or a file.</p>
+<p>If target is a file path, the filters should be this format, separated by
+double semi-colens, and extensions separated by space:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;Example types 1 and 2 (*.ex1 *.ex2);;Example type 3 (*.ex3)&quot;</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – Setting identifier string</p></li>
+<li><p><strong>description</strong> – Localized name shown to user</p></li>
+<li><p><strong>type</strong> – <p>Can be one of the following values:</p>
+<ul>
+<li><p><strong>OBS_PATH_FILE</strong> - File (for reading)</p></li>
+<li><p><strong>OBS_PATH_FILE_SAVE</strong> - File (for writing)</p></li>
+<li><p><strong>OBS_PATH_DIRECTORY</strong> - Directory</p></li>
+</ul>
+</p></li>
+<li><p><strong>filter</strong> – If type is a file path, then describes the file filter
+that the user can browse.  Items are separated via
+double semi-colens.  If multiple file types in a
+filter, separate with space.</p></li>
+<li><p><strong>default_path</strong> – The default path to start in, or <em>NULL</em></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The property</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_properties_add_list">
+<a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_properties_add_list</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_properties_t" title="obs_properties_t"><span class="n"><span class="pre">obs_properties_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">props</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">name</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">description</span></span>, <span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="n"><span class="pre">obs_combo_type</span></span><span class="w"> </span><span class="n"><span class="pre">type</span></span>, <span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="n"><span class="pre">obs_combo_format</span></span><span class="w"> </span><span class="n"><span class="pre">format</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_properties_add_list" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Adds an integer/string/floating point item list.  This would be
+implemented as a combo box in user interface.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – Setting identifier string</p></li>
+<li><p><strong>description</strong> – Localized name shown to user</p></li>
+<li><p><strong>type</strong> – <p>Can be one of the following values:</p>
+<ul>
+<li><p><strong>OBS_COMBO_TYPE_EDITABLE</strong> - Can be edited.
+Only used with string lists.</p></li>
+<li><p><strong>OBS_COMBO_TYPE_LIST</strong> - Not editable.</p></li>
+</ul>
+</p></li>
+<li><p><strong>format</strong> – <p>Can be one of the following values:</p>
+<ul>
+<li><p><strong>OBS_COMBO_FORMAT_INT</strong> - Integer list</p></li>
+<li><p><strong>OBS_COMBO_FORMAT_FLOAT</strong> - Floating point
+list</p></li>
+<li><p><strong>OBS_COMBO_FORMAT_STRING</strong> - String list</p></li>
+</ul>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The property</p>
+</dd>
+</dl>
+<p>Important Related Functions:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#c.obs_property_list_add_string" title="obs_property_list_add_string"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_property_list_add_string()</span></code></a></p></li>
+<li><p><a class="reference internal" href="#c.obs_property_list_add_int" title="obs_property_list_add_int"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_property_list_add_int()</span></code></a></p></li>
+<li><p><a class="reference internal" href="#c.obs_property_list_add_float" title="obs_property_list_add_float"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_property_list_add_float()</span></code></a></p></li>
+<li><p><a class="reference internal" href="#c.obs_property_list_insert_string" title="obs_property_list_insert_string"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_property_list_insert_string()</span></code></a></p></li>
+<li><p><a class="reference internal" href="#c.obs_property_list_insert_int" title="obs_property_list_insert_int"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_property_list_insert_int()</span></code></a></p></li>
+<li><p><a class="reference internal" href="#c.obs_property_list_insert_float" title="obs_property_list_insert_float"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_property_list_insert_float()</span></code></a></p></li>
+<li><p><a class="reference internal" href="#c.obs_property_list_item_remove" title="obs_property_list_item_remove"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_property_list_item_remove()</span></code></a></p></li>
+<li><p><a class="reference internal" href="#c.obs_property_list_clear" title="obs_property_list_clear"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_property_list_clear()</span></code></a></p></li>
+</ul>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_properties_add_color">
+<a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_properties_add_color</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_properties_t" title="obs_properties_t"><span class="n"><span class="pre">obs_properties_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">props</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">name</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">description</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_properties_add_color" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Adds a color property without alpha.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – Setting identifier string</p></li>
+<li><p><strong>description</strong> – Localized name shown to user</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The property</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_properties_add_color_alpha">
+<a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_properties_add_color_alpha</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_properties_t" title="obs_properties_t"><span class="n"><span class="pre">obs_properties_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">props</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">name</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">description</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_properties_add_color_alpha" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Adds a color property with alpha.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – Setting identifier string</p></li>
+<li><p><strong>description</strong> – Localized name shown to user</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The property</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_properties_add_button">
+<a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_properties_add_button</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_properties_t" title="obs_properties_t"><span class="n"><span class="pre">obs_properties_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">props</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">name</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">text</span></span>, <span class="n"><span class="pre">obs_property_clicked_t</span></span><span class="w"> </span><span class="n"><span class="pre">callback</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_properties_add_button" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Adds a button property.  This property does not actually store any
+settings; it’s used to implement a button in user interface if the
+properties are used to generate user interface.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – Setting identifier string</p></li>
+<li><p><strong>description</strong> – Localized name shown to user</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The property</p>
+</dd>
+</dl>
+<p>Important Related Functions:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><a class="reference internal" href="#c.obs_property_button_set_type" title="obs_property_button_set_type"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_property_button_set_type()</span></code></a></p></li>
+<li><p><a class="reference internal" href="#c.obs_property_button_set_url" title="obs_property_button_set_url"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_property_button_set_url()</span></code></a></p></li>
+</ul>
+</div></blockquote>
+<p>Relevant data types used with this function:</p>
+</dd></dl>
+
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">obs_property_clicked_t</span><span class="p">)(</span><span class="n">obs_properties_t</span><span class="w"> </span><span class="o">*</span><span class="n">props</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="n">obs_property_t</span><span class="w"> </span><span class="o">*</span><span class="n">property</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">data</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_properties_add_font">
+<a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_properties_add_font</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_properties_t" title="obs_properties_t"><span class="n"><span class="pre">obs_properties_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">props</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">name</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">description</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_properties_add_font" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Adds a font property.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – Setting identifier string</p></li>
+<li><p><strong>description</strong> – Localized name shown to user</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The property</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_properties_add_editable_list">
+<a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_properties_add_editable_list</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_properties_t" title="obs_properties_t"><span class="n"><span class="pre">obs_properties_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">props</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">name</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">description</span></span>, <span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="n"><span class="pre">obs_editable_list_type</span></span><span class="w"> </span><span class="n"><span class="pre">type</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">filter</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">default_path</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_properties_add_editable_list" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Adds a list in which the user can add/insert/remove items.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – Setting identifier string</p></li>
+<li><p><strong>description</strong> – Localized name shown to user</p></li>
+<li><p><strong>type</strong> – <p>Can be one of the following values:</p>
+<ul>
+<li><p><strong>OBS_EDITABLE_LIST_TYPE_STRINGS</strong> - An
+editable list of strings.</p></li>
+<li><p><strong>OBS_EDITABLE_LIST_TYPE_FILES</strong> - An
+editable list of files.</p></li>
+<li><p><strong>OBS_EDITABLE_LIST_TYPE_FILES_AND_URLS</strong> -
+An editable list of files and URLs.</p></li>
+</ul>
+</p></li>
+<li><p><strong>filter</strong> – File filter to use if a file list</p></li>
+<li><p><strong>default_path</strong> – Default path if a file list</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The property</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_properties_add_frame_rate">
+<a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_properties_add_frame_rate</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_properties_t" title="obs_properties_t"><span class="n"><span class="pre">obs_properties_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">props</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">name</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">description</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_properties_add_frame_rate" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Adds a frame rate property.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – Setting identifier string</p></li>
+<li><p><strong>description</strong> – Localized name shown to user</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The property</p>
+</dd>
+</dl>
+<p>Important Related Functions:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#c.obs_property_frame_rate_option_add" title="obs_property_frame_rate_option_add"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_property_frame_rate_option_add()</span></code></a></p></li>
+<li><p><a class="reference internal" href="#c.obs_property_frame_rate_fps_range_add" title="obs_property_frame_rate_fps_range_add"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_property_frame_rate_fps_range_add()</span></code></a></p></li>
+<li><p><a class="reference internal" href="#c.obs_property_frame_rate_option_insert" title="obs_property_frame_rate_option_insert"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_property_frame_rate_option_insert()</span></code></a></p></li>
+<li><p><a class="reference internal" href="#c.obs_property_frame_rate_fps_range_insert" title="obs_property_frame_rate_fps_range_insert"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_property_frame_rate_fps_range_insert()</span></code></a></p></li>
+</ul>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_properties_add_group">
+<a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_properties_add_group</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_properties_t" title="obs_properties_t"><span class="n"><span class="pre">obs_properties_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">props</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">name</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">description</span></span>, <span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="n"><span class="pre">obs_group_type</span></span><span class="w"> </span><span class="n"><span class="pre">type</span></span>, <a class="reference internal" href="#c.obs_properties_t" title="obs_properties_t"><span class="n"><span class="pre">obs_properties_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">group</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_properties_add_group" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Adds a property group.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – Setting identifier string</p></li>
+<li><p><strong>description</strong> – Localized name shown to user</p></li>
+<li><p><strong>type</strong> – <p>Can be one of the following values:</p>
+<ul>
+<li><p><strong>OBS_GROUP_NORMAL</strong> - A normal group with just a name and content.</p></li>
+<li><p><strong>OBS_GROUP_CHECKABLE</strong> - A checkable group with a checkbox, name and content.</p></li>
+</ul>
+</p></li>
+<li><p><strong>group</strong> – Group to add</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The property</p>
+</dd>
+</dl>
+<p>Important Related Functions:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#c.obs_property_group_type" title="obs_property_group_type"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_property_group_type()</span></code></a></p></li>
+<li><p><a class="reference internal" href="#c.obs_property_group_content" title="obs_property_group_content"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_property_group_content()</span></code></a></p></li>
+<li><p><a class="reference internal" href="#c.obs_properties_get_parent" title="obs_properties_get_parent"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_properties_get_parent()</span></code></a></p></li>
+</ul>
+</dd></dl>
+
+</section>
+<hr class="docutils" />
+<section id="property-enumeration-functions">
+<h2>Property Enumeration Functions<a class="headerlink" href="#property-enumeration-functions" title="Permalink to this headline"></a></h2>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_properties_first">
+<a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_properties_first</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_properties_t" title="obs_properties_t"><span class="n"><span class="pre">obs_properties_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">props</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_properties_first" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The first property in the properties object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_properties_get">
+<a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_properties_get</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_properties_t" title="obs_properties_t"><span class="n"><span class="pre">obs_properties_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">props</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">property</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_properties_get" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>property</strong> – The name of the property to get</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A specific property or <em>NULL</em> if not found</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_property_next">
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_property_next</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_property_next" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>p</strong> – Pointer to the pointer of the next property</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><em>true</em> if successful, <em>false</em> if no more properties</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_property_name">
+<span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_property_name</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_property_name" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The setting identifier string of the property</p>
+</dd>
+</dl>
+<p><em>(Author’s Note: “name” was a bad name to use here.  Should have been
+“setting”)</em></p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_property_description">
+<span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_property_description</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_property_description" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The actual localized display name of the property</p>
+</dd>
+</dl>
+<p><em>(Author’s note: This one should have been the “name”)</em></p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_property_long_description">
+<span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_property_long_description</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_property_long_description" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A detailed description of what the setting is used for.
+Usually used with things like tooltips.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_property_get_type">
+<span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="n"><span class="pre">obs_property_type</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_property_get_type</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_property_get_type" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><p>One of the following values:</p>
+<ul class="simple">
+<li><p>OBS_PROPERTY_INVALID</p></li>
+<li><p>OBS_PROPERTY_BOOL</p></li>
+<li><p>OBS_PROPERTY_INT</p></li>
+<li><p>OBS_PROPERTY_FLOAT</p></li>
+<li><p>OBS_PROPERTY_TEXT</p></li>
+<li><p>OBS_PROPERTY_PATH</p></li>
+<li><p>OBS_PROPERTY_LIST</p></li>
+<li><p>OBS_PROPERTY_COLOR</p></li>
+<li><p>OBS_PROPERTY_BUTTON</p></li>
+<li><p>OBS_PROPERTY_FONT</p></li>
+<li><p>OBS_PROPERTY_EDITABLE_LIST</p></li>
+<li><p>OBS_PROPERTY_FRAME_RATE</p></li>
+<li><p>OBS_PROPERTY_GROUP</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_property_enabled">
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_property_enabled</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_property_enabled" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_property_visible">
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_property_visible</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_property_visible" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_property_int_min">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_property_int_min</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_property_int_min" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_property_int_max">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_property_int_max</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_property_int_max" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_property_int_step">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_property_int_step</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_property_int_step" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_property_int_type">
+<span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="n"><span class="pre">obs_number_type</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_property_int_type</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_property_int_type" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_property_float_min">
+<span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_property_float_min</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_property_float_min" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_property_float_max">
+<span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_property_float_max</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_property_float_max" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_property_float_step">
+<span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_property_float_step</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_property_float_step" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_property_float_type">
+<span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="n"><span class="pre">obs_number_type</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_property_float_type</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_property_float_type" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_property_text_type">
+<span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="n"><span class="pre">obs_text_type</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_property_text_type</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_property_text_type" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_property_path_type">
+<span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="n"><span class="pre">obs_path_type</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_property_path_type</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_property_path_type" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_property_path_filter">
+<span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_property_path_filter</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_property_path_filter" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_property_path_default_path">
+<span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_property_path_default_path</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_property_path_default_path" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_property_list_type">
+<span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="n"><span class="pre">obs_combo_type</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_property_list_type</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_property_list_type" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_property_list_format">
+<span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="n"><span class="pre">obs_combo_format</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_property_list_format</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_property_list_format" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_property_list_item_disabled">
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_property_list_item_disabled</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">idx</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_property_list_item_disabled" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_property_list_item_count">
+<span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_property_list_item_count</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_property_list_item_count" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_property_list_item_name">
+<span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_property_list_item_name</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">idx</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_property_list_item_name" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_property_list_item_string">
+<span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_property_list_item_string</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">idx</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_property_list_item_string" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_property_list_item_int">
+<span class="kt"><span class="pre">long</span></span><span class="w"> </span><span class="kt"><span class="pre">long</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_property_list_item_int</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">idx</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_property_list_item_int" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_property_list_item_float">
+<span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_property_list_item_float</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">idx</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_property_list_item_float" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_property_editable_list_type">
+<span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="n"><span class="pre">obs_editable_list_type</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_property_editable_list_type</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_property_editable_list_type" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_property_editable_list_filter">
+<span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_property_editable_list_filter</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_property_editable_list_filter" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_property_editable_list_default_path">
+<span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_property_editable_list_default_path</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_property_editable_list_default_path" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_property_frame_rate_options_count">
+<span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_property_frame_rate_options_count</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_property_frame_rate_options_count" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_property_frame_rate_option_name">
+<span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_property_frame_rate_option_name</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">idx</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_property_frame_rate_option_name" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_property_frame_rate_option_description">
+<span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_property_frame_rate_option_description</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">idx</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_property_frame_rate_option_description" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_property_frame_rate_fps_ranges_count">
+<span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_property_frame_rate_fps_ranges_count</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_property_frame_rate_fps_ranges_count" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_property_frame_rate_fps_range_min">
+<span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">media_frames_per_second</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_property_frame_rate_fps_range_min</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">idx</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_property_frame_rate_fps_range_min" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_property_frame_rate_fps_range_max">
+<span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">media_frames_per_second</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_property_frame_rate_fps_range_max</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">idx</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_property_frame_rate_fps_range_max" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_property_button_type">
+<span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="n"><span class="pre">obs_button_type</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_property_button_type</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_property_button_type" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><p>One of the following values:</p>
+<ul class="simple">
+<li><p>OBS_BUTTON_DEFAULT</p></li>
+<li><p>OBS_BUTTON_URL</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_property_button_url">
+<span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_property_button_url</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_property_button_url" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_property_group_type">
+<span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="n"><span class="pre">obs_group_type</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_property_group_type</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_property_group_type" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><p>One of the following values:</p>
+<ul class="simple">
+<li><p>OBS_COMBO_INVALID</p></li>
+<li><p>OBS_GROUP_NORMAL</p></li>
+<li><p>OBS_GROUP_CHECKABLE</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_property_group_content">
+<a class="reference internal" href="#c.obs_properties_t" title="obs_properties_t"><span class="n"><span class="pre">obs_properties_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_property_group_content</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_property_group_content" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</section>
+<hr class="docutils" />
+<section id="property-modification-functions">
+<h2>Property Modification Functions<a class="headerlink" href="#property-modification-functions" title="Permalink to this headline"></a></h2>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_property_set_modified_callback">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_property_set_modified_callback</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span>, <span class="n"><span class="pre">obs_property_modified_t</span></span><span class="w"> </span><span class="n"><span class="pre">modified</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_property_set_modified_callback" title="Permalink to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.obs_property_set_modified_callback2">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_property_set_modified_callback2</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span>, <span class="n"><span class="pre">obs_property_modified2_t</span></span><span class="w"> </span><span class="n"><span class="pre">modified2</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">priv</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_property_set_modified_callback2" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Allows the ability to change the properties depending on what
+settings are used by the user.</p>
+<p>Relevant data types used with these functions:</p>
+</dd></dl>
+
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">obs_property_modified_t</span><span class="p">)(</span><span class="n">obs_properties_t</span><span class="w"> </span><span class="o">*</span><span class="n">props</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="n">obs_property_t</span><span class="w"> </span><span class="o">*</span><span class="n">property</span><span class="p">,</span><span class="w"> </span><span class="n">obs_data_t</span><span class="w"> </span><span class="o">*</span><span class="n">settings</span><span class="p">);</span><span class="w"></span>
+<span class="k">typedef</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">obs_property_modified2_t</span><span class="p">)(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">priv</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="n">obs_properties_t</span><span class="w"> </span><span class="o">*</span><span class="n">props</span><span class="p">,</span><span class="w"> </span><span class="n">obs_property_t</span><span class="w"> </span><span class="o">*</span><span class="n">property</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="n">obs_data_t</span><span class="w"> </span><span class="o">*</span><span class="n">settings</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_property_modified">
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_property_modified</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span>, <a class="reference internal" href="reference-settings.html#c.obs_data_t" title="obs_data_t"><span class="n"><span class="pre">obs_data_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">settings</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_property_modified" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_property_button_clicked">
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_property_button_clicked</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">obj</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_property_button_clicked" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_property_set_visible">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_property_set_visible</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n"><span class="pre">visible</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_property_set_visible" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_property_set_enabled">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_property_set_enabled</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n"><span class="pre">enabled</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_property_set_enabled" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_property_set_description">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_property_set_description</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">description</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_property_set_description" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Sets the displayed localized name of the property, shown to the user.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_property_set_long_description">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_property_set_long_description</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">long_description</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_property_set_long_description" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Sets the localized long description of the property, usually shown to
+a user via tooltip.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_property_int_set_limits">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_property_int_set_limits</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">min</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">max</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">step</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_property_int_set_limits" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_property_float_set_limits">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_property_float_set_limits</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">min</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">max</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">step</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_property_float_set_limits" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_property_list_clear">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_property_list_clear</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_property_list_clear" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_property_list_add_string">
+<span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_property_list_add_string</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">name</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">val</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_property_list_add_string" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Adds a string to a string list.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_property_list_add_int">
+<span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_property_list_add_int</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">name</span></span>, <span class="kt"><span class="pre">long</span></span><span class="w"> </span><span class="kt"><span class="pre">long</span></span><span class="w"> </span><span class="n"><span class="pre">val</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_property_list_add_int" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Adds an integer to a integer list.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_property_list_add_float">
+<span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_property_list_add_float</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">name</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">val</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_property_list_add_float" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Adds a floating point to a floating point list.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_property_list_insert_string">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_property_list_insert_string</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">idx</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">name</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">val</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_property_list_insert_string" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Inserts a string in to a string list.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_property_list_insert_int">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_property_list_insert_int</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">idx</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">name</span></span>, <span class="kt"><span class="pre">long</span></span><span class="w"> </span><span class="kt"><span class="pre">long</span></span><span class="w"> </span><span class="n"><span class="pre">val</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_property_list_insert_int" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Inserts an integer in to an integer list.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_property_list_insert_float">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_property_list_insert_float</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">idx</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">name</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">val</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_property_list_insert_float" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Inserts a floating point in to a floating point list.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_property_list_item_disable">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_property_list_item_disable</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">idx</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n"><span class="pre">disabled</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_property_list_item_disable" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_property_list_item_remove">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_property_list_item_remove</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">idx</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_property_list_item_remove" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_property_frame_rate_option_add">
+<span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_property_frame_rate_option_add</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">name</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">description</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_property_frame_rate_option_add" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_property_frame_rate_fps_range_add">
+<span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_property_frame_rate_fps_range_add</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span>, <span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">media_frames_per_second</span></span><span class="w"> </span><span class="n"><span class="pre">min</span></span>, <span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">media_frames_per_second</span></span><span class="w"> </span><span class="n"><span class="pre">max</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_property_frame_rate_fps_range_add" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_property_frame_rate_clear">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_property_frame_rate_clear</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_property_frame_rate_clear" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_property_frame_rate_options_clear">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_property_frame_rate_options_clear</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_property_frame_rate_options_clear" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_property_frame_rate_fps_ranges_clear">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_property_frame_rate_fps_ranges_clear</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_property_frame_rate_fps_ranges_clear" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_property_frame_rate_option_insert">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_property_frame_rate_option_insert</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">idx</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">name</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">description</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_property_frame_rate_option_insert" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_property_frame_rate_fps_range_insert">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_property_frame_rate_fps_range_insert</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">idx</span></span>, <span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">media_frames_per_second</span></span><span class="w"> </span><span class="n"><span class="pre">min</span></span>, <span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">media_frames_per_second</span></span><span class="w"> </span><span class="n"><span class="pre">max</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_property_frame_rate_fps_range_insert" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_property_button_set_type">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_property_button_set_type</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span>, <span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="n"><span class="pre">obs_button_type</span></span><span class="w"> </span><span class="n"><span class="pre">type</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_property_button_set_type" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>type</strong> – <p>Can be one of the following values:</p>
+<ul>
+<li><p><strong>OBS_BUTTON_DEFAULT</strong> - Standard button</p></li>
+<li><p><strong>OBS_BUTTON_URL</strong> - Button that opens a URL</p></li>
+</ul>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The property</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_property_button_set_url">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_property_button_set_url</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_property_t" title="obs_property_t"><span class="n"><span class="pre">obs_property_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">url</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_property_button_set_url" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="reference-settings.html" class="btn btn-neutral float-left" title="Data Settings API Reference (obs_data_t)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="reference-libobs-util.html" class="btn btn-neutral float-right" title="Platform/Utility API Reference (libobs/util)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2017-2022, Hugh Bailey.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

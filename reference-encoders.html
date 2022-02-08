@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Encoder API Reference (obs_encoder_t) &mdash; OBS Studio 27.1.3 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Service API Reference (obs_service_t)" href="reference-services.html" />
+    <link rel="prev" title="Output API Reference (obs_output_t)" href="reference-outputs.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> OBS Studio
+          </a>
+              <div class="version">
+                27.1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="backend-design.html">OBS Studio Backend Design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plugins.html">Plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="frontends.html">Frontends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="graphics.html">Rendering Graphics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scripting.html">Python/Lua Scripting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-core.html">OBS Core API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-modules.html">Module API Reference</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="reference-core-objects.html">Core API Object Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="reference-sources.html">Source API Reference (obs_source_t)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-scenes.html">Scene API Reference (obs_scene_t)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-outputs.html">Output API Reference (obs_output_t)</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Encoder API Reference (obs_encoder_t)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#encoder-definition-structure-obs-encoder-info">Encoder Definition Structure (obs_encoder_info)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#encoder-packet-structure-encoder-packet">Encoder Packet Structure (encoder_packet)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#raw-frame-data-structure-encoder-frame">Raw Frame Data Structure (encoder_frame)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#general-encoder-functions">General Encoder Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#functions-used-by-encoders">Functions used by encoders</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="reference-services.html">Service API Reference (obs_service_t)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-settings.html">Data Settings API Reference (obs_data_t)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-properties.html">Properties API Reference (obs_properties_t)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reference-libobs-util.html">Platform/Utility API Reference (libobs/util)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-libobs-callback.html">Callback API Reference (libobs/callback)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-libobs-graphics.html">Graphics API Reference (libobs/graphics)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-libobs-media-io.html">Media I/O API Reference (libobs/media-io)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-frontend-api.html">OBS Studio Frontend API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">OBS Studio</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="reference-core-objects.html">Core API Object Reference</a> &raquo;</li>
+      <li>Encoder API Reference (obs_encoder_t)</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/reference-encoders.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="encoder-api-reference-obs-encoder-t">
+<h1>Encoder API Reference (obs_encoder_t)<a class="headerlink" href="#encoder-api-reference-obs-encoder-t" title="Permalink to this headline"></a></h1>
+<p>Encoders are OBS-specific implementations of video/audio encoders, which
+are used with outputs that use encoders.  x264, NVENC, Quicksync are
+examples of encoder implementations.  The <a class="reference external" href="https://github.com/jp9000/obs-studio/blob/master/libobs/obs-encoder.h">libobs/obs-encoder.h</a> file
+is the dedicated header for implementing encoders</p>
+<dl class="c type">
+<dt class="sig sig-object c" id="c.obs_encoder_t">
+<span class="k"><span class="pre">type</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_encoder_t</span></span></span><a class="headerlink" href="#c.obs_encoder_t" title="Permalink to this definition"></a><br /></dt>
+<dd><p>A reference-counted encoder object.</p>
+</dd></dl>
+
+<dl class="c type">
+<dt class="sig sig-object c" id="c.obs_weak_encoder_t">
+<span class="k"><span class="pre">type</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_weak_encoder_t</span></span></span><a class="headerlink" href="#c.obs_weak_encoder_t" title="Permalink to this definition"></a><br /></dt>
+<dd><p>A weak reference to an encoder object.</p>
+</dd></dl>
+
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;obs.h&gt;</span><span class="cp"></span>
+</pre></div>
+</div>
+<section id="encoder-definition-structure-obs-encoder-info">
+<h2>Encoder Definition Structure (obs_encoder_info)<a class="headerlink" href="#encoder-definition-structure-obs-encoder-info" title="Permalink to this headline"></a></h2>
+<dl class="c type">
+<dt class="sig sig-object c">
+<span class="sig-name descname"><span class="pre">struct</span> <span class="pre">obs_encoder_info</span></span></dt>
+<dd><p>Encoder definition structure.</p>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.obs_encoder_info.id">
+<span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">obs_encoder_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">id</span></span></span><a class="headerlink" href="#c.obs_encoder_info.id" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Unique string identifier for the encoder (required).</p>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.obs_encoder_info.type">
+<span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="n"><span class="pre">obs_encoder_type</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">obs_encoder_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">type</span></span></span><a class="headerlink" href="#c.obs_encoder_info.type" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Type of encoder.</p>
+<ul class="simple">
+<li><p><strong>OBS_ENCODER_VIDEO</strong> - Video encoder</p></li>
+<li><p><strong>OBS_ENCODER_AUDIO</strong> - Audio encoder</p></li>
+</ul>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.obs_encoder_info.codec">
+<span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">obs_encoder_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">codec</span></span></span><a class="headerlink" href="#c.obs_encoder_info.codec" title="Permalink to this definition"></a><br /></dt>
+<dd><p>The codec, in string form.  For example, “h264” for an H.264 encoder.</p>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.obs_encoder_info.get_name">
+<span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">obs_encoder_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">get_name</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">type_data</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.obs_encoder_info.get_name" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Get the translated name of the encoder type.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Param type_data</dt>
+<dd class="field-odd"><p>The type_data variable of this structure</p>
+</dd>
+<dt class="field-even">Return</dt>
+<dd class="field-even"><p>The translated name of the encoder type</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.obs_encoder_info.create">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">obs_encoder_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">create</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><a class="reference internal" href="reference-settings.html#c.obs_data_t" title="obs_data_t"><span class="n"><span class="pre">obs_data_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">settings</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_encoder_t" title="obs_encoder_t"><span class="n"><span class="pre">obs_encoder_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">encoder</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.obs_encoder_info.create" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Creates the implementation data for the encoder.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Param settings</dt>
+<dd class="field-odd"><p>Settings to initialize the encoder with</p>
+</dd>
+<dt class="field-even">Param encoder</dt>
+<dd class="field-even"><p>Encoder that this data is associated with</p>
+</dd>
+<dt class="field-odd">Return</dt>
+<dd class="field-odd"><p>The implementation data associated with this encoder</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.obs_encoder_info.destroy">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">obs_encoder_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">destroy</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.obs_encoder_info.destroy" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Destroys the implementation data for the encoder.</p>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.encode">
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">encode</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">encoder_frame</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">frame</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">encoder_packet</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">packet</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">received_packet</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.encode" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Called to encode video or audio and outputs packets as they become
+available.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Param frame</dt>
+<dd class="field-odd"><p>Raw audio/video data to encode</p>
+</dd>
+<dt class="field-even">Param packet</dt>
+<dd class="field-even"><p>Encoder packet output, if any</p>
+</dd>
+<dt class="field-odd">Param received_packet</dt>
+<dd class="field-odd"><p>Set to <em>true</em> if a packet was received,
+<em>false</em> otherwise</p>
+</dd>
+<dt class="field-even">Return</dt>
+<dd class="field-even"><p>true if successful, false on critical failure</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.get_frame_size">
+<span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">get_frame_size</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.get_frame_size" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return</dt>
+<dd class="field-odd"><p>An audio encoder’s frame size.  For example, for AAC this
+number would be 1024</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.obs_encoder_info.get_defaults">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">obs_encoder_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">get_defaults</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><a class="reference internal" href="reference-settings.html#c.obs_data_t" title="obs_data_t"><span class="n"><span class="pre">obs_data_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">settings</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.obs_encoder_info.get_defaults" title="Permalink to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.obs_encoder_info.get_defaults2">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">obs_encoder_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">get_defaults2</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">type_data</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="reference-settings.html#c.obs_data_t" title="obs_data_t"><span class="n"><span class="pre">obs_data_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">settings</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.obs_encoder_info.get_defaults2" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Sets the default settings for this encoder.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Param settings</dt>
+<dd class="field-odd"><p>Default settings.  Call obs_data_set_default*
+functions on this object to set default setting
+values</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.obs_encoder_info.get_properties">
+<a class="reference internal" href="reference-properties.html#c.obs_properties_t" title="obs_properties_t"><span class="n"><span class="pre">obs_properties_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">obs_encoder_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">get_properties</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.obs_encoder_info.get_properties" title="Permalink to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.obs_encoder_info.get_properties2">
+<a class="reference internal" href="reference-properties.html#c.obs_properties_t" title="obs_properties_t"><span class="n"><span class="pre">obs_properties_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">obs_encoder_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">get_properties2</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">type_data</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.obs_encoder_info.get_properties2" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Gets the property information of this encoder.</p>
+<p>(Optional)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return</dt>
+<dd class="field-odd"><p>The properties of the encoder</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.obs_encoder_info.update">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">obs_encoder_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">update</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="reference-settings.html#c.obs_data_t" title="obs_data_t"><span class="n"><span class="pre">obs_data_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">settings</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.obs_encoder_info.update" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Updates the settings for this encoder.</p>
+<p>(Optional)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Param settings</dt>
+<dd class="field-odd"><p>New settings for this encoder</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.obs_encoder_info.get_extra_data">
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">obs_encoder_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">get_extra_data</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">extra_data</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">size</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.obs_encoder_info.get_extra_data" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Returns extra data associated with this encoder (usually header).</p>
+<p>(Optional)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Param extra_data</dt>
+<dd class="field-odd"><p>Pointer to receive the extra data</p>
+</dd>
+<dt class="field-even">Param size</dt>
+<dd class="field-even"><p>Pointer to receive the size of the extra
+data</p>
+</dd>
+<dt class="field-odd">Return</dt>
+<dd class="field-odd"><p>true if extra data available, false
+otherwise</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.obs_encoder_info.get_sei_data">
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">obs_encoder_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">get_sei_data</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">sei_data</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">size</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.obs_encoder_info.get_sei_data" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Gets the SEI data of a video encoder that has SEI data.</p>
+<p>(Optional)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Param sei_data</dt>
+<dd class="field-odd"><p>Pointer to receive the SEI data</p>
+</dd>
+<dt class="field-even">Param size</dt>
+<dd class="field-even"><p>Pointer to receive the SEI data size</p>
+</dd>
+<dt class="field-odd">Return</dt>
+<dd class="field-odd"><p>true if SEI data available, false otherwise</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.obs_encoder_info.get_audio_info">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">obs_encoder_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">get_audio_info</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">audio_convert_info</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">info</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.obs_encoder_info.get_audio_info" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Returns desired audio format and sample information.  This callback
+can be used to tell the back-end that the audio data needs to be
+automatically converted to a different sample rate or audio format
+before being sent to the encoder.</p>
+<p>(Optional)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Param info</dt>
+<dd class="field-odd"><p>Audio format information</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.obs_encoder_info.get_video_info">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">obs_encoder_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">get_video_info</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">video_scale_info</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">info</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.obs_encoder_info.get_video_info" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Returns desired video format information.  This callback can be used
+to tell the back-end that the video data needs to be automatically
+converted to a different video format or specific size before being
+sent to the encoder.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Param info</dt>
+<dd class="field-odd"><p>Video format information</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.obs_encoder_info.type_data">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">obs_encoder_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">type_data</span></span></span><a class="headerlink" href="#c.obs_encoder_info.type_data" title="Permalink to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.obs_encoder_info.free_type_data">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">obs_encoder_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">free_type_data</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">type_data</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.obs_encoder_info.free_type_data" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Private data associated with this entry.  Note that this is not the
+same as the implementation data; this is used to differentiate
+between two different types if the same callbacks are used for more
+than one different type.</p>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.obs_encoder_info.caps">
+<span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">obs_encoder_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">caps</span></span></span><a class="headerlink" href="#c.obs_encoder_info.caps" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Can be 0 or a bitwise OR combination of one or more of the following
+values:</p>
+<ul class="simple">
+<li><p><strong>OBS_ENCODER_CAP_DEPRECATED</strong> - Encoder is deprecated</p></li>
+</ul>
+</dd></dl>
+
+</section>
+<section id="encoder-packet-structure-encoder-packet">
+<h2>Encoder Packet Structure (encoder_packet)<a class="headerlink" href="#encoder-packet-structure-encoder-packet" title="Permalink to this headline"></a></h2>
+<dl class="c type">
+<dt class="sig sig-object c">
+<span class="sig-name descname"><span class="pre">struct</span> <span class="pre">encoder_packet</span></span></dt>
+<dd><p>Encoder packet structure.</p>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.encoder_packet.data">
+<span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">encoder_packet</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">data</span></span></span><a class="headerlink" href="#c.encoder_packet.data" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Packet data.</p>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.encoder_packet.size">
+<span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">encoder_packet</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">size</span></span></span><a class="headerlink" href="#c.encoder_packet.size" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Packet size.</p>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.encoder_packet.pts">
+<span class="n"><span class="pre">int64_t</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">encoder_packet</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">pts</span></span></span><a class="headerlink" href="#c.encoder_packet.pts" title="Permalink to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.encoder_packet.dts">
+<span class="n"><span class="pre">int64_t</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">encoder_packet</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">dts</span></span></span><a class="headerlink" href="#c.encoder_packet.dts" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Packet presentation and decode timestamps.</p>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.encoder_packet.timebase_num">
+<span class="n"><span class="pre">int32_t</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">encoder_packet</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">timebase_num</span></span></span><a class="headerlink" href="#c.encoder_packet.timebase_num" title="Permalink to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.encoder_packet.timebase_den">
+<span class="n"><span class="pre">int32_t</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">encoder_packet</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">timebase_den</span></span></span><a class="headerlink" href="#c.encoder_packet.timebase_den" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Packet time base.</p>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.encoder_packet.type">
+<span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="n"><span class="pre">obs_encoder_type</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">encoder_packet</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">type</span></span></span><a class="headerlink" href="#c.encoder_packet.type" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Can be one of the following values:</p>
+<ul class="simple">
+<li><p><strong>OBS_ENCODER_VIDEO</strong> - Video data</p></li>
+<li><p><strong>OBS_ENCODER_AUDIO</strong> - Audio data</p></li>
+</ul>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.encoder_packet.keyframe">
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">encoder_packet</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">keyframe</span></span></span><a class="headerlink" href="#c.encoder_packet.keyframe" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Packet is a keyframe.</p>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.encoder_packet.dts_usec">
+<span class="n"><span class="pre">int64_t</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">encoder_packet</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">dts_usec</span></span></span><a class="headerlink" href="#c.encoder_packet.dts_usec" title="Permalink to this definition"></a><br /></dt>
+<dd><p>The DTS in microseconds.</p>
+<p>(This should not be set by the encoder implementation)</p>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.encoder_packet.sys_dts_usec">
+<span class="n"><span class="pre">int64_t</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">encoder_packet</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">sys_dts_usec</span></span></span><a class="headerlink" href="#c.encoder_packet.sys_dts_usec" title="Permalink to this definition"></a><br /></dt>
+<dd><p>The system time of this packet in microseconds.</p>
+<p>(This should not be set by the encoder implementation)</p>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.encoder_packet.priority">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">encoder_packet</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">priority</span></span></span><a class="headerlink" href="#c.encoder_packet.priority" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Packet priority.  This is no longer used.</p>
+<p>(This should not be set by the encoder implementation)</p>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.encoder_packet.drop_priority">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">encoder_packet</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">drop_priority</span></span></span><a class="headerlink" href="#c.encoder_packet.drop_priority" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Packet drop priority.</p>
+<p>If this packet needs to be dropped, the next packet must be of this
+priority or higher to continue transmission.</p>
+<p>(This should not be set by the encoder implementation)</p>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.encoder_packet.track_idx">
+<span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">encoder_packet</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">track_idx</span></span></span><a class="headerlink" href="#c.encoder_packet.track_idx" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Audio track index.</p>
+<p>(This should not be set by the encoder implementation)</p>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.encoder_packet.encoder">
+<a class="reference internal" href="#c.obs_encoder_t" title="obs_encoder_t"><span class="n"><span class="pre">obs_encoder_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">encoder_packet</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">encoder</span></span></span><a class="headerlink" href="#c.encoder_packet.encoder" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Encoder object associated with this packet.</p>
+<p>(This should not be set by the encoder implementation)</p>
+</dd></dl>
+
+</section>
+<section id="raw-frame-data-structure-encoder-frame">
+<h2>Raw Frame Data Structure (encoder_frame)<a class="headerlink" href="#raw-frame-data-structure-encoder-frame" title="Permalink to this headline"></a></h2>
+<dl class="c type">
+<dt class="sig sig-object c">
+<span class="sig-name descname"><span class="pre">struct</span> <span class="pre">encoder_frame</span></span></dt>
+<dd><p>Raw frame data structure.</p>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.encoder_frame.data">
+<span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">encoder_frame</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">data</span></span></span><span class="p"><span class="pre">[</span></span><span class="n"><span class="pre">MAX_AV_PLANES</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#c.encoder_frame.data" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Raw video/audio data.</p>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.encoder_frame.linesize">
+<span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">encoder_frame</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">linesize</span></span></span><span class="p"><span class="pre">[</span></span><span class="n"><span class="pre">MAX_AV_PLANES</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#c.encoder_frame.linesize" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Line size of each plane.</p>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.encoder_frame.frames">
+<span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">encoder_frame</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">frames</span></span></span><a class="headerlink" href="#c.encoder_frame.frames" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Number of audio frames (if audio).</p>
+</dd></dl>
+
+<dl class="c member">
+<dt class="sig sig-object c" id="c.encoder_frame.pts">
+<span class="n"><span class="pre">int64_t</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">encoder_frame</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">pts</span></span></span><a class="headerlink" href="#c.encoder_frame.pts" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Presentation timestamp.</p>
+</dd></dl>
+
+</section>
+<section id="general-encoder-functions">
+<h2>General Encoder Functions<a class="headerlink" href="#general-encoder-functions" title="Permalink to this headline"></a></h2>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_register_encoder">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_register_encoder</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">obs_encoder_info</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">info</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_register_encoder" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Registers an encoder type.  Typically used in
+<a class="reference internal" href="reference-modules.html#c.obs_module_load" title="obs_module_load"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_module_load()</span></code></a> or in the program’s initialization phase.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_encoder_get_display_name">
+<span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_encoder_get_display_name</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">id</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_encoder_get_display_name" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Calls the <a class="reference internal" href="#c.obs_encoder_info.get_name" title="obs_encoder_info.get_name"><code class="xref c c-member docutils literal notranslate"><span class="pre">obs_encoder_info.get_name</span></code></a> callback to get the
+translated display name of an encoder type.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>id</strong> – The encoder type string identifier</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The translated display name of an encoder type</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_video_encoder_create">
+<a class="reference internal" href="#c.obs_encoder_t" title="obs_encoder_t"><span class="n"><span class="pre">obs_encoder_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_video_encoder_create</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">id</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">name</span></span>, <a class="reference internal" href="reference-settings.html#c.obs_data_t" title="obs_data_t"><span class="n"><span class="pre">obs_data_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">settings</span></span>, <a class="reference internal" href="reference-settings.html#c.obs_data_t" title="obs_data_t"><span class="n"><span class="pre">obs_data_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">hotkey_data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_video_encoder_create" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Creates a video encoder with the specified settings.</p>
+<p>The “encoder” context is used for encoding video/audio data.  Use
+obs_encoder_release to release it.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>id</strong> – The encoder type string identifier</p></li>
+<li><p><strong>name</strong> – The desired name of the encoder.  If this is
+not unique, it will be made to be unique</p></li>
+<li><p><strong>settings</strong> – The settings for the encoder, or <em>NULL</em> if
+none</p></li>
+<li><p><strong>hotkey_data</strong> – Saved hotkey data for the encoder, or <em>NULL</em>
+if none</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A reference to the newly created encoder, or
+<em>NULL</em> if failed</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_audio_encoder_create">
+<a class="reference internal" href="#c.obs_encoder_t" title="obs_encoder_t"><span class="n"><span class="pre">obs_encoder_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_audio_encoder_create</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">id</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">name</span></span>, <a class="reference internal" href="reference-settings.html#c.obs_data_t" title="obs_data_t"><span class="n"><span class="pre">obs_data_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">settings</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">mixer_idx</span></span>, <a class="reference internal" href="reference-settings.html#c.obs_data_t" title="obs_data_t"><span class="n"><span class="pre">obs_data_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">hotkey_data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_audio_encoder_create" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Creates an audio encoder with the specified settings.</p>
+<p>The “encoder” context is used for encoding video/audio data.  Use
+<a class="reference internal" href="#c.obs_encoder_release" title="obs_encoder_release"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_encoder_release()</span></code></a> to release it.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>id</strong> – The encoder type string identifier</p></li>
+<li><p><strong>name</strong> – The desired name of the encoder.  If this is
+not unique, it will be made to be unique</p></li>
+<li><p><strong>settings</strong> – The settings for the encoder, or <em>NULL</em> if
+none</p></li>
+<li><p><strong>mixer_idx</strong> – The audio mixer index this audio encoder
+will capture audio from</p></li>
+<li><p><strong>hotkey_data</strong> – Saved hotkey data for the encoder, or <em>NULL</em>
+if none</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A reference to the newly created encoder, or
+<em>NULL</em> if failed</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_encoder_addref">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_encoder_addref</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_encoder_t" title="obs_encoder_t"><span class="n"><span class="pre">obs_encoder_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">encoder</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_encoder_addref" title="Permalink to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.obs_encoder_release">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_encoder_release</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_encoder_t" title="obs_encoder_t"><span class="n"><span class="pre">obs_encoder_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">encoder</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_encoder_release" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Adds/releases a reference to an encoder.  When the last reference is
+released, the encoder is destroyed.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_encoder_get_weak_encoder">
+<a class="reference internal" href="#c.obs_weak_encoder_t" title="obs_weak_encoder_t"><span class="n"><span class="pre">obs_weak_encoder_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_encoder_get_weak_encoder</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_encoder_t" title="obs_encoder_t"><span class="n"><span class="pre">obs_encoder_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">encoder</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_encoder_get_weak_encoder" title="Permalink to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.obs_weak_encoder_get_encoder">
+<a class="reference internal" href="#c.obs_encoder_t" title="obs_encoder_t"><span class="n"><span class="pre">obs_encoder_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_weak_encoder_get_encoder</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_weak_encoder_t" title="obs_weak_encoder_t"><span class="n"><span class="pre">obs_weak_encoder_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">weak</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_weak_encoder_get_encoder" title="Permalink to this definition"></a><br /></dt>
+<dd><p>These functions are used to get a weak reference from a strong encoder
+reference, or a strong encoder reference from a weak reference.  If
+the encoder is destroyed, <em>obs_weak_encoder_get_encoder</em> will return
+<em>NULL</em>.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_weak_encoder_addref">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_weak_encoder_addref</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_weak_encoder_t" title="obs_weak_encoder_t"><span class="n"><span class="pre">obs_weak_encoder_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">weak</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_weak_encoder_addref" title="Permalink to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.obs_weak_encoder_release">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_weak_encoder_release</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_weak_encoder_t" title="obs_weak_encoder_t"><span class="n"><span class="pre">obs_weak_encoder_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">weak</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_weak_encoder_release" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Adds/releases a weak reference to an encoder.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_encoder_set_name">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_encoder_set_name</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_encoder_t" title="obs_encoder_t"><span class="n"><span class="pre">obs_encoder_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">encoder</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">name</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_encoder_set_name" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Sets the name of an encoder.  If the encoder is not private and the
+name is not unique, it will automatically be given a unique name.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_encoder_get_name">
+<span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_encoder_get_name</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_encoder_t" title="obs_encoder_t"><span class="n"><span class="pre">obs_encoder_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">encoder</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_encoder_get_name" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The name of the encoder</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_encoder_get_codec">
+<span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_encoder_get_codec</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_encoder_t" title="obs_encoder_t"><span class="n"><span class="pre">obs_encoder_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">encoder</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_encoder_get_codec" title="Permalink to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.obs_get_encoder_codec">
+<span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_get_encoder_codec</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">id</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_get_encoder_codec" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The codec identifier of the encoder</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_encoder_get_type">
+<span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="n"><span class="pre">obs_encoder_type</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_encoder_get_type</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_encoder_t" title="obs_encoder_t"><span class="n"><span class="pre">obs_encoder_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">encoder</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_encoder_get_type" title="Permalink to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.obs_get_encoder_type">
+<span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="n"><span class="pre">obs_encoder_type</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_get_encoder_type</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">id</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_get_encoder_type" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The encoder type: OBS_ENCODER_VIDEO or OBS_ENCODER_AUDIO</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_encoder_set_scaled_size">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_encoder_set_scaled_size</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_encoder_t" title="obs_encoder_t"><span class="n"><span class="pre">obs_encoder_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">encoder</span></span>, <span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="n"><span class="pre">width</span></span>, <span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="n"><span class="pre">height</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_encoder_set_scaled_size" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Sets the scaled resolution for a video encoder.  Set width and height to 0
+to disable scaling.  If the encoder is active, this function will trigger
+a warning, and do nothing.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_encoder_scaling_enabled">
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_encoder_scaling_enabled</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_encoder_t" title="obs_encoder_t"><span class="n"><span class="pre">obs_encoder_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">encoder</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_encoder_scaling_enabled" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><em>true</em> if pre-encode (CPU) scaling enabled, <em>false</em>
+otherwise.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_encoder_get_width">
+<span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_encoder_get_width</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_encoder_t" title="obs_encoder_t"><span class="n"><span class="pre">obs_encoder_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">encoder</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_encoder_get_width" title="Permalink to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.obs_encoder_get_height">
+<span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_encoder_get_height</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_encoder_t" title="obs_encoder_t"><span class="n"><span class="pre">obs_encoder_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">encoder</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_encoder_get_height" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The width/height of a video encoder’s encoded image</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_encoder_get_sample_rate">
+<span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_encoder_get_sample_rate</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_encoder_t" title="obs_encoder_t"><span class="n"><span class="pre">obs_encoder_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">encoder</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_encoder_get_sample_rate" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The sample rate of an audio encoder’s audio data</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_encoder_get_frame_size">
+<span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_encoder_get_frame_size</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_encoder_t" title="obs_encoder_t"><span class="n"><span class="pre">obs_encoder_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">encoder</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_encoder_get_frame_size" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The frame size of the audio packet</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_encoder_set_preferred_video_format">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_encoder_set_preferred_video_format</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_encoder_t" title="obs_encoder_t"><span class="n"><span class="pre">obs_encoder_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">encoder</span></span>, <span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="n"><span class="pre">video_format</span></span><span class="w"> </span><span class="n"><span class="pre">format</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_encoder_set_preferred_video_format" title="Permalink to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.obs_encoder_get_preferred_video_format">
+<span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="n"><span class="pre">video_format</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_encoder_get_preferred_video_format</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_encoder_t" title="obs_encoder_t"><span class="n"><span class="pre">obs_encoder_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">encoder</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_encoder_get_preferred_video_format" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Sets the preferred video format for a video encoder.  If the encoder can use
+the format specified, it will force a conversion to that format if the
+obs output format does not match the preferred format.</p>
+<p>If the format is set to VIDEO_FORMAT_NONE, will revert to the default
+functionality of converting only when absolutely necessary.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_encoder_defaults">
+<a class="reference internal" href="reference-settings.html#c.obs_data_t" title="obs_data_t"><span class="n"><span class="pre">obs_data_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_encoder_defaults</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">id</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_encoder_defaults" title="Permalink to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.obs_encoder_get_defaults">
+<a class="reference internal" href="reference-settings.html#c.obs_data_t" title="obs_data_t"><span class="n"><span class="pre">obs_data_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_encoder_get_defaults</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_encoder_t" title="obs_encoder_t"><span class="n"><span class="pre">obs_encoder_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">encoder</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_encoder_get_defaults" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>An incremented reference to the encoder’s default settings</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_encoder_properties">
+<a class="reference internal" href="reference-properties.html#c.obs_properties_t" title="obs_properties_t"><span class="n"><span class="pre">obs_properties_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_encoder_properties</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_encoder_t" title="obs_encoder_t"><span class="n"><span class="pre">obs_encoder_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">encoder</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_encoder_properties" title="Permalink to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.obs_get_encoder_properties">
+<a class="reference internal" href="reference-properties.html#c.obs_properties_t" title="obs_properties_t"><span class="n"><span class="pre">obs_properties_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_get_encoder_properties</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">id</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_get_encoder_properties" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Use these functions to get the properties of an encoder or encoder
+type.  Properties are optionally used (if desired) to automatically
+generate user interface widgets to allow users to update settings.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The properties list for a specific existing encoder.  Free
+with <a class="reference internal" href="reference-properties.html#c.obs_properties_destroy" title="obs_properties_destroy"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_properties_destroy()</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_encoder_update">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_encoder_update</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_encoder_t" title="obs_encoder_t"><span class="n"><span class="pre">obs_encoder_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">encoder</span></span>, <a class="reference internal" href="reference-settings.html#c.obs_data_t" title="obs_data_t"><span class="n"><span class="pre">obs_data_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">settings</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_encoder_update" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Updates the settings for this encoder context.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_encoder_get_settings">
+<a class="reference internal" href="reference-settings.html#c.obs_data_t" title="obs_data_t"><span class="n"><span class="pre">obs_data_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_encoder_get_settings</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_encoder_t" title="obs_encoder_t"><span class="n"><span class="pre">obs_encoder_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">encoder</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_encoder_get_settings" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>An incremented reference to the encoder’s settings</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_encoder_get_signal_handler">
+<a class="reference internal" href="reference-libobs-callback.html#c.signal_handler_t" title="signal_handler_t"><span class="n"><span class="pre">signal_handler_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_encoder_get_signal_handler</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_encoder_t" title="obs_encoder_t"><span class="n"><span class="pre">obs_encoder_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">encoder</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_encoder_get_signal_handler" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The signal handler of the encoder</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_encoder_get_proc_handler">
+<a class="reference internal" href="reference-libobs-callback.html#c.proc_handler_t" title="proc_handler_t"><span class="n"><span class="pre">proc_handler_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_encoder_get_proc_handler</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_encoder_t" title="obs_encoder_t"><span class="n"><span class="pre">obs_encoder_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">encoder</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_encoder_get_proc_handler" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The procedure handler of the encoder</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_encoder_get_extra_data">
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_encoder_get_extra_data</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_encoder_t" title="obs_encoder_t"><span class="n"><span class="pre">obs_encoder_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">encoder</span></span>, <span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">extra_data</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">size</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_encoder_get_extra_data" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Gets extra data (headers) associated with this encoder.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><em>true</em> if successful, <em>false</em> if no extra data associated
+with this encoder</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_encoder_set_video">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_encoder_set_video</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_encoder_t" title="obs_encoder_t"><span class="n"><span class="pre">obs_encoder_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">encoder</span></span>, <a class="reference internal" href="reference-libobs-media-io.html#c.video_t" title="video_t"><span class="n"><span class="pre">video_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">video</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_encoder_set_video" title="Permalink to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.obs_encoder_set_audio">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_encoder_set_audio</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_encoder_t" title="obs_encoder_t"><span class="n"><span class="pre">obs_encoder_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">encoder</span></span>, <a class="reference internal" href="reference-libobs-media-io.html#c.audio_t" title="audio_t"><span class="n"><span class="pre">audio_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">audio</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_encoder_set_audio" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Sets the video/audio handler to use with this video/audio encoder.
+This is used to capture the raw video/audio data.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_encoder_video">
+<a class="reference internal" href="reference-libobs-media-io.html#c.video_t" title="video_t"><span class="n"><span class="pre">video_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_encoder_video</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_encoder_t" title="obs_encoder_t"><span class="n"><span class="pre">obs_encoder_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">encoder</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_encoder_video" title="Permalink to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.obs_encoder_audio">
+<a class="reference internal" href="reference-libobs-media-io.html#c.audio_t" title="audio_t"><span class="n"><span class="pre">audio_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_encoder_audio</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_encoder_t" title="obs_encoder_t"><span class="n"><span class="pre">obs_encoder_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">encoder</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_encoder_audio" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The video/audio handler associated with this encoder, or
+<em>NULL</em> if none or not a matching encoder type</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_encoder_active">
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_encoder_active</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_encoder_t" title="obs_encoder_t"><span class="n"><span class="pre">obs_encoder_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">encoder</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_encoder_active" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><em>true</em> if the encoder is active, <em>false</em> otherwise</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<hr class="docutils" />
+<section id="functions-used-by-encoders">
+<h2>Functions used by encoders<a class="headerlink" href="#functions-used-by-encoders" title="Permalink to this headline"></a></h2>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_encoder_packet_ref">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_encoder_packet_ref</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">encoder_packet</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">dst</span></span>, <span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">encoder_packet</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">src</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_encoder_packet_ref" title="Permalink to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.obs_encoder_packet_release">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_encoder_packet_release</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">encoder_packet</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">packet</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_encoder_packet_release" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Adds or releases a reference to an encoder packet.</p>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="reference-outputs.html" class="btn btn-neutral float-left" title="Output API Reference (obs_output_t)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="reference-services.html" class="btn btn-neutral float-right" title="Service API Reference (obs_service_t)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2017-2022, Hugh Bailey.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

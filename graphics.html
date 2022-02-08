@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rendering Graphics &mdash; OBS Studio 27.1.3 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Python/Lua Scripting" href="scripting.html" />
+    <link rel="prev" title="Frontends" href="frontends.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> OBS Studio
+          </a>
+              <div class="version">
+                27.1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="backend-design.html">OBS Studio Backend Design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plugins.html">Plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="frontends.html">Frontends</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Rendering Graphics</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#the-graphics-context">The Graphics Context</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#creating-effects">Creating Effects</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#effect-parameters">Effect Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#effect-sampler-states">Effect Sampler States</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#effect-vertex-pixel-semantics">Effect Vertex/Pixel Semantics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#effect-techniques">Effect Techniques</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#using-effects">Using Effects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#rendering-video-sources">Rendering Video Sources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#rendering-video-effect-filters">Rendering Video Effect Filters</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="scripting.html">Python/Lua Scripting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-core.html">OBS Core API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-modules.html">Module API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-core-objects.html">Core API Object Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-libobs-util.html">Platform/Utility API Reference (libobs/util)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-libobs-callback.html">Callback API Reference (libobs/callback)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-libobs-graphics.html">Graphics API Reference (libobs/graphics)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-libobs-media-io.html">Media I/O API Reference (libobs/media-io)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-frontend-api.html">OBS Studio Frontend API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">OBS Studio</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Rendering Graphics</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/graphics.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="rendering-graphics">
+<h1>Rendering Graphics<a class="headerlink" href="#rendering-graphics" title="Permalink to this headline"></a></h1>
+<p>Libobs has a custom-made programmable graphics subsystem that wraps both
+Direct3D 11 and OpenGL.  The reason why it was designed with a custom
+graphics subsystem was to accommodate custom capture features only
+available on specific operating systems.</p>
+<p><em>(Author’s note: In retrospect, I probably should have used something
+like ANGLE, but I would have to modify it to accommodate my specific
+use-cases.)</em></p>
+<p>Most rendering is dependent upon effects.  Effects are used by all video
+objects in libobs; they’re used to easily bundle related vertex/pixel
+shaders in to one file.</p>
+<p>An effect file has a nearly identical syntax to Direct3D 11 HLSL effect
+files.  The only differences are as follows:</p>
+<ul class="simple">
+<li><p>Sampler states are named “sampler_state”</p></li>
+<li><p>Position semantic is called “POSITION” rather than “SV_Position”</p></li>
+<li><p>Target semantic is called “TARGET” rather than “SV_Target”</p></li>
+</ul>
+<p><em>(Author’s note: I’m probably missing a few exceptions here, if I am
+please let me know)</em></p>
+<section id="the-graphics-context">
+<h2>The Graphics Context<a class="headerlink" href="#the-graphics-context" title="Permalink to this headline"></a></h2>
+<p>Using graphics functions isn’t possible unless the current thread has
+entered a graphics context, and the graphics context can only be used by
+one thread at a time.  To enter the graphics context, use
+<a class="reference internal" href="reference-core.html#c.obs_enter_graphics" title="obs_enter_graphics"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_enter_graphics()</span></code></a>, and to leave the graphics context, use
+<a class="reference internal" href="reference-core.html#c.obs_leave_graphics" title="obs_leave_graphics"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_leave_graphics()</span></code></a>.</p>
+<p>Certain callback will automatically be within the graphics context:
+<a class="reference internal" href="reference-sources.html#c.obs_source_info.video_render" title="obs_source_info.video_render"><code class="xref c c-member docutils literal notranslate"><span class="pre">obs_source_info.video_render</span></code></a>, and the draw callback
+parameter of <a class="reference internal" href="reference-core.html#c.obs_display_add_draw_callback" title="obs_display_add_draw_callback"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_display_add_draw_callback()</span></code></a>, and
+<a class="reference internal" href="reference-core.html#c.obs_add_main_render_callback" title="obs_add_main_render_callback"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_add_main_render_callback()</span></code></a>.</p>
+</section>
+<section id="creating-effects">
+<h2>Creating Effects<a class="headerlink" href="#creating-effects" title="Permalink to this headline"></a></h2>
+<section id="effect-parameters">
+<h3>Effect Parameters<a class="headerlink" href="#effect-parameters" title="Permalink to this headline"></a></h3>
+<p>To create an effect, it’s recommended to start with the uniforms
+(parameters) of the effect.</p>
+<p>There are a number of different types of uniforms:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 24%" />
+<col style="width: 20%" />
+<col style="width: 24%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>Floating points:</p></td>
+<td><p><strong>float</strong></p></td>
+<td><p><strong>float2</strong></p></td>
+<td><p><strong>float3</strong></p></td>
+<td><p><strong>float4</strong></p></td>
+</tr>
+<tr class="row-even"><td><p>Matrices:</p></td>
+<td><p><strong>float3x3</strong></p></td>
+<td><p><strong>float4x4</strong></p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>Integers:</p></td>
+<td><p><strong>int</strong></p></td>
+<td><p><strong>int2</strong></p></td>
+<td><p><strong>int3</strong></p></td>
+<td><p><strong>int4</strong></p></td>
+</tr>
+<tr class="row-even"><td><p>Booleans:</p></td>
+<td><p><strong>bool</strong></p></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>Textures:</p></td>
+<td><p><strong>texture2d</strong></p></td>
+<td><p><strong>texture_cube</strong></p></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>To get the effect uniform parameters, you use
+<a class="reference internal" href="reference-libobs-graphics-effects.html#c.gs_effect_get_param_by_name" title="gs_effect_get_param_by_name"><code class="xref c c-func docutils literal notranslate"><span class="pre">gs_effect_get_param_by_name()</span></code></a> or
+<a class="reference internal" href="reference-libobs-graphics-effects.html#c.gs_effect_get_param_by_idx" title="gs_effect_get_param_by_idx"><code class="xref c c-func docutils literal notranslate"><span class="pre">gs_effect_get_param_by_idx()</span></code></a>.</p>
+<p>Then the uniforms are set through the following functions:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="reference-libobs-graphics-effects.html#c.gs_effect_set_bool" title="gs_effect_set_bool"><code class="xref c c-func docutils literal notranslate"><span class="pre">gs_effect_set_bool()</span></code></a></p></li>
+<li><p><a class="reference internal" href="reference-libobs-graphics-effects.html#c.gs_effect_set_float" title="gs_effect_set_float"><code class="xref c c-func docutils literal notranslate"><span class="pre">gs_effect_set_float()</span></code></a></p></li>
+<li><p><a class="reference internal" href="reference-libobs-graphics-effects.html#c.gs_effect_set_int" title="gs_effect_set_int"><code class="xref c c-func docutils literal notranslate"><span class="pre">gs_effect_set_int()</span></code></a></p></li>
+<li><p><a class="reference internal" href="reference-libobs-graphics-effects.html#c.gs_effect_set_matrix4" title="gs_effect_set_matrix4"><code class="xref c c-func docutils literal notranslate"><span class="pre">gs_effect_set_matrix4()</span></code></a></p></li>
+<li><p><a class="reference internal" href="reference-libobs-graphics-effects.html#c.gs_effect_set_vec2" title="gs_effect_set_vec2"><code class="xref c c-func docutils literal notranslate"><span class="pre">gs_effect_set_vec2()</span></code></a></p></li>
+<li><p><a class="reference internal" href="reference-libobs-graphics-effects.html#c.gs_effect_set_vec3" title="gs_effect_set_vec3"><code class="xref c c-func docutils literal notranslate"><span class="pre">gs_effect_set_vec3()</span></code></a></p></li>
+<li><p><a class="reference internal" href="reference-libobs-graphics-effects.html#c.gs_effect_set_vec4" title="gs_effect_set_vec4"><code class="xref c c-func docutils literal notranslate"><span class="pre">gs_effect_set_vec4()</span></code></a></p></li>
+<li><p><a class="reference internal" href="reference-libobs-graphics-effects.html#c.gs_effect_set_texture" title="gs_effect_set_texture"><code class="xref c c-func docutils literal notranslate"><span class="pre">gs_effect_set_texture()</span></code></a></p></li>
+<li><p><a class="reference internal" href="reference-libobs-graphics-effects.html#c.gs_effect_set_texture_srgb" title="gs_effect_set_texture_srgb"><code class="xref c c-func docutils literal notranslate"><span class="pre">gs_effect_set_texture_srgb()</span></code></a></p></li>
+</ul>
+<p>There are two “universal” effect parameters that may be expected of
+effects:  <strong>ViewProj</strong>, and <strong>image</strong>.  The <strong>ViewProj</strong> parameter
+(which is a float4x4) is used for the primary view/projection matrix
+combination.  The <strong>image</strong> parameter (which is a texture2d) is a
+commonly used parameter for the main texture; this parameter will be
+used with the functions <a class="reference internal" href="reference-sources.html#c.obs_source_draw" title="obs_source_draw"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_source_draw()</span></code></a>,
+<a class="reference internal" href="reference-libobs-graphics-graphics.html#c.gs_draw_sprite" title="gs_draw_sprite"><code class="xref c c-func docutils literal notranslate"><span class="pre">gs_draw_sprite()</span></code></a>, and
+<a class="reference internal" href="reference-sources.html#c.obs_source_process_filter_end" title="obs_source_process_filter_end"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_source_process_filter_end()</span></code></a>.</p>
+<p>Here is an example of effect parameters:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">uniform</span><span class="w"> </span><span class="n">float4x4</span><span class="w"> </span><span class="n">ViewProj</span><span class="p">;</span><span class="w"></span>
+<span class="n">uniform</span><span class="w"> </span><span class="n">texture2d</span><span class="w"> </span><span class="n">image</span><span class="p">;</span><span class="w"></span>
+
+<span class="n">uniform</span><span class="w"> </span><span class="n">float4</span><span class="w"> </span><span class="n">my_color_param</span><span class="p">;</span><span class="w"></span>
+<span class="n">uniform</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">my_float_param</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Effect parameters can also have default values.  Default parameters of
+elements that have multiple elements should be treated as an array.</p>
+<p>Here are some examples of default parameters:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">uniform</span><span class="w"> </span><span class="n">float4x4</span><span class="w"> </span><span class="n">my_matrix</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"></span>
+<span class="w">                              </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"></span>
+<span class="w">                              </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"></span>
+<span class="w">                              </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">};</span><span class="w"></span>
+
+<span class="n">uniform</span><span class="w"> </span><span class="n">float4</span><span class="w"> </span><span class="n">my_float4</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.5</span><span class="p">,</span><span class="w"> </span><span class="mf">0.25</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">};</span><span class="w"></span>
+<span class="n">uniform</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">my_float</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">4.0</span><span class="p">;</span><span class="w"></span>
+<span class="n">uniform</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">my_int</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+</section>
+<section id="effect-sampler-states">
+<h3>Effect Sampler States<a class="headerlink" href="#effect-sampler-states" title="Permalink to this headline"></a></h3>
+<p>Then, if textures are used, sampler states should be defined.  Sampler
+states have certain sub-parameters:</p>
+<ul class="simple">
+<li><p><strong>Filter</strong> - The type of filtering to use.  Can be one of the
+following values:</p>
+<ul>
+<li><p><strong>Anisotropy</strong></p></li>
+<li><p><strong>Point</strong></p></li>
+<li><p><strong>Linear</strong></p></li>
+<li><p><strong>MIN_MAG_POINT_MIP_LINEAR</strong></p></li>
+<li><p><strong>MIN_POINT_MAG_LINEAR_MIP_POINT</strong></p></li>
+<li><p><strong>MIN_POINT_MAG_MIP_LINEAR</strong></p></li>
+<li><p><strong>MIN_LINEAR_MAG_MIP_POINT</strong></p></li>
+<li><p><strong>MIN_LINEAR_MAG_POINT_MIP_LINEAR</strong></p></li>
+<li><p><strong>MIN_MAG_LINEAR_MIP_POINT</strong></p></li>
+</ul>
+</li>
+<li><p><strong>AddressU</strong>, <strong>AddressV</strong> -  Specifies how to handle the sampling
+when the coordinate goes beyond 0.0..1.0.  Can be one of the following
+values:</p>
+<ul>
+<li><p><strong>Wrap</strong> or <strong>Repeat</strong></p></li>
+<li><p><strong>Clamp</strong> or <strong>None</strong></p></li>
+<li><p><strong>Mirror</strong></p></li>
+<li><p><strong>Border</strong> (uses <em>BorderColor</em> to fill the color)</p></li>
+<li><p><strong>MirrorOnce</strong></p></li>
+</ul>
+</li>
+<li><p><strong>BorderColor</strong> - Specifies the border color if using the “Border”
+address mode.  This value should be a hexadecimal value representing
+the color, in the format of: AARRGGBB.  For example, 7FFF0000 would
+have its alpha value at 127, its red value at 255, and blue and green
+at 0.  If <em>Border</em> is not used as an addressing type, this value is
+ignored.</p></li>
+</ul>
+<p>Here is an example of writing a sampler state in an effect file:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">sampler_state</span><span class="w"> </span><span class="n">defaultSampler</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">Filter</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="n">Linear</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="n">AddressU</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="n">Border</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="n">AddressV</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="n">Border</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="n">BorderColor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">7F</span><span class="n">FF0000</span><span class="p">;</span><span class="w"></span>
+<span class="p">};</span><span class="w"></span>
+</pre></div>
+</div>
+<p>This sampler state would use linear filtering, would use border
+addressing for texture coordinate values beyond 0.0..1.0, and the border
+color would be the color specified above.</p>
+<p>When a sampler state is used, it’s used identically to the HLSL form:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="p">[...]</span><span class="w"></span>
+
+<span class="n">uniform</span><span class="w"> </span><span class="n">texture2d</span><span class="w"> </span><span class="n">image</span><span class="p">;</span><span class="w"></span>
+
+<span class="n">sampler_state</span><span class="w"> </span><span class="n">defaultSampler</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">Filter</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="n">Linear</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="n">AddressU</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="n">Clamp</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="n">AddressV</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="n">Clamp</span><span class="p">;</span><span class="w"></span>
+<span class="p">};</span><span class="w"></span>
+
+<span class="p">[...]</span><span class="w"></span>
+
+<span class="n">float4</span><span class="w"> </span><span class="n">MyPixelShaderFunc</span><span class="p">(</span><span class="n">VertInOut</span><span class="w"> </span><span class="n">vert_in</span><span class="p">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">TARGET</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">image</span><span class="p">.</span><span class="n">Sample</span><span class="p">(</span><span class="n">def_sampler</span><span class="p">,</span><span class="w"> </span><span class="n">vert_in</span><span class="p">.</span><span class="n">uv</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</section>
+<section id="effect-vertex-pixel-semantics">
+<h3>Effect Vertex/Pixel Semantics<a class="headerlink" href="#effect-vertex-pixel-semantics" title="Permalink to this headline"></a></h3>
+<p>Then structures should be defined for inputs and outputs vertex
+semantics.</p>
+<p>Vertex components can have the following semantics:</p>
+<ul class="simple">
+<li><p><strong>COLOR</strong>          - Color value (<em>float4</em>).</p></li>
+<li><p><strong>POSITION</strong>       - Position value (<em>float4</em>).</p></li>
+<li><p><strong>NORMAL</strong>         - Normal value (<em>float4</em>).</p></li>
+<li><p><strong>TANGENT</strong>        - Tangent value (<em>float4</em>).</p></li>
+<li><p><strong>TEXCOORD[0..7]</strong> - Texture cooordinate value (<em>float2</em>, <em>float3</em>, or
+<em>float4</em>).</p></li>
+</ul>
+<p>Here is an example of a vertex semantic structure:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">VertexIn</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">float4</span><span class="w"> </span><span class="n">my_position</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">POSITION</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="n">float2</span><span class="w"> </span><span class="n">my_texcoord</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">TEXCOORD0</span><span class="p">;</span><span class="w"></span>
+<span class="p">};</span><span class="w"></span>
+</pre></div>
+</div>
+<p>These semantic structures are then passed in as a parameter to the
+primary shader entry point, and used as a return value for the vertex
+shader.  Note that the vertex shader is allowed to return different
+semantics than it takes in; but the return type of the vertex shader and
+the parameter of the pixel shader must match.</p>
+<p>The semantic structure used for the parameter to the vertex shader
+function will require that the vertex buffer have those values, so if
+you have POSITION and TEXCOORD0, the vertex buffer will have to have at
+least a position buffer and a texture coordinate buffer in it.</p>
+<p>For pixel shaders, they need to return with a TARGET semantic (which is
+a float4 RGBA value).  Here is an example of how it’s usually used with
+a pixel shader function:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">float4</span><span class="w"> </span><span class="nf">MyPixelShaderFunc</span><span class="p">(</span><span class="n">VertInOut</span><span class="w"> </span><span class="n">vert_in</span><span class="p">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">TARGET</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">image</span><span class="p">.</span><span class="n">Sample</span><span class="p">(</span><span class="n">def_sampler</span><span class="p">,</span><span class="w"> </span><span class="n">vert_in</span><span class="p">.</span><span class="n">uv</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</section>
+<section id="effect-techniques">
+<h3>Effect Techniques<a class="headerlink" href="#effect-techniques" title="Permalink to this headline"></a></h3>
+<p>Techniques are used to define the primary vertex/pixel shader entry
+functions per pass.  One technique can have multiple passes or custom
+pass setup.</p>
+<p><em>(Author’s note: These days, multiple passes aren’t really needed; GPUs
+are powerful enough to where you can perform all actions in the same
+shader.  Named passes can be useful for custom draw setups, but even
+then you can just make it a separate technique.  For that reason, it’s
+best to just ignore the extra pass functionality.)</em></p>
+<p>If you’re making an effect filter for video sources, typically you’d
+name the pass <strong>Draw</strong>, and then
+<a class="reference internal" href="reference-sources.html#c.obs_source_process_filter_end" title="obs_source_process_filter_end"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_source_process_filter_end()</span></code></a> will automatically call that
+specific effect name.  However, you can also use
+<a class="reference internal" href="reference-sources.html#c.obs_source_process_filter_tech_end" title="obs_source_process_filter_tech_end"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_source_process_filter_tech_end()</span></code></a> to make the filter use a
+specific technique by its name.</p>
+<p>The first parameter of the vertex/pixel shader functions in passes
+should always be the name of its vertex semantic structure parameter.</p>
+<p>For techniques, it’s better to show some examples of how techniques
+would be used:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">uniform</span><span class="w"> </span><span class="n">float4x4</span><span class="w"> </span><span class="n">ViewProj</span><span class="p">;</span><span class="w"></span>
+<span class="n">uniform</span><span class="w"> </span><span class="n">texture2d</span><span class="w"> </span><span class="n">image</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">struct</span><span class="w"> </span><span class="nc">VertInOut</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">float4</span><span class="w"> </span><span class="n">my_position</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">POSITION</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="n">float2</span><span class="w"> </span><span class="n">my_texcoord</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">TEXCOORD0</span><span class="p">;</span><span class="w"></span>
+<span class="p">};</span><span class="w"></span>
+
+<span class="n">VertInOut</span><span class="w"> </span><span class="nf">MyVertexShaderFunc</span><span class="p">(</span><span class="n">VertInOut</span><span class="w"> </span><span class="n">vert_in</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">VertInOut</span><span class="w"> </span><span class="n">vert_out</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="n">vert_out</span><span class="p">.</span><span class="n">pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mul</span><span class="p">(</span><span class="n">float4</span><span class="p">(</span><span class="n">vert_in</span><span class="p">.</span><span class="n">pos</span><span class="p">.</span><span class="n">xyz</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">),</span><span class="w"> </span><span class="n">ViewProj</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="n">vert_out</span><span class="p">.</span><span class="n">uv</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">vert_in</span><span class="p">.</span><span class="n">uv</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">vert_out</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="n">float4</span><span class="w"> </span><span class="nf">MyPixelShaderFunc</span><span class="p">(</span><span class="n">VertInOut</span><span class="w"> </span><span class="n">vert_in</span><span class="p">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">TARGET</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">image</span><span class="p">.</span><span class="n">Sample</span><span class="p">(</span><span class="n">def_sampler</span><span class="p">,</span><span class="w"> </span><span class="n">vert_in</span><span class="p">.</span><span class="n">uv</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="n">technique</span><span class="w"> </span><span class="n">Draw</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">pass</span><span class="w"></span>
+<span class="w">        </span><span class="p">{</span><span class="w"></span>
+<span class="w">                </span><span class="n">vertex_shader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MyVertexShaderFunc</span><span class="p">(</span><span class="n">vert_in</span><span class="p">);</span><span class="w"></span>
+<span class="w">                </span><span class="n">pixel_shader</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">MyPixelShaderFunc</span><span class="p">(</span><span class="n">vert_in</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="p">};</span><span class="w"></span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="using-effects">
+<h2>Using Effects<a class="headerlink" href="#using-effects" title="Permalink to this headline"></a></h2>
+<p>The recommended way to use effects is like so:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">gs_effect_loop</span><span class="p">(</span><span class="n">effect</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;technique&quot;</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="p">[</span><span class="n">draw</span><span class="w"> </span><span class="n">calls</span><span class="w"> </span><span class="n">go</span><span class="w"> </span><span class="n">here</span><span class="p">]</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>This will automatically handle loading/unloading of the effect and its
+shaders for a given technique name.</p>
+</section>
+<section id="rendering-video-sources">
+<h2>Rendering Video Sources<a class="headerlink" href="#rendering-video-sources" title="Permalink to this headline"></a></h2>
+<p>A synchronous video source renders in its
+<a class="reference internal" href="reference-sources.html#c.obs_source_info.video_render" title="obs_source_info.video_render"><code class="xref c c-member docutils literal notranslate"><span class="pre">obs_source_info.video_render</span></code></a> callback.</p>
+<p>Sources can render with custom drawing (via the OBS_SOURCE_CUSTOM_DRAW
+output capability flag), or without.  When sources render without custom
+rendering, it’s recommended to render a single texture with
+<a class="reference internal" href="reference-sources.html#c.obs_source_draw" title="obs_source_draw"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_source_draw()</span></code></a>.  Otherwise the source is expected to
+perform rendering on its own and manage its own effects.</p>
+<p>Libobs comes with a set of default/standard effects that can be accessed
+via the <a class="reference internal" href="reference-core.html#c.obs_get_base_effect" title="obs_get_base_effect"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_get_base_effect()</span></code></a> function.  You can use these
+effects to render, or you can create custom effects with
+<a class="reference internal" href="reference-libobs-graphics-effects.html#c.gs_effect_create_from_file" title="gs_effect_create_from_file"><code class="xref c c-func docutils literal notranslate"><span class="pre">gs_effect_create_from_file()</span></code></a> and render with a custom effect.</p>
+</section>
+<section id="rendering-video-effect-filters">
+<h2>Rendering Video Effect Filters<a class="headerlink" href="#rendering-video-effect-filters" title="Permalink to this headline"></a></h2>
+<p>For most video effect filters, it comprises of adding a layer of
+processing shaders to an existing image in its
+<a class="reference internal" href="reference-sources.html#c.obs_source_info.video_render" title="obs_source_info.video_render"><code class="xref c c-member docutils literal notranslate"><span class="pre">obs_source_info.video_render</span></code></a> callback.  When this is the
+case, it’s expected that the filter has its own effect created, and to
+draw the effect, one would simply use the
+<a class="reference internal" href="reference-sources.html#c.obs_source_process_filter_begin" title="obs_source_process_filter_begin"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_source_process_filter_begin()</span></code></a> function, set the parameters
+on your custom effect, then call either
+<a class="reference internal" href="reference-sources.html#c.obs_source_process_filter_end" title="obs_source_process_filter_end"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_source_process_filter_end()</span></code></a> or
+<a class="reference internal" href="reference-sources.html#c.obs_source_process_filter_tech_end" title="obs_source_process_filter_tech_end"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_source_process_filter_tech_end()</span></code></a> to finish rendering the
+filter.</p>
+<p>Here’s an example of rendering a filter from the color key filter:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">color_key_render</span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="n">gs_effect_t</span><span class="w"> </span><span class="o">*</span><span class="n">effect</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">struct</span><span class="w"> </span><span class="nc">color_key_filter_data</span><span class="w"> </span><span class="o">*</span><span class="n">filter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">data</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">obs_source_process_filter_begin</span><span class="p">(</span><span class="n">filter</span><span class="o">-&gt;</span><span class="n">context</span><span class="p">,</span><span class="w"> </span><span class="n">GS_RGBA</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                </span><span class="n">OBS_ALLOW_DIRECT_RENDERING</span><span class="p">))</span><span class="w"></span>
+<span class="w">                </span><span class="k">return</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">        </span><span class="n">gs_effect_set_vec4</span><span class="p">(</span><span class="n">filter</span><span class="o">-&gt;</span><span class="n">color_param</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">filter</span><span class="o">-&gt;</span><span class="n">color</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="n">gs_effect_set_float</span><span class="p">(</span><span class="n">filter</span><span class="o">-&gt;</span><span class="n">contrast_param</span><span class="p">,</span><span class="w"> </span><span class="n">filter</span><span class="o">-&gt;</span><span class="n">contrast</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="n">gs_effect_set_float</span><span class="p">(</span><span class="n">filter</span><span class="o">-&gt;</span><span class="n">brightness_param</span><span class="p">,</span><span class="w"> </span><span class="n">filter</span><span class="o">-&gt;</span><span class="n">brightness</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="n">gs_effect_set_float</span><span class="p">(</span><span class="n">filter</span><span class="o">-&gt;</span><span class="n">gamma_param</span><span class="p">,</span><span class="w"> </span><span class="n">filter</span><span class="o">-&gt;</span><span class="n">gamma</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="n">gs_effect_set_vec4</span><span class="p">(</span><span class="n">filter</span><span class="o">-&gt;</span><span class="n">key_color_param</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">filter</span><span class="o">-&gt;</span><span class="n">key_color</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="n">gs_effect_set_float</span><span class="p">(</span><span class="n">filter</span><span class="o">-&gt;</span><span class="n">similarity_param</span><span class="p">,</span><span class="w"> </span><span class="n">filter</span><span class="o">-&gt;</span><span class="n">similarity</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="n">gs_effect_set_float</span><span class="p">(</span><span class="n">filter</span><span class="o">-&gt;</span><span class="n">smoothness_param</span><span class="p">,</span><span class="w"> </span><span class="n">filter</span><span class="o">-&gt;</span><span class="n">smoothness</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">        </span><span class="n">obs_source_process_filter_end</span><span class="p">(</span><span class="n">filter</span><span class="o">-&gt;</span><span class="n">context</span><span class="p">,</span><span class="w"> </span><span class="n">filter</span><span class="o">-&gt;</span><span class="n">effect</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">        </span><span class="n">UNUSED_PARAMETER</span><span class="p">(</span><span class="n">effect</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="frontends.html" class="btn btn-neutral float-left" title="Frontends" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="scripting.html" class="btn btn-neutral float-right" title="Python/Lua Scripting" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2017-2022, Hugh Bailey.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

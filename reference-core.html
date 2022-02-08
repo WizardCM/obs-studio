@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OBS Core API Reference &mdash; OBS Studio 27.1.3 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Module API Reference" href="reference-modules.html" />
+    <link rel="prev" title="Python/Lua Scripting" href="scripting.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> OBS Studio
+          </a>
+              <div class="version">
+                27.1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="backend-design.html">OBS Studio Backend Design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plugins.html">Plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="frontends.html">Frontends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="graphics.html">Rendering Graphics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scripting.html">Python/Lua Scripting</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">OBS Core API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#initialization-shutdown-and-information">Initialization, Shutdown, and Information</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#libobs-objects">Libobs Objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#video-audio-and-graphics">Video, Audio, and Graphics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#primary-signal-procedure-handlers">Primary signal/procedure handlers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#core-obs-signals">Core OBS Signals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#displays">Displays</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reference-modules.html">Module API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-core-objects.html">Core API Object Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-libobs-util.html">Platform/Utility API Reference (libobs/util)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-libobs-callback.html">Callback API Reference (libobs/callback)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-libobs-graphics.html">Graphics API Reference (libobs/graphics)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-libobs-media-io.html">Media I/O API Reference (libobs/media-io)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-frontend-api.html">OBS Studio Frontend API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">OBS Studio</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>OBS Core API Reference</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/reference-core.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="obs-core-api-reference">
+<h1>OBS Core API Reference<a class="headerlink" href="#obs-core-api-reference" title="Permalink to this headline"></a></h1>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;obs.h&gt;</span><span class="cp"></span>
+</pre></div>
+</div>
+<section id="initialization-shutdown-and-information">
+<span id="obs-init-shutdown-reference"></span><h2>Initialization, Shutdown, and Information<a class="headerlink" href="#initialization-shutdown-and-information" title="Permalink to this headline"></a></h2>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_startup">
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_startup</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">locale</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">module_config_path</span></span>, <span class="n"><span class="pre">profiler_name_store_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">store</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_startup" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Initializes the OBS core context.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>locale</strong> – The locale to use for modules
+(E.G. “en-US”)</p></li>
+<li><p><strong>module_config_path</strong> – Path to module config storage directory
+(or <em>NULL</em> if none)</p></li>
+<li><p><strong>store</strong> – The profiler name store for OBS to use or NULL</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><em>false</em> if already initialized or failed
+to initialize</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_shutdown">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_shutdown</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_shutdown" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Releases all data associated with OBS and terminates the OBS context.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_initialized">
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_initialized</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_initialized" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>true if the main OBS context has been initialized</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_get_version">
+<span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_get_version</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_get_version" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The current core version</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_get_version_string">
+<span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_get_version_string</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_get_version_string" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The current core version string</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_set_locale">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_set_locale</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">locale</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_set_locale" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Sets a new locale to use for modules.  This will call
+obs_module_set_locale for each module with the new locale.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>locale</strong> – The locale to use for modules</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_get_locale">
+<span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_get_locale</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_get_locale" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The current locale</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_get_profiler_name_store">
+<span class="n"><span class="pre">profiler_name_store_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_get_profiler_name_store</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_get_profiler_name_store" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The profiler name store (see util/profiler.h) used by OBS,
+which is either a name store passed to obs_startup, an
+internal name store, or NULL in case obs_initialized()
+returns false.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_reset_video">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_reset_video</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">obs_video_info</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">ovi</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_reset_video" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Sets base video output base resolution/fps/format.</p>
+<p>Note: This data cannot be changed if an output is currently active.</p>
+<p>Note: The graphics module cannot be changed without fully destroying
+the OBS context.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ovi</strong> – Pointer to an obs_video_info structure containing the
+specification of the graphics subsystem,</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><div class="line-block">
+<div class="line">OBS_VIDEO_SUCCESS          - Success</div>
+<div class="line">OBS_VIDEO_NOT_SUPPORTED    - The adapter lacks capabilities</div>
+<div class="line">OBS_VIDEO_INVALID_PARAM    - A parameter is invalid</div>
+<div class="line">OBS_VIDEO_CURRENTLY_ACTIVE - Video is currently active</div>
+<div class="line">OBS_VIDEO_MODULE_NOT_FOUND - The graphics module is not found</div>
+<div class="line">OBS_VIDEO_FAIL             - Generic failure</div>
+</div>
+</p>
+</dd>
+</dl>
+<p>Relevant data types used with this function:</p>
+</dd></dl>
+
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">obs_video_info</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="cm">/**</span>
+<span class="cm">         * Graphics module to use (usually &quot;libobs-opengl&quot; or &quot;libobs-d3d11&quot;)</span>
+<span class="cm">         */</span><span class="w"></span>
+<span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w">          </span><span class="o">*</span><span class="n">graphics_module</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">        </span><span class="kt">uint32_t</span><span class="w">            </span><span class="n">fps_num</span><span class="p">;</span><span class="w">       </span><span class="cm">/**&lt; Output FPS numerator */</span><span class="w"></span>
+<span class="w">        </span><span class="kt">uint32_t</span><span class="w">            </span><span class="n">fps_den</span><span class="p">;</span><span class="w">       </span><span class="cm">/**&lt; Output FPS denominator */</span><span class="w"></span>
+
+<span class="w">        </span><span class="kt">uint32_t</span><span class="w">            </span><span class="n">base_width</span><span class="p">;</span><span class="w">    </span><span class="cm">/**&lt; Base compositing width */</span><span class="w"></span>
+<span class="w">        </span><span class="kt">uint32_t</span><span class="w">            </span><span class="n">base_height</span><span class="p">;</span><span class="w">   </span><span class="cm">/**&lt; Base compositing height */</span><span class="w"></span>
+
+<span class="w">        </span><span class="kt">uint32_t</span><span class="w">            </span><span class="n">output_width</span><span class="p">;</span><span class="w">  </span><span class="cm">/**&lt; Output width */</span><span class="w"></span>
+<span class="w">        </span><span class="kt">uint32_t</span><span class="w">            </span><span class="n">output_height</span><span class="p">;</span><span class="w"> </span><span class="cm">/**&lt; Output height */</span><span class="w"></span>
+<span class="w">        </span><span class="k">enum</span><span class="w"> </span><span class="nc">video_format</span><span class="w">   </span><span class="n">output_format</span><span class="p">;</span><span class="w"> </span><span class="cm">/**&lt; Output format */</span><span class="w"></span>
+
+<span class="w">        </span><span class="cm">/** Video adapter index to use (NOTE: avoid for optimus laptops) */</span><span class="w"></span>
+<span class="w">        </span><span class="kt">uint32_t</span><span class="w">            </span><span class="n">adapter</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">        </span><span class="cm">/** Use shaders to convert to different color formats */</span><span class="w"></span>
+<span class="w">        </span><span class="kt">bool</span><span class="w">                </span><span class="n">gpu_conversion</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">        </span><span class="k">enum</span><span class="w"> </span><span class="nc">video_colorspace</span><span class="w"> </span><span class="n">colorspace</span><span class="p">;</span><span class="w">  </span><span class="cm">/**&lt; YUV type (if YUV) */</span><span class="w"></span>
+<span class="w">        </span><span class="k">enum</span><span class="w"> </span><span class="nc">video_range_type</span><span class="w"> </span><span class="n">range</span><span class="p">;</span><span class="w">       </span><span class="cm">/**&lt; YUV range (if YUV) */</span><span class="w"></span>
+
+<span class="w">        </span><span class="k">enum</span><span class="w"> </span><span class="nc">obs_scale_type</span><span class="w"> </span><span class="n">scale_type</span><span class="p">;</span><span class="w">    </span><span class="cm">/**&lt; How to scale if scaling */</span><span class="w"></span>
+<span class="p">};</span><span class="w"></span>
+</pre></div>
+</div>
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_reset_audio">
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_reset_audio</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">obs_audio_info</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">oai</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_reset_audio" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Sets base audio output format/channels/samples/etc.</p>
+<p>Note: Cannot reset base audio if an output is currently active.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><em>true</em> if successful, <em>false</em> otherwise</p>
+</dd>
+</dl>
+<p>Relevant data types used with this function:</p>
+</dd></dl>
+
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">obs_audio_info</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="kt">uint32_t</span><span class="w">            </span><span class="n">samples_per_sec</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="k">enum</span><span class="w"> </span><span class="nc">speaker_layout</span><span class="w"> </span><span class="n">speakers</span><span class="p">;</span><span class="w"></span>
+<span class="p">};</span><span class="w"></span>
+</pre></div>
+</div>
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_get_video_info">
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_get_video_info</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">obs_video_info</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">ovi</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_get_video_info" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Gets the current video settings.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><em>false</em> if no video</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_get_audio_info">
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_get_audio_info</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">obs_audio_info</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">oai</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_get_audio_info" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Gets the current audio settings.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><em>false</em> if no audio</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<hr class="docutils" />
+<section id="libobs-objects">
+<h2>Libobs Objects<a class="headerlink" href="#libobs-objects" title="Permalink to this headline"></a></h2>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_enum_source_types">
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_enum_source_types</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">idx</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">id</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_enum_source_types" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Enumerates all source types (inputs, filters, transitions, etc).</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_enum_input_types">
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_enum_input_types</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">idx</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">id</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_enum_input_types" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Enumerates all available inputs source types.</p>
+<p>Inputs are general source inputs (such as capture sources, device sources,
+etc).</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_enum_filter_types">
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_enum_filter_types</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">idx</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">id</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_enum_filter_types" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Enumerates all available filter source types.</p>
+<p>Filters are sources that are used to modify the video/audio output of
+other sources.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_enum_transition_types">
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_enum_transition_types</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">idx</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">id</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_enum_transition_types" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Enumerates all available transition source types.</p>
+<p>Transitions are sources used to transition between two or more other
+sources.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_enum_output_types">
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_enum_output_types</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">idx</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">id</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_enum_output_types" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Enumerates all available output types.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_enum_encoder_types">
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_enum_encoder_types</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">idx</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">id</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_enum_encoder_types" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Enumerates all available encoder types.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_enum_service_types">
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_enum_service_types</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">idx</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">id</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_enum_service_types" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Enumerates all available service types.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_enum_sources">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_enum_sources</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">enum_proc</span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">void</span></span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="reference-sources.html#c.obs_source_t" title="obs_source_t"><span class="n"><span class="pre">obs_source_t</span></span></a><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">)</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">param</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_enum_sources" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Enumerates all input sources.</p>
+<p>Callback function returns true to continue enumeration, or false to end
+enumeration.</p>
+<p>Use <code class="xref c c-func docutils literal notranslate"><span class="pre">obs_source_get_ref()</span></code> or
+<a class="reference internal" href="reference-sources.html#c.obs_source_get_weak_source" title="obs_source_get_weak_source"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_source_get_weak_source()</span></code></a> if you want to retain a
+reference after obs_enum_sources finishes.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_enum_scenes">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_enum_scenes</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">enum_proc</span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">void</span></span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="reference-sources.html#c.obs_source_t" title="obs_source_t"><span class="n"><span class="pre">obs_source_t</span></span></a><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">)</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">param</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_enum_scenes" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Enumerates all scenes.</p>
+<p>Callback function returns true to continue enumeration, or false to end
+enumeration.</p>
+<p>Use <code class="xref c c-func docutils literal notranslate"><span class="pre">obs_source_get_ref()</span></code> or
+<a class="reference internal" href="reference-sources.html#c.obs_source_get_weak_source" title="obs_source_get_weak_source"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_source_get_weak_source()</span></code></a> if you want to retain a
+reference after obs_enum_scenes finishes.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_enum_outputs">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_enum_outputs</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">enum_proc</span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">void</span></span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="reference-outputs.html#c.obs_output_t" title="obs_output_t"><span class="n"><span class="pre">obs_output_t</span></span></a><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">)</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">param</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_enum_outputs" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Enumerates outputs.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_enum_encoders">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_enum_encoders</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">enum_proc</span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">void</span></span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="reference-encoders.html#c.obs_encoder_t" title="obs_encoder_t"><span class="n"><span class="pre">obs_encoder_t</span></span></a><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">)</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">param</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_enum_encoders" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Enumerates encoders.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_get_source_by_name">
+<a class="reference internal" href="reference-sources.html#c.obs_source_t" title="obs_source_t"><span class="n"><span class="pre">obs_source_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_get_source_by_name</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">name</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_get_source_by_name" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Gets a source by its name.</p>
+<p>Increments the source reference counter, use
+<a class="reference internal" href="reference-sources.html#c.obs_source_release" title="obs_source_release"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_source_release()</span></code></a> to release it when complete.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_get_transition_by_name">
+<a class="reference internal" href="reference-sources.html#c.obs_source_t" title="obs_source_t"><span class="n"><span class="pre">obs_source_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_get_transition_by_name</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">name</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_get_transition_by_name" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Gets a transition by its name.</p>
+<p>Increments the source reference counter, use
+<a class="reference internal" href="reference-sources.html#c.obs_source_release" title="obs_source_release"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_source_release()</span></code></a> to release it when complete.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_get_scene_by_name">
+<a class="reference internal" href="reference-scenes.html#c.obs_scene_t" title="obs_scene_t"><span class="n"><span class="pre">obs_scene_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_get_scene_by_name</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">name</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_get_scene_by_name" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Gets a scene by its name.</p>
+<p>Increments the scene reference counter, use
+<a class="reference internal" href="reference-scenes.html#c.obs_scene_release" title="obs_scene_release"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_scene_release()</span></code></a> to release it when complete.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_get_output_by_name">
+<a class="reference internal" href="reference-outputs.html#c.obs_output_t" title="obs_output_t"><span class="n"><span class="pre">obs_output_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_get_output_by_name</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">name</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_get_output_by_name" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Gets an output by its name.</p>
+<p>Increments the output reference counter, use
+<a class="reference internal" href="reference-outputs.html#c.obs_output_release" title="obs_output_release"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_output_release()</span></code></a> to release it when complete.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_get_encoder_by_name">
+<a class="reference internal" href="reference-encoders.html#c.obs_encoder_t" title="obs_encoder_t"><span class="n"><span class="pre">obs_encoder_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_get_encoder_by_name</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">name</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_get_encoder_by_name" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Gets an encoder by its name.</p>
+<p>Increments the encoder reference counter, use
+<a class="reference internal" href="reference-encoders.html#c.obs_encoder_release" title="obs_encoder_release"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_encoder_release()</span></code></a> to release it when complete.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_get_service_by_name">
+<a class="reference internal" href="reference-services.html#c.obs_service_t" title="obs_service_t"><span class="n"><span class="pre">obs_service_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_get_service_by_name</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">name</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_get_service_by_name" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Gets an service by its name.</p>
+<p>Increments the service reference counter, use
+<a class="reference internal" href="reference-services.html#c.obs_service_release" title="obs_service_release"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_service_release()</span></code></a> to release it when complete.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_save_source">
+<a class="reference internal" href="reference-settings.html#c.obs_data_t" title="obs_data_t"><span class="n"><span class="pre">obs_data_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_save_source</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="reference-sources.html#c.obs_source_t" title="obs_source_t"><span class="n"><span class="pre">obs_source_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">source</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_save_source" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A new reference to a source’s saved data</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_load_source">
+<a class="reference internal" href="reference-sources.html#c.obs_source_t" title="obs_source_t"><span class="n"><span class="pre">obs_source_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_load_source</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="reference-settings.html#c.obs_data_t" title="obs_data_t"><span class="n"><span class="pre">obs_data_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_load_source" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A source created from saved data</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_load_sources">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_load_sources</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="reference-settings.html#c.obs_data_array_t" title="obs_data_array_t"><span class="n"><span class="pre">obs_data_array_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">array</span></span>, <span class="n"><span class="pre">obs_load_source_cb</span></span><span class="w"> </span><span class="n"><span class="pre">cb</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">private_data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_load_sources" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Helper function to load active sources from a data array.</p>
+<p>Relevant data types used with this function:</p>
+</dd></dl>
+
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">obs_load_source_cb</span><span class="p">)(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">private_data</span><span class="p">,</span><span class="w"> </span><span class="n">obs_source_t</span><span class="w"> </span><span class="o">*</span><span class="n">source</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_save_sources">
+<a class="reference internal" href="reference-settings.html#c.obs_data_array_t" title="obs_data_array_t"><span class="n"><span class="pre">obs_data_array_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_save_sources</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_save_sources" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A data array with the saved data of all active sources</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_save_sources_filtered">
+<a class="reference internal" href="reference-settings.html#c.obs_data_array_t" title="obs_data_array_t"><span class="n"><span class="pre">obs_data_array_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_save_sources_filtered</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">obs_save_source_filter_cb</span></span><span class="w"> </span><span class="n"><span class="pre">cb</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_save_sources_filtered" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A data array with the saved data of all active sources,
+filtered by the <em>cb</em> function</p>
+</dd>
+</dl>
+<p>Relevant data types used with this function:</p>
+</dd></dl>
+
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">obs_save_source_filter_cb</span><span class="p">)(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="n">obs_source_t</span><span class="w"> </span><span class="o">*</span><span class="n">source</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="video-audio-and-graphics">
+<h2>Video, Audio, and Graphics<a class="headerlink" href="#video-audio-and-graphics" title="Permalink to this headline"></a></h2>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_enter_graphics">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_enter_graphics</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_enter_graphics" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Helper function for entering the OBS graphics context.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_leave_graphics">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_leave_graphics</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_leave_graphics" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Helper function for leaving the OBS graphics context.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_get_audio">
+<a class="reference internal" href="reference-libobs-media-io.html#c.audio_t" title="audio_t"><span class="n"><span class="pre">audio_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_get_audio</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_get_audio" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The main audio output handler for this OBS context</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_get_video">
+<a class="reference internal" href="reference-libobs-media-io.html#c.video_t" title="video_t"><span class="n"><span class="pre">video_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_get_video</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_get_video" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The main video output handler for this OBS context</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_set_output_source">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_set_output_source</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="n"><span class="pre">channel</span></span>, <a class="reference internal" href="reference-sources.html#c.obs_source_t" title="obs_source_t"><span class="n"><span class="pre">obs_source_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">source</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_set_output_source" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Sets the primary output source for a channel.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_get_output_source">
+<a class="reference internal" href="reference-sources.html#c.obs_source_t" title="obs_source_t"><span class="n"><span class="pre">obs_source_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_get_output_source</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="n"><span class="pre">channel</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_get_output_source" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Gets the primary output source for a channel and increments the reference
+counter for that source.  Use <a class="reference internal" href="reference-sources.html#c.obs_source_release" title="obs_source_release"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_source_release()</span></code></a> to release.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_get_base_effect">
+<span class="n"><span class="pre">gs_effect_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_get_base_effect</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="n"><span class="pre">obs_base_effect</span></span><span class="w"> </span><span class="n"><span class="pre">effect</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_get_base_effect" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Returns a commoinly used base effect.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>effect</strong> – <div class="line-block">
+<div class="line">Can be one of the following values:</div>
+<div class="line">OBS_EFFECT_DEFAULT             - RGB/YUV</div>
+<div class="line">OBS_EFFECT_DEFAULT_RECT        - RGB/YUV (using texture_rect)</div>
+<div class="line">OBS_EFFECT_OPAQUE              - RGB/YUV (alpha set to 1.0)</div>
+<div class="line">OBS_EFFECT_SOLID               - RGB/YUV (solid color only)</div>
+<div class="line">OBS_EFFECT_BICUBIC             - Bicubic downscale</div>
+<div class="line">OBS_EFFECT_LANCZOS             - Lanczos downscale</div>
+<div class="line">OBS_EFFECT_BILINEAR_LOWRES     - Bilinear low resolution downscale</div>
+<div class="line">OBS_EFFECT_PREMULTIPLIED_ALPHA - Premultiplied alpha</div>
+</div>
+</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_render_main_view">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_render_main_view</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_render_main_view" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Renders the main view.</p>
+<p>Note: This function is deprecated.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_render_main_texture">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_render_main_texture</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_render_main_texture" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Renders the main output texture.  Useful for rendering a preview pane
+of the main output.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_set_master_volume">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_set_master_volume</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="n"><span class="pre">volume</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_set_master_volume" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Sets the master user volume.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_get_master_volume">
+<span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_get_master_volume</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_get_master_volume" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The master user volume</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_audio_monitoring_available">
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_audio_monitoring_available</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_audio_monitoring_available" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Whether audio monitoring is supported and available on the current platform</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_enum_audio_monitoring_devices">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_enum_audio_monitoring_devices</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">obs_enum_audio_device_cb</span></span><span class="w"> </span><span class="n"><span class="pre">cb</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_enum_audio_monitoring_devices" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Enumerates audio devices which can be used for audio monitoring.</p>
+<p>Relevant data types used with this function:</p>
+</dd></dl>
+
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">obs_enum_audio_device_cb</span><span class="p">)(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">id</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_set_audio_monitoring_device">
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_set_audio_monitoring_device</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">name</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">id</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_set_audio_monitoring_device" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Sets the current audio device for audio monitoring.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_get_audio_monitoring_device">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_get_audio_monitoring_device</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">name</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">id</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_get_audio_monitoring_device" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Gets the current audio device for audio monitoring.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_add_main_render_callback">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_add_main_render_callback</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">draw</span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">param</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="n"><span class="pre">cx</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="n"><span class="pre">cy</span></span><span class="p"><span class="pre">)</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">param</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_add_main_render_callback" title="Permalink to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.obs_remove_main_render_callback">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_remove_main_render_callback</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">draw</span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">param</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="n"><span class="pre">cx</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="n"><span class="pre">cy</span></span><span class="p"><span class="pre">)</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">param</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_remove_main_render_callback" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Adds/removes a main rendering callback.  Allows custom rendering to
+the main stream/recording output.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_add_raw_video_callback">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_add_raw_video_callback</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">video_scale_info</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">conversion</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">callback</span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">param</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">video_data</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">frame</span></span><span class="p"><span class="pre">)</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">param</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_add_raw_video_callback" title="Permalink to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.obs_remove_raw_video_callback">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_remove_raw_video_callback</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">callback</span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">param</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">video_data</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">frame</span></span><span class="p"><span class="pre">)</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">param</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_remove_raw_video_callback" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Adds/removes a raw video callback.  Allows the ability to obtain raw
+video frames without necessarily using an output.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>conversion</strong> – Specifies conversion requirements.  Can be NULL.</p></li>
+<li><p><strong>callback</strong> – The callback that receives raw video frames.</p></li>
+<li><p><strong>param</strong> – The private data associated with the callback.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_add_raw_audio_callback">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_add_raw_audio_callback</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">mix_idx</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">audio_convert_info</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">conversion</span></span>, <span class="n"><span class="pre">audio_output_callback_t</span></span><span class="w"> </span><span class="n"><span class="pre">callback</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">param</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_add_raw_audio_callback" title="Permalink to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.obs_remove_raw_raw_callback">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_remove_raw_raw_callback</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">track</span></span>, <span class="n"><span class="pre">audio_output_callback_t</span></span><span class="w"> </span><span class="n"><span class="pre">callback</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">param</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_remove_raw_raw_callback" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Adds/removes a raw audio callback.  Allows the ability to obtain raw
+audio data without necessarily using an output.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mix_idx</strong> – Specifies audio track to get data from.</p></li>
+<li><p><strong>conversion</strong> – Specifies conversion requirements.  Can be NULL.</p></li>
+<li><p><strong>callback</strong> – The callback that receives raw audio data.</p></li>
+<li><p><strong>param</strong> – The private data associated with the callback.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="primary-signal-procedure-handlers">
+<h2>Primary signal/procedure handlers<a class="headerlink" href="#primary-signal-procedure-handlers" title="Permalink to this headline"></a></h2>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_get_signal_handler">
+<a class="reference internal" href="reference-libobs-callback.html#c.signal_handler_t" title="signal_handler_t"><span class="n"><span class="pre">signal_handler_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_get_signal_handler</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_get_signal_handler" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The primary obs signal handler</p>
+</dd>
+</dl>
+<p>See <a class="reference internal" href="#core-signal-handler-reference"><span class="std std-ref">Core OBS Signals</span></a> for more information on
+core signals.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_get_proc_handler">
+<a class="reference internal" href="reference-libobs-callback.html#c.proc_handler_t" title="proc_handler_t"><span class="n"><span class="pre">proc_handler_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_get_proc_handler</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_get_proc_handler" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The primary obs procedure handler</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="core-obs-signals">
+<span id="core-signal-handler-reference"></span><h2>Core OBS Signals<a class="headerlink" href="#core-obs-signals" title="Permalink to this headline"></a></h2>
+<p><strong>source_create</strong> (ptr source)</p>
+<blockquote>
+<div><p>Called when a source has been created.</p>
+</div></blockquote>
+<p><strong>source_destroy</strong> (ptr source)</p>
+<blockquote>
+<div><p>Called when a source has been destroyed.</p>
+</div></blockquote>
+<p><strong>source_remove</strong> (ptr source)</p>
+<blockquote>
+<div><p>Called when a source has been removed (<a class="reference internal" href="reference-sources.html#c.obs_source_remove" title="obs_source_remove"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_source_remove()</span></code></a>
+has been called on the source).</p>
+</div></blockquote>
+<p><strong>source_save</strong> (ptr source)</p>
+<blockquote>
+<div><p>Called when a source is being saved.</p>
+</div></blockquote>
+<p><strong>source_load</strong> (ptr source)</p>
+<blockquote>
+<div><p>Called when a source is being loaded.</p>
+</div></blockquote>
+<p><strong>source_activate</strong> (ptr source)</p>
+<blockquote>
+<div><p>Called when a source has been activated in the main view (visible on
+stream/recording).</p>
+</div></blockquote>
+<p><strong>source_deactivate</strong> (ptr source)</p>
+<blockquote>
+<div><p>Called when a source has been deactivated from the main view (no
+longer visible on stream/recording).</p>
+</div></blockquote>
+<p><strong>source_show</strong> (ptr source)</p>
+<blockquote>
+<div><p>Called when a source is visible on any display and/or on the main
+view.</p>
+</div></blockquote>
+<p><strong>source_hide</strong> (ptr source)</p>
+<blockquote>
+<div><p>Called when a source is no longer visible on any display and/or on
+the main view.</p>
+</div></blockquote>
+<p><strong>source_rename</strong> (ptr source, string new_name, string prev_name)</p>
+<blockquote>
+<div><p>Called when a source has been renamed.</p>
+</div></blockquote>
+<p><strong>source_volume</strong> (ptr source, in out float volume)</p>
+<blockquote>
+<div><p>Called when a source’s volume has changed.</p>
+</div></blockquote>
+<p><strong>source_transition_start</strong> (ptr source)</p>
+<blockquote>
+<div><p>Called when a transition has started its transition.</p>
+</div></blockquote>
+<p><strong>source_transition_video_stop</strong> (ptr source)</p>
+<blockquote>
+<div><p>Called when a transition has stopped its video transitioning.</p>
+</div></blockquote>
+<p><strong>source_transition_stop</strong> (ptr source)</p>
+<blockquote>
+<div><p>Called when a transition has stopped its transition.</p>
+</div></blockquote>
+<p><strong>channel_change</strong> (int channel, in out ptr source, ptr prev_source)</p>
+<blockquote>
+<div><p>Called when <a class="reference internal" href="#c.obs_set_output_source" title="obs_set_output_source"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_set_output_source()</span></code></a> has been called.</p>
+</div></blockquote>
+<p><strong>master_volume</strong> (in out float volume)</p>
+<blockquote>
+<div><p>Called when the master volume has changed.</p>
+</div></blockquote>
+<p><strong>hotkey_layout_change</strong> ()</p>
+<blockquote>
+<div><p>Called when the hotkey layout has changed.</p>
+</div></blockquote>
+<p><strong>hotkey_register</strong> (ptr hotkey)</p>
+<blockquote>
+<div><p>Called when a hotkey has been registered.</p>
+</div></blockquote>
+<p><strong>hotkey_unregister</strong> (ptr hotkey)</p>
+<blockquote>
+<div><p>Called when a hotkey has been unregistered.</p>
+</div></blockquote>
+<p><strong>hotkey_bindings_changed</strong> (ptr hotkey)</p>
+<blockquote>
+<div><p>Called when a hotkey’s bindings has changed.</p>
+</div></blockquote>
+<hr class="docutils" />
+</section>
+<section id="displays">
+<span id="display-reference"></span><h2>Displays<a class="headerlink" href="#displays" title="Permalink to this headline"></a></h2>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_display_create">
+<span class="n"><span class="pre">obs_display_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_display_create</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">gs_init_data</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">graphics_data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_display_create" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Adds a new window display linked to the main render pipeline.  This creates
+a new swap chain which updates every frame.</p>
+<p><em>(Important note: do not use more than one display widget within the
+hierarchy of the same base window; this will cause presentation
+stalls on Macs.)</em></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>graphics_data</strong> – The swap chain initialization data</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The new display context, or NULL if failed</p>
+</dd>
+</dl>
+<p>Relevant data types used with this function:</p>
+</dd></dl>
+
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">enum</span><span class="w"> </span><span class="nc">gs_color_format</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="p">[...]</span><span class="w"></span>
+<span class="w">        </span><span class="n">GS_RGBA</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">GS_BGRX</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">GS_BGRA</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">GS_RGBA16F</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">GS_RGBA32F</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="p">[...]</span><span class="w"></span>
+<span class="p">};</span><span class="w"></span>
+
+<span class="k">enum</span><span class="w"> </span><span class="nc">gs_zstencil_format</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">GS_ZS_NONE</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">GS_Z16</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">GS_Z24_S8</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">GS_Z32F</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">GS_Z32F_S8X24</span><span class="w"></span>
+<span class="p">};</span><span class="w"></span>
+
+<span class="k">struct</span><span class="w"> </span><span class="nc">gs_window</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="cp">#if defined(_WIN32)</span>
+<span class="w">        </span><span class="kt">void</span><span class="w">                    </span><span class="o">*</span><span class="n">hwnd</span><span class="p">;</span><span class="w"></span>
+<span class="cp">#elif defined(__APPLE__)</span>
+<span class="w">        </span><span class="n">__unsafe_unretained</span><span class="w"> </span><span class="n">id</span><span class="w">  </span><span class="n">view</span><span class="p">;</span><span class="w"></span>
+<span class="cp">#elif defined(__linux__) || defined(__FreeBSD__)</span>
+<span class="w">        </span><span class="kt">uint32_t</span><span class="w">                </span><span class="n">id</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="kt">void</span><span class="w">                    </span><span class="o">*</span><span class="n">display</span><span class="p">;</span><span class="w"></span>
+<span class="cp">#endif</span>
+<span class="p">};</span><span class="w"></span>
+
+<span class="k">struct</span><span class="w"> </span><span class="nc">gs_init_data</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">struct</span><span class="w"> </span><span class="nc">gs_window</span><span class="w">        </span><span class="n">window</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="kt">uint32_t</span><span class="w">                </span><span class="n">cx</span><span class="p">,</span><span class="w"> </span><span class="n">cy</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="kt">uint32_t</span><span class="w">                </span><span class="n">num_backbuffers</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="k">enum</span><span class="w"> </span><span class="nc">gs_color_format</span><span class="w">    </span><span class="n">format</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="k">enum</span><span class="w"> </span><span class="nc">gs_zstencil_format</span><span class="w"> </span><span class="n">zsformat</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="kt">uint32_t</span><span class="w">                </span><span class="n">adapter</span><span class="p">;</span><span class="w"></span>
+<span class="p">};</span><span class="w"></span>
+</pre></div>
+</div>
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_display_destroy">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_display_destroy</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">obs_display_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">display</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_display_destroy" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Destroys a display context.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_display_resize">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_display_resize</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">obs_display_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">display</span></span>, <span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="n"><span class="pre">cx</span></span>, <span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="n"><span class="pre">cy</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_display_resize" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Changes the size of a display context.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_display_add_draw_callback">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_display_add_draw_callback</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">obs_display_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">display</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">draw</span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">param</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="n"><span class="pre">cx</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="n"><span class="pre">cy</span></span><span class="p"><span class="pre">)</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">param</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_display_add_draw_callback" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Adds a draw callback for a display context, which will be called
+whenever the display is rendered.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>display</strong> – The display context</p></li>
+<li><p><strong>draw</strong> – The draw callback which is called each time a frame
+updates</p></li>
+<li><p><strong>param</strong> – The user data to be associated with this draw callback</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_display_remove_draw_callback">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_display_remove_draw_callback</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">obs_display_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">display</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">draw</span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">param</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="n"><span class="pre">cx</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="n"><span class="pre">cy</span></span><span class="p"><span class="pre">)</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">param</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_display_remove_draw_callback" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Removes a draw callback for a display context.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_display_set_enabled">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_display_set_enabled</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">obs_display_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">display</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n"><span class="pre">enable</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_display_set_enabled" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Enables/disables a display context.</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_display_enabled">
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_display_enabled</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">obs_display_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">display</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_display_enabled" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><em>true</em> if the display is enabled, <em>false</em> otherwise</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_display_set_background_color">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_display_set_background_color</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">obs_display_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">display</span></span>, <span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="n"><span class="pre">color</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_display_set_background_color" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Sets the background (clear) color for the display context.</p>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="scripting.html" class="btn btn-neutral float-left" title="Python/Lua Scripting" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="reference-modules.html" class="btn btn-neutral float-right" title="Module API Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2017-2022, Hugh Bailey.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

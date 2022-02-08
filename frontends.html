@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Frontends &mdash; OBS Studio 27.1.3 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Rendering Graphics" href="graphics.html" />
+    <link rel="prev" title="Plugins" href="plugins.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> OBS Studio
+          </a>
+              <div class="version">
+                27.1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="backend-design.html">OBS Studio Backend Design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plugins.html">Plugins</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Frontends</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#initialization-and-shutdown">Initialization and Shutdown</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#reconfiguring-video">Reconfiguring Video</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#displays">Displays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#saving-loading-objects-and-object-management">Saving/Loading Objects and Object Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#signals">Signals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#displaying-sources">Displaying Sources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#outputs-encoders-and-services">Outputs, Encoders, and Services</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="graphics.html">Rendering Graphics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scripting.html">Python/Lua Scripting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-core.html">OBS Core API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-modules.html">Module API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-core-objects.html">Core API Object Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-libobs-util.html">Platform/Utility API Reference (libobs/util)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-libobs-callback.html">Callback API Reference (libobs/callback)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-libobs-graphics.html">Graphics API Reference (libobs/graphics)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-libobs-media-io.html">Media I/O API Reference (libobs/media-io)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-frontend-api.html">OBS Studio Frontend API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">OBS Studio</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Frontends</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/frontends.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="frontends">
+<h1>Frontends<a class="headerlink" href="#frontends" title="Permalink to this headline"></a></h1>
+<section id="initialization-and-shutdown">
+<h2>Initialization and Shutdown<a class="headerlink" href="#initialization-and-shutdown" title="Permalink to this headline"></a></h2>
+<p>To initialize libobs, you must call <a class="reference internal" href="reference-core.html#c.obs_startup" title="obs_startup"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_startup()</span></code></a>,
+<a class="reference internal" href="reference-core.html#c.obs_reset_video" title="obs_reset_video"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_reset_video()</span></code></a>, and then <a class="reference internal" href="reference-core.html#c.obs_reset_audio" title="obs_reset_audio"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_reset_audio()</span></code></a>.
+After that, modules typically should be loaded.</p>
+<p>You can load individual modules manually by calling
+<a class="reference internal" href="reference-modules.html#c.obs_open_module" title="obs_open_module"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_open_module()</span></code></a>.  After loading, the
+<a class="reference internal" href="reference-modules.html#c.obs_open_module" title="obs_open_module"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_open_module()</span></code></a> function, you must then call
+<a class="reference internal" href="reference-modules.html#c.obs_init_module" title="obs_init_module"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_init_module()</span></code></a> to initialize the module.</p>
+<p>You can load modules automatically via two functions:
+<a class="reference internal" href="reference-modules.html#c.obs_add_module_path" title="obs_add_module_path"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_add_module_path()</span></code></a> and <a class="reference internal" href="reference-modules.html#c.obs_load_all_modules" title="obs_load_all_modules"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_load_all_modules()</span></code></a>.</p>
+<p>After all plugin modules have been loaded, call
+<a class="reference internal" href="reference-modules.html#c.obs_post_load_modules" title="obs_post_load_modules"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_post_load_modules()</span></code></a>.</p>
+<p>Certain modules may optionally use a configuration storage directory,
+which is set as a parameter to <a class="reference internal" href="reference-core.html#c.obs_startup" title="obs_startup"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_startup()</span></code></a>.</p>
+<p>When it’s time to shut down the frontend, make sure to release all
+references to any objects, free any data, and then call
+<a class="reference internal" href="reference-core.html#c.obs_shutdown" title="obs_shutdown"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_shutdown()</span></code></a>.  If for some reason any libobs objects have
+not been released, they will be destroyed automatically and a warning
+will be logged.</p>
+<p>To detect if any general memory allocations have not been freed, call
+the <a class="reference internal" href="reference-libobs-util-bmem.html#c.bnum_allocs" title="bnum_allocs"><code class="xref c c-func docutils literal notranslate"><span class="pre">bnum_allocs()</span></code></a> to get the number of allocations remaining.
+If the number remaining is above 0, there are memory leaks.</p>
+<p>See <a class="reference internal" href="reference-core.html#obs-init-shutdown-reference"><span class="std std-ref">Initialization, Shutdown, and Information</span></a> for more information.</p>
+</section>
+<section id="reconfiguring-video">
+<h2>Reconfiguring Video<a class="headerlink" href="#reconfiguring-video" title="Permalink to this headline"></a></h2>
+<p>Any time after initialization, video settings can be reconfigured by
+calling <a class="reference internal" href="reference-core.html#c.obs_reset_video" title="obs_reset_video"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_reset_video()</span></code></a> as long as no outputs are active.
+Audio was originally intended to have this capability as well, but
+currently is not able to be reset once initialized; libobs must be fully
+shutdown in order to reconfigure audio settings.</p>
+</section>
+<section id="displays">
+<h2>Displays<a class="headerlink" href="#displays" title="Permalink to this headline"></a></h2>
+<p>Displays as the name implies are used for display/preview panes.  To use
+displays, you must have a native window handle or identifier to draw on.</p>
+<p>First you must call <a class="reference internal" href="reference-core.html#c.obs_display_create" title="obs_display_create"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_display_create()</span></code></a> to initialize the
+display, then you must assign a draw callback with
+<a class="reference internal" href="reference-core.html#c.obs_display_add_draw_callback" title="obs_display_add_draw_callback"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_display_add_draw_callback()</span></code></a>.  If you need to remove a draw
+callback, call <a class="reference internal" href="reference-core.html#c.obs_display_remove_draw_callback" title="obs_display_remove_draw_callback"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_display_remove_draw_callback()</span></code></a> similarly.</p>
+<p>When drawing, to draw the main preview window (if any), call
+<a class="reference internal" href="reference-core.html#c.obs_render_main_texture" title="obs_render_main_texture"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_render_main_texture()</span></code></a>.  If you need to render a specific
+source on a secondary display, you can increment its “showing” state
+with <a class="reference internal" href="reference-sources.html#c.obs_source_inc_showing" title="obs_source_inc_showing"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_source_inc_showing()</span></code></a> while it’s showing in the
+secondary display, draw it with <a class="reference internal" href="reference-sources.html#c.obs_source_video_render" title="obs_source_video_render"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_source_video_render()</span></code></a> in
+the draw callback, then when it’s no longer showing in the secondary
+display, call <a class="reference internal" href="reference-sources.html#c.obs_source_dec_showing" title="obs_source_dec_showing"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_source_dec_showing()</span></code></a>.</p>
+<p>If the display needs to be resized, call <a class="reference internal" href="reference-core.html#c.obs_display_resize" title="obs_display_resize"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_display_resize()</span></code></a>.</p>
+<p>If the display needs a custom background color other than black, call
+<a class="reference internal" href="reference-core.html#c.obs_display_set_background_color" title="obs_display_set_background_color"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_display_set_background_color()</span></code></a>.</p>
+<p>If the display needs to be temporarily disabled, call
+<a class="reference internal" href="reference-core.html#c.obs_display_set_enabled" title="obs_display_set_enabled"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_display_set_enabled()</span></code></a> to disable, and
+<a class="reference internal" href="reference-core.html#c.obs_display_enabled" title="obs_display_enabled"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_display_enabled()</span></code></a> to get its enabled/disabled state.</p>
+<p>Then call <a class="reference internal" href="reference-core.html#c.obs_display_destroy" title="obs_display_destroy"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_display_destroy()</span></code></a> to destroy the display when
+it’s no longer needed.</p>
+<p><em>(Important note: do not use more than one display widget within the
+hierarchy of the same base window; this will cause presentation stalls
+on Macs.)</em></p>
+<p>For an example of how displays are used with Qt, see
+<a class="reference external" href="https://github.com/jp9000/obs-studio/blob/master/UI/qt-display.hpp">UI/qt-display.hpp</a> and <a class="reference external" href="https://github.com/jp9000/obs-studio/blob/master/UI/qt-display.cpp">UI/qt-display.cpp</a>.</p>
+<p>See <a class="reference internal" href="reference-core.html#display-reference"><span class="std std-ref">Displays</span></a> for more information.</p>
+</section>
+<section id="saving-loading-objects-and-object-management">
+<h2>Saving/Loading Objects and Object Management<a class="headerlink" href="#saving-loading-objects-and-object-management" title="Permalink to this headline"></a></h2>
+<p>The frontend is generally expected to manage its own objects, however
+for sources, there are some helper functions to allow easier
+saving/loading all sources: <a class="reference internal" href="reference-core.html#c.obs_save_sources" title="obs_save_sources"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_save_sources()</span></code></a> and
+<a class="reference internal" href="reference-core.html#c.obs_load_sources" title="obs_load_sources"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_load_sources()</span></code></a>.  With those functions, all sources that
+aren’t private will automatically be saved and loaded.  You can also
+save/load individual sources manually by using
+<a class="reference internal" href="reference-core.html#c.obs_save_source" title="obs_save_source"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_save_source()</span></code></a> and <a class="reference internal" href="reference-core.html#c.obs_load_source" title="obs_load_source"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_load_source()</span></code></a>.</p>
+<p><em>(Author’s note: I should not have written those helper functions; the
+downside is I had to add “private” sources that aren’t saveable via the</em>
+<a class="reference internal" href="reference-sources.html#c.obs_source_create_private" title="obs_source_create_private"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_source_create_private()</span></code></a> <em>function.  Just one of the many
+minor design flaws that can occur during long-term development.)</em></p>
+<p>For outputs, encoders, and services, there are no helper functions, so
+usually you’d get their settings individually and save them as json.
+(See <a class="reference internal" href="reference-outputs.html#c.obs_output_get_settings" title="obs_output_get_settings"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_output_get_settings()</span></code></a>).  You don’t have to save each
+object to different files individually; you’d save multiple objects
+together in a bigger <a class="reference internal" href="reference-settings.html#c.obs_data_t" title="obs_data_t"><code class="xref c c-type docutils literal notranslate"><span class="pre">obs_data_t</span></code></a> object, then save that via
+<a class="reference internal" href="reference-settings.html#c.obs_data_save_json_safe" title="obs_data_save_json_safe"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_data_save_json_safe()</span></code></a>, then load everything again via
+<a class="reference internal" href="reference-settings.html#c.obs_data_create_from_json_file_safe" title="obs_data_create_from_json_file_safe"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_data_create_from_json_file_safe()</span></code></a>.</p>
+</section>
+<section id="signals">
+<h2>Signals<a class="headerlink" href="#signals" title="Permalink to this headline"></a></h2>
+<p>The core, as well as scenes and sources, have a set of standard signals
+that are used to determine when something happens or changes.</p>
+<p>Typically the most important signals are the
+<a class="reference internal" href="reference-outputs.html#output-signal-handler-reference"><span class="std std-ref">Output Signals</span></a>:  the <strong>start</strong>, <strong>stop</strong>,
+<strong>starting</strong>, <strong>stopping</strong>, <strong>reconnect</strong>, <strong>reconnect_success</strong>
+signals in particular.</p>
+<p>Most other signals for scenes/sources are optional if you are the only
+thing controlling their state.  However, it’s generally recommended to
+watch most signals when possible for consistency.  See
+<a class="reference internal" href="reference-sources.html#source-signal-handler-reference"><span class="std std-ref">Source Signals</span></a> and <a class="reference internal" href="reference-scenes.html#scene-signal-reference"><span class="std std-ref">Scene Signals</span></a>
+for more information.</p>
+<p>For example, let’s say you wanted to connect a callback to the <strong>stop</strong>
+signal of an output.  The <strong>stop</strong> signal has two parameters:  <em>output</em>
+and <em>code</em>.  A callback for this signal would typically look something
+like this:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">output_stopped</span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">my_data</span><span class="p">,</span><span class="w"> </span><span class="n">calldata_t</span><span class="w"> </span><span class="o">*</span><span class="n">cd</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">obs_output_t</span><span class="w"> </span><span class="o">*</span><span class="n">output</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">calldata_ptr</span><span class="p">(</span><span class="n">cd</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;output&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">code</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">calldata_int</span><span class="p">(</span><span class="n">cd</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;code&quot;</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">        </span><span class="p">[...]</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p><em>(Note that callbacks are not thread-safe.)</em></p>
+<p>Then to connect it to the <strong>stop</strong> signal, you use the
+<a class="reference internal" href="reference-libobs-callback.html#c.signal_handler_connect" title="signal_handler_connect"><code class="xref c c-func docutils literal notranslate"><span class="pre">signal_handler_connect()</span></code></a> with the callback.  In this case for
+example:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">signal_handler_t</span><span class="w"> </span><span class="o">*</span><span class="n">handler</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">obs_output_get_signal_handler</span><span class="p">(</span><span class="n">output</span><span class="p">);</span><span class="w"></span>
+<span class="n">signal_handler_connect</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;stop&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">output_stopped</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+</section>
+<section id="displaying-sources">
+<span id="id1"></span><h2>Displaying Sources<a class="headerlink" href="#displaying-sources" title="Permalink to this headline"></a></h2>
+<p>Sources are displayed on stream/recording via <a class="reference internal" href="backend-design.html#output-channels"><span class="std std-ref">Output Channels</span></a>
+with the <a class="reference internal" href="reference-core.html#c.obs_set_output_source" title="obs_set_output_source"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_set_output_source()</span></code></a> function.  There are 64
+channels that you can assign sources to, which will draw on top of each
+other in ascending index order.  Typically, a normal source shouldn’t be
+directly assigned with this function; you would use a scene or a
+transition containing scenes.</p>
+<p>To draw one or more sources together with a specific transform applied
+to them, scenes are used.  To create a scene, you call
+<a class="reference internal" href="reference-scenes.html#c.obs_scene_create" title="obs_scene_create"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_scene_create()</span></code></a>.  Child sources are referenced using scene
+items, and then specific transforms are applied to those scene items.
+Scene items are not sources but containers for sources; the same source
+can be referenced by multiple scene items within the same scene, or can
+be referenced in multiple scenes.  To create a scene item that
+references a source, you call <a class="reference internal" href="reference-scenes.html#c.obs_scene_add" title="obs_scene_add"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_scene_add()</span></code></a>, which returns a
+new reference to a scene item.</p>
+<p>To change the transform of a scene item, you typically would call a
+function like <a class="reference internal" href="reference-scenes.html#c.obs_sceneitem_set_pos" title="obs_sceneitem_set_pos"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_sceneitem_set_pos()</span></code></a> to change its position,
+<a class="reference internal" href="reference-scenes.html#c.obs_sceneitem_set_rot" title="obs_sceneitem_set_rot"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_sceneitem_set_rot()</span></code></a> to change its rotation, or
+<a class="reference internal" href="reference-scenes.html#c.obs_sceneitem_set_scale" title="obs_sceneitem_set_scale"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_sceneitem_set_scale()</span></code></a> to change its scaling.  Scene items
+can also force scaling in to a custom size constraint referred to as a
+“bounding box”; a bounding box will force the source to be drawn at a
+specific size and with specific scaling constraint within that size.  To
+use a bounding box, you call the
+<a class="reference internal" href="reference-scenes.html#c.obs_sceneitem_set_bounds_type" title="obs_sceneitem_set_bounds_type"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_sceneitem_set_bounds_type()</span></code></a>,
+<a class="reference internal" href="reference-scenes.html#c.obs_sceneitem_set_bounds" title="obs_sceneitem_set_bounds"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_sceneitem_set_bounds()</span></code></a>, and
+<a class="reference internal" href="reference-scenes.html#c.obs_sceneitem_set_bounds_alignment" title="obs_sceneitem_set_bounds_alignment"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_sceneitem_set_bounds_alignment()</span></code></a>.  Though the easiest way
+to handle everything related to transforms is to use the
+<a class="reference internal" href="reference-scenes.html#c.obs_sceneitem_set_info" title="obs_sceneitem_set_info"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_sceneitem_set_info()</span></code></a> and
+<a class="reference internal" href="reference-scenes.html#c.obs_sceneitem_get_info" title="obs_sceneitem_get_info"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_sceneitem_get_info()</span></code></a> functions.  See
+<a class="reference internal" href="reference-scenes.html#scene-item-reference"><span class="std std-ref">Scene Item Functions</span></a> for all the functions related to scene
+items.</p>
+<p>Usually, a smooth transition between multiple scenes is required.  To do
+this, transitions are used.  To create a transition, you use
+<a class="reference internal" href="reference-sources.html#c.obs_source_create" title="obs_source_create"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_source_create()</span></code></a> or <a class="reference internal" href="reference-sources.html#c.obs_source_create_private" title="obs_source_create_private"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_source_create_private()</span></code></a>
+like any other source.  Then, to activate a transition, you call
+<a class="reference internal" href="reference-sources.html#c.obs_transition_start" title="obs_transition_start"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_transition_start()</span></code></a>.  When the transition is not active and
+is only displaying one source, it performs a pass-through to the current
+displaying source.  See <a class="reference internal" href="reference-sources.html#transitions"><span class="std std-ref">Transitions</span></a> for more functions related to
+using transitions.</p>
+<p>The recommended way to set up your structure is to have a transition as
+the source that is used as the main output source, then your scene as a
+child of the transition, then your sources as children in the scene.
+When you need to switch to a new scene, simply call
+<a class="reference internal" href="reference-sources.html#c.obs_transition_start" title="obs_transition_start"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_transition_start()</span></code></a>.</p>
+</section>
+<section id="outputs-encoders-and-services">
+<h2>Outputs, Encoders, and Services<a class="headerlink" href="#outputs-encoders-and-services" title="Permalink to this headline"></a></h2>
+<p>Outputs, encoders, and services are all used together, and managed a bit
+differently than sources.  There currently is no global function to
+save/load them, that must be accomplished manually for now via their
+settings if needed.</p>
+<p>Encoders are used with outputs that expect encoded data (which is almost
+all typical outputs), such as standard file recording or streaming.</p>
+<p>Services are used with outputs to a stream; the <a class="reference external" href="https://github.com/jp9000/obs-studio/blob/master/plugins/obs-outputs/rtmp-stream.c">RTMP output</a> is the
+quintessential example of this.</p>
+<p>Here’s an example of how an output would be used with encoders and
+services:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">obs_encoder_set_video</span><span class="p">(</span><span class="n">my_h264_encoder</span><span class="p">,</span><span class="w"> </span><span class="n">obs_get_video</span><span class="p">());</span><span class="w"></span>
+<span class="n">obs_encoder_set_audio</span><span class="p">(</span><span class="n">my_aac_encoder</span><span class="p">,</span><span class="w"> </span><span class="n">obs_get_audio</span><span class="p">());</span><span class="w"></span>
+<span class="n">obs_output_set_video_encoder</span><span class="p">(</span><span class="n">my_output</span><span class="p">,</span><span class="w"> </span><span class="n">my_h264_encoder</span><span class="p">);</span><span class="w"></span>
+<span class="n">obs_output_set_audio_encoder</span><span class="p">(</span><span class="n">my_output</span><span class="p">,</span><span class="w"> </span><span class="n">my_aac_encoder</span><span class="p">);</span><span class="w"></span>
+<span class="n">obs_output_set_service</span><span class="p">(</span><span class="n">my_output</span><span class="p">,</span><span class="w"> </span><span class="n">my_service</span><span class="p">);</span><span class="w"> </span><span class="cm">/* if a stream */</span><span class="w"></span>
+<span class="n">obs_output_start</span><span class="p">(</span><span class="n">my_output</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Once the output has started successfully, it automatically starts
+capturing the video and/or audio from the current video/audio output
+(i.e. any sources that are assigned to the <a class="reference internal" href="backend-design.html#output-channels"><span class="std std-ref">Output Channels</span></a>).</p>
+<p>If the output fails to start up, it will send the <strong>stop</strong> signal with
+an error code in the <em>code</em> parameter, possibly accompanied by a
+translated error message stored that can be obtained via the
+<a class="reference internal" href="reference-outputs.html#c.obs_output_get_last_error" title="obs_output_get_last_error"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_output_get_last_error()</span></code></a> function.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="plugins.html" class="btn btn-neutral float-left" title="Plugins" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="graphics.html" class="btn btn-neutral float-right" title="Rendering Graphics" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2017-2022, Hugh Bailey.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -79,7 +79,6 @@ tags
 *.opensdf
 *.xml
 *.ipch
-*.css
 *.xslt
 *.aps
 *.suo

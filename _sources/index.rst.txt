@@ -9,6 +9,7 @@ Welcome to OBS Studio's documentation!
 ======================================
 
 .. toctree::
+   :caption: Developer Documentation
    :maxdepth: 3
 
    backend-design
@@ -16,6 +17,11 @@ Welcome to OBS Studio's documentation!
    frontends
    graphics
    scripting
+
+.. toctree::
+   :caption: API Reference
+   :maxdepth: 3
+
    reference-core
    reference-modules
    reference-core-objects

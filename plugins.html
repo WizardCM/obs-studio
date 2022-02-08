@@ -7,6 +7,7 @@
   <title>Plugins &mdash; OBS Studio 27.1.3 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -26,7 +27,7 @@
   <div class="wy-grid-for-nav">
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search" >
+        <div class="wy-side-nav-search"  style="background: #256eff" >
             <a href="index.html" class="icon icon-home"> OBS Studio
           </a>
               <div class="version">
@@ -72,21 +73,24 @@
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #256eff" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">OBS Studio</a>
       </nav>
 
       <div class="wy-nav-content">
-        <div class="rst-content">
+        <div class="rst-content style-external-links">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
       <li>Plugins</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="_sources/plugins.rst.txt" rel="nofollow"> View page source</a>
+              <a href="https://github.com/OBSProject/obs-studio/blob/master/docs/sphinx/plugins.rst" class="fa fa-github"> Edit on GitHub</a>
       </li>
-  </ul>
+  </ul><div class="rst-breadcrumbs-buttons" role="navigation" aria-label="Sequential page navigation">
+        <a href="backend-design.html" class="btn btn-neutral float-left" title="OBS Studio Backend Design" accesskey="p"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="frontends.html" class="btn btn-neutral float-right" title="Frontends" accesskey="n">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+  </div>
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
@@ -104,25 +108,25 @@ plugin modules.</p>
 <h2>Plugin Module Headers<a class="headerlink" href="#plugin-module-headers" title="Permalink to this headline"></a></h2>
 <p>These are some notable headers commonly used by plugins:</p>
 <ul class="simple">
-<li><p><a class="reference external" href="https://github.com/jp9000/obs-studio/blob/master/libobs/obs-module.h">libobs/obs-module.h</a> – The primary header used for creating plugin
+<li><p><a class="reference external" href="https://github.com/obsproject/obs-studio/blob/master/libobs/obs-module.h">libobs/obs-module.h</a> – The primary header used for creating plugin
 modules.  This file automatically includes the following files:</p>
 <ul>
-<li><p><a class="reference external" href="https://github.com/jp9000/obs-studio/blob/master/libobs/obs.h">libobs/obs.h</a> – The main libobs header.  This file automatically
+<li><p><a class="reference external" href="https://github.com/obsproject/obs-studio/blob/master/libobs/obs.h">libobs/obs.h</a> – The main libobs header.  This file automatically
 includes the following files:</p>
 <ul>
-<li><p><a class="reference external" href="https://github.com/jp9000/obs-studio/blob/master/libobs/obs-source.h">libobs/obs-source.h</a> – Used for implementing sources in plugin
+<li><p><a class="reference external" href="https://github.com/obsproject/obs-studio/blob/master/libobs/obs-source.h">libobs/obs-source.h</a> – Used for implementing sources in plugin
 modules</p></li>
-<li><p><a class="reference external" href="https://github.com/jp9000/obs-studio/blob/master/libobs/obs-output.h">libobs/obs-output.h</a> – Used for implementing outputs in plugin
+<li><p><a class="reference external" href="https://github.com/obsproject/obs-studio/blob/master/libobs/obs-output.h">libobs/obs-output.h</a> – Used for implementing outputs in plugin
 modules</p></li>
-<li><p><a class="reference external" href="https://github.com/jp9000/obs-studio/blob/master/libobs/obs-encoder.h">libobs/obs-encoder.h</a> – Used for implementing encoders in
+<li><p><a class="reference external" href="https://github.com/obsproject/obs-studio/blob/master/libobs/obs-encoder.h">libobs/obs-encoder.h</a> – Used for implementing encoders in
 plugin modules</p></li>
-<li><p><a class="reference external" href="https://github.com/jp9000/obs-studio/blob/master/libobs/obs-service.h">libobs/obs-service.h</a> – Used for implementing services in
+<li><p><a class="reference external" href="https://github.com/obsproject/obs-studio/blob/master/libobs/obs-service.h">libobs/obs-service.h</a> – Used for implementing services in
 plugin modules</p></li>
-<li><p><a class="reference external" href="https://github.com/jp9000/obs-studio/blob/master/libobs/obs-data.h">libobs/obs-data.h</a> – Used for managing settings for libobs
+<li><p><a class="reference external" href="https://github.com/obsproject/obs-studio/blob/master/libobs/obs-data.h">libobs/obs-data.h</a> – Used for managing settings for libobs
 objects</p></li>
-<li><p><a class="reference external" href="https://github.com/jp9000/obs-studio/blob/master/libobs/obs-properties.h">libobs/obs-properties.h</a> – Used for generating properties for
+<li><p><a class="reference external" href="https://github.com/obsproject/obs-studio/blob/master/libobs/obs-properties.h">libobs/obs-properties.h</a> – Used for generating properties for
 libobs objects</p></li>
-<li><p><a class="reference external" href="https://github.com/jp9000/obs-studio/blob/master/libobs/graphics/graphics.h">libobs/graphics/graphics.h</a> – Used for graphics rendering</p></li>
+<li><p><a class="reference external" href="https://github.com/obsproject/obs-studio/blob/master/libobs/graphics/graphics.h">libobs/graphics/graphics.h</a> – Used for graphics rendering</p></li>
 </ul>
 </li>
 </ul>
@@ -174,7 +178,7 @@ install_obs_plugin_with_data(my-plugin data)
 <section id="native-plugin-initialization">
 <h2>Native Plugin Initialization<a class="headerlink" href="#native-plugin-initialization" title="Permalink to this headline"></a></h2>
 <p>To create a native plugin module, you will need to include the
-<a class="reference external" href="https://github.com/jp9000/obs-studio/blob/master/libobs/obs-module.h">libobs/obs-module.h</a> header, use <code class="xref c c-func docutils literal notranslate"><span class="pre">OBS_DECLARE_MODULE()</span></code> macro,
+<a class="reference external" href="https://github.com/obsproject/obs-studio/blob/master/libobs/obs-module.h">libobs/obs-module.h</a> header, use <code class="xref c c-func docutils literal notranslate"><span class="pre">OBS_DECLARE_MODULE()</span></code> macro,
 then create a definition of the function <a class="reference internal" href="reference-modules.html#c.obs_module_load" title="obs_module_load"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_module_load()</span></code></a>.
 In your <a class="reference internal" href="reference-modules.html#c.obs_module_load" title="obs_module_load"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_module_load()</span></code></a> function, you then register any of
 your custom sources, outputs, encoders, or services.  See the
@@ -211,7 +215,7 @@ object of each type:</p>
 <p>Sources are used to render video and/or audio on stream.  Things such as
 capturing displays/games/audio, playing a video, showing an image, or
 playing audio.  Sources can also be used to implement audio and video
-filters as well as transitions.  The <a class="reference external" href="https://github.com/jp9000/obs-studio/blob/master/libobs/obs-source.h">libobs/obs-source.h</a> file is the
+filters as well as transitions.  The <a class="reference external" href="https://github.com/obsproject/obs-studio/blob/master/libobs/obs-source.h">libobs/obs-source.h</a> file is the
 dedicated header for implementing sources.  See the
 <a class="reference internal" href="reference-sources.html"><span class="doc">Source API Reference (obs_source_t)</span></a> for more information.</p>
 <p>For example, to implement a source object, you need to define an
@@ -255,11 +259,11 @@ callbacks related to your source:</p>
 </div>
 <p>Some simple examples of sources:</p>
 <ul class="simple">
-<li><p>Synchronous video source: The <a class="reference external" href="https://github.com/jp9000/obs-studio/blob/master/plugins/image-source/image-source.c">image source</a></p></li>
-<li><p>Asynchronous video source: The <a class="reference external" href="https://github.com/jp9000/obs-studio/blob/master/test/test-input/test-random.c">random texture test source</a></p></li>
-<li><p>Audio source: The <a class="reference external" href="https://github.com/jp9000/obs-studio/blob/master/test/test-input/test-sinewave.c">sine wave test source</a></p></li>
-<li><p>Video filter: The <a class="reference external" href="https://github.com/jp9000/obs-studio/blob/master/test/test-input/test-filter.c">test video filter</a></p></li>
-<li><p>Audio filter: The <a class="reference external" href="https://github.com/jp9000/obs-studio/blob/master/plugins/obs-filters/gain-filter.c">gain audio filter</a></p></li>
+<li><p>Synchronous video source: The <a class="reference external" href="https://github.com/obsproject/obs-studio/blob/master/plugins/image-source/image-source.c">image source</a></p></li>
+<li><p>Asynchronous video source: The <a class="reference external" href="https://github.com/obsproject/obs-studio/blob/master/test/test-input/test-random.c">random texture test source</a></p></li>
+<li><p>Audio source: The <a class="reference external" href="https://github.com/obsproject/obs-studio/blob/master/test/test-input/test-sinewave.c">sine wave test source</a></p></li>
+<li><p>Video filter: The <a class="reference external" href="https://github.com/obsproject/obs-studio/blob/master/test/test-input/test-filter.c">test video filter</a></p></li>
+<li><p>Audio filter: The <a class="reference external" href="https://github.com/obsproject/obs-studio/blob/master/plugins/obs-filters/gain-filter.c">gain audio filter</a></p></li>
 </ul>
 </section>
 <section id="outputs">
@@ -267,7 +271,7 @@ callbacks related to your source:</p>
 <p>Outputs allow the ability to output the currently rendering audio/video.
 Streaming and recording are two common examples of outputs, but not the
 only types of outputs.  Outputs can receive the raw data or receive
-encoded data.  The <a class="reference external" href="https://github.com/jp9000/obs-studio/blob/master/libobs/obs-output.h">libobs/obs-output.h</a> file is the dedicated header
+encoded data.  The <a class="reference external" href="https://github.com/obsproject/obs-studio/blob/master/libobs/obs-output.h">libobs/obs-output.h</a> file is the dedicated header
 for implementing outputs.  See the <a class="reference internal" href="reference-outputs.html"><span class="doc">Output API Reference (obs_output_t)</span></a> for more
 information.</p>
 <p>For example, to implement an output object, you need to define an
@@ -314,14 +318,14 @@ callbacks related to your output:</p>
 <ul class="simple">
 <li><p>Encoded video/audio outputs:</p>
 <ul>
-<li><p>The <a class="reference external" href="https://github.com/jp9000/obs-studio/blob/master/plugins/obs-outputs/flv-output.c">FLV output</a></p></li>
-<li><p>The <a class="reference external" href="https://github.com/jp9000/obs-studio/blob/master/plugins/obs-ffmpeg/obs-ffmpeg-mux.c">FFmpeg muxer output</a></p></li>
-<li><p>The <a class="reference external" href="https://github.com/jp9000/obs-studio/blob/master/plugins/obs-outputs/rtmp-stream.c">RTMP stream output</a></p></li>
+<li><p>The <a class="reference external" href="https://github.com/obsproject/obs-studio/blob/master/plugins/obs-outputs/flv-output.c">FLV output</a></p></li>
+<li><p>The <a class="reference external" href="https://github.com/obsproject/obs-studio/blob/master/plugins/obs-ffmpeg/obs-ffmpeg-mux.c">FFmpeg muxer output</a></p></li>
+<li><p>The <a class="reference external" href="https://github.com/obsproject/obs-studio/blob/master/plugins/obs-outputs/rtmp-stream.c">RTMP stream output</a></p></li>
 </ul>
 </li>
 <li><p>Raw video/audio outputs:</p>
 <ul>
-<li><p>The <a class="reference external" href="https://github.com/jp9000/obs-studio/blob/master/plugins/obs-ffmpeg/obs-ffmpeg-output.c">FFmpeg output</a></p></li>
+<li><p>The <a class="reference external" href="https://github.com/obsproject/obs-studio/blob/master/plugins/obs-ffmpeg/obs-ffmpeg-output.c">FFmpeg output</a></p></li>
 </ul>
 </li>
 </ul>
@@ -330,7 +334,7 @@ callbacks related to your output:</p>
 <span id="plugins-encoders"></span><h2>Encoders<a class="headerlink" href="#encoders" title="Permalink to this headline"></a></h2>
 <p>Encoders are OBS-specific implementations of video/audio encoders, which
 are used with outputs that use encoders.  x264, NVENC, Quicksync are
-examples of encoder implementations.  The <a class="reference external" href="https://github.com/jp9000/obs-studio/blob/master/libobs/obs-encoder.h">libobs/obs-encoder.h</a> file
+examples of encoder implementations.  The <a class="reference external" href="https://github.com/obsproject/obs-studio/blob/master/libobs/obs-encoder.h">libobs/obs-encoder.h</a> file
 is the dedicated header for implementing encoders.  See the
 <a class="reference internal" href="reference-encoders.html"><span class="doc">Encoder API Reference (obs_encoder_t)</span></a> for more information.</p>
 <p>For example, to implement an encoder object, you need to define an
@@ -391,14 +395,14 @@ note: This should have have been “keyint”, in frames.)</em></p></li>
 <ul class="simple">
 <li><p>Video encoders:</p>
 <ul>
-<li><p>The <a class="reference external" href="https://github.com/jp9000/obs-studio/tree/master/plugins/obs-x264">x264 encoder</a></p></li>
-<li><p>The <a class="reference external" href="https://github.com/jp9000/obs-studio/blob/master/plugins/obs-ffmpeg/obs-ffmpeg-nvenc.c">FFmpeg NVENC encoder</a></p></li>
-<li><p>The <a class="reference external" href="https://github.com/jp9000/obs-studio/tree/master/plugins/obs-qsv11">Quicksync encoder</a></p></li>
+<li><p>The <a class="reference external" href="https://github.com/obsproject/obs-studio/tree/master/plugins/obs-x264">x264 encoder</a></p></li>
+<li><p>The <a class="reference external" href="https://github.com/obsproject/obs-studio/blob/master/plugins/obs-ffmpeg/obs-ffmpeg-nvenc.c">FFmpeg NVENC encoder</a></p></li>
+<li><p>The <a class="reference external" href="https://github.com/obsproject/obs-studio/tree/master/plugins/obs-qsv11">Quicksync encoder</a></p></li>
 </ul>
 </li>
 <li><p>Audio encoders:</p>
 <ul>
-<li><p>The <a class="reference external" href="https://github.com/jp9000/obs-studio/blob/master/plugins/obs-ffmpeg/obs-ffmpeg-audio-encoders.c">FFmpeg AAC/Opus encoder</a></p></li>
+<li><p>The <a class="reference external" href="https://github.com/obsproject/obs-studio/blob/master/plugins/obs-ffmpeg/obs-ffmpeg-audio-encoders.c">FFmpeg AAC/Opus encoder</a></p></li>
 </ul>
 </li>
 </ul>
@@ -409,7 +413,7 @@ note: This should have have been “keyint”, in frames.)</em></p></li>
 used with outputs that stream.  For example, you could have a custom
 implementation for streaming to Twitch, and another for YouTube to allow
 the ability to log in and use their APIs to do things such as get the
-RTMP servers or control the channel.  The <a class="reference external" href="https://github.com/jp9000/obs-studio/blob/master/libobs/obs-service.h">libobs/obs-service.h</a> file
+RTMP servers or control the channel.  The <a class="reference external" href="https://github.com/obsproject/obs-studio/blob/master/libobs/obs-service.h">libobs/obs-service.h</a> file
 is the dedicated header for implementing services.  See the
 <a class="reference internal" href="reference-services.html"><span class="doc">Service API Reference (obs_service_t)</span></a> for more information.</p>
 <p><em>(Author’s note: the service API is incomplete as of this writing)</em></p>
@@ -451,11 +455,11 @@ and callbacks related to your service:</p>
 </pre></div>
 </div>
 <p>The only two existing services objects are the “common RTMP services”
-and “custom RTMP service” objects in <a class="reference external" href="https://github.com/jp9000/obs-studio/tree/master/plugins/rtmp-services">plugins/rtmp-services</a></p>
+and “custom RTMP service” objects in <a class="reference external" href="https://github.com/obsproject/obs-studio/tree/master/plugins/rtmp-services">plugins/rtmp-services</a></p>
 </section>
 <section id="settings">
 <h2>Settings<a class="headerlink" href="#settings" title="Permalink to this headline"></a></h2>
-<p>Settings (see <a class="reference external" href="https://github.com/jp9000/obs-studio/blob/master/libobs/obs-data.h">libobs/obs-data.h</a>) are used to get or set settings data
+<p>Settings (see <a class="reference external" href="https://github.com/obsproject/obs-studio/blob/master/libobs/obs-data.h">libobs/obs-data.h</a>) are used to get or set settings data
 typically associated with libobs objects, and can then be saved and
 loaded via Json text.  See the <a class="reference internal" href="reference-settings.html"><span class="doc">Data Settings API Reference (obs_data_t)</span></a> for more
 information.</p>
@@ -511,7 +515,7 @@ the default settings for the object on creation.</p>
 </section>
 <section id="properties">
 <h2>Properties<a class="headerlink" href="#properties" title="Permalink to this headline"></a></h2>
-<p>Properties (see <a class="reference external" href="https://github.com/jp9000/obs-studio/blob/master/libobs/obs-properties.h">libobs/obs-properties.h</a>) are used to automatically
+<p>Properties (see <a class="reference external" href="https://github.com/obsproject/obs-studio/blob/master/libobs/obs-properties.h">libobs/obs-properties.h</a>) are used to automatically
 generate user interface to modify settings for a libobs object (if
 desired).  Each libobs object has a <em>get_properties</em> callback which is
 used to generate properties.  The properties API defines specific
@@ -587,7 +591,7 @@ When using this method, the <code class="xref c c-func docutils literal notransl
 macro is used which will automatically load/destroy the locale data with
 no extra effort on part of the plugin.  Then the
 <a class="reference internal" href="reference-modules.html#c.obs_module_text" title="obs_module_text"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_module_text()</span></code></a> function (which is automatically declared as
-an extern by <a class="reference external" href="https://github.com/jp9000/obs-studio/blob/master/libobs/obs-module.h">libobs/obs-module.h</a>) is used when text lookup is needed.</p>
+an extern by <a class="reference external" href="https://github.com/obsproject/obs-studio/blob/master/libobs/obs-module.h">libobs/obs-module.h</a>) is used when text lookup is needed.</p>
 <p>There are two exports the module used to load/destroy locale: the
 <a class="reference internal" href="reference-modules.html#c.obs_module_set_locale" title="obs_module_set_locale"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_module_set_locale()</span></code></a> export, and the
 <a class="reference internal" href="reference-modules.html#c.obs_module_free_locale" title="obs_module_free_locale"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_module_free_locale()</span></code></a> export.  The

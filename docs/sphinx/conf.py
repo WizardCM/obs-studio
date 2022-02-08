@@ -95,14 +95,15 @@ todo_include_todos = False
 #
 html_theme = 'sphinx_rtd_theme'
 html_theme_options = {
-    "logo_only": False,
+    "logo_only": True,
     "navigation_depth": 5,
     'prev_next_buttons_location': 'both',
     'style_external_links': True,
     'style_nav_header_background': '#256eff',
+    'collapse_navigation': False
 }
 
-html_logo = '../../icons/macos.png'
+html_logo = 'logo.svg'
 
 html_favicon = 'favicon.ico'
 

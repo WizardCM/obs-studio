@@ -28,7 +28,8 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search"  style="background: #256eff" >
-            <a href="index.html" class="icon icon-home"> OBS Studio
+            <a href="index.html">
+            <img src="_static/logo.svg" class="logo" alt="Logo"/>
           </a>
               <div class="version">
                 27.1.3
@@ -41,44 +42,275 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Developer Documentation</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Core Concepts</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="backend-design.html">OBS Studio Backend Design</a></li>
-<li class="toctree-l1"><a class="reference internal" href="plugins.html">Plugins</a></li>
-<li class="toctree-l1"><a class="reference internal" href="frontends.html">Frontends</a></li>
-<li class="toctree-l1"><a class="reference internal" href="graphics.html">Rendering Graphics</a></li>
-<li class="toctree-l1"><a class="reference internal" href="scripting.html">Python/Lua Scripting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="backend-design.html">OBS Studio Backend Design</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="backend-design.html#libobs-plugin-objects">Libobs Plugin Objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="backend-design.html#libobs-threads">Libobs Threads</a></li>
+<li class="toctree-l2"><a class="reference internal" href="backend-design.html#output-channels">Output Channels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="backend-design.html#general-video-pipeline-overview">General Video Pipeline Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="backend-design.html#general-audio-pipeline-overview">General Audio Pipeline Overview</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="plugins.html">Plugins</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="plugins.html#plugin-module-headers">Plugin Module Headers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plugins.html#common-directory-structure-and-cmakelists-txt">Common Directory Structure and CMakeLists.txt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plugins.html#native-plugin-initialization">Native Plugin Initialization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plugins.html#sources">Sources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plugins.html#outputs">Outputs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plugins.html#encoders">Encoders</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plugins.html#services">Services</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plugins.html#settings">Settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plugins.html#properties">Properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plugins.html#localization">Localization</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="frontends.html">Frontends</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="frontends.html#initialization-and-shutdown">Initialization and Shutdown</a></li>
+<li class="toctree-l2"><a class="reference internal" href="frontends.html#reconfiguring-video">Reconfiguring Video</a></li>
+<li class="toctree-l2"><a class="reference internal" href="frontends.html#displays">Displays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="frontends.html#saving-loading-objects-and-object-management">Saving/Loading Objects and Object Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="frontends.html#signals">Signals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="frontends.html#displaying-sources">Displaying Sources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="frontends.html#outputs-encoders-and-services">Outputs, Encoders, and Services</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="graphics.html">Rendering Graphics</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="graphics.html#the-graphics-context">The Graphics Context</a></li>
+<li class="toctree-l2"><a class="reference internal" href="graphics.html#creating-effects">Creating Effects</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="graphics.html#effect-parameters">Effect Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="graphics.html#effect-sampler-states">Effect Sampler States</a></li>
+<li class="toctree-l3"><a class="reference internal" href="graphics.html#effect-vertex-pixel-semantics">Effect Vertex/Pixel Semantics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="graphics.html#effect-techniques">Effect Techniques</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="graphics.html#using-effects">Using Effects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="graphics.html#rendering-video-sources">Rendering Video Sources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="graphics.html#rendering-video-effect-filters">Rendering Video Effect Filters</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="scripting.html">Python/Lua Scripting</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="scripting.html#script-function-exports">Script Function Exports</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scripting.html#getting-the-current-script-s-path">Getting the Current Script’s Path</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scripting.html#script-timers">Script Timers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scripting.html#script-sources-lua-only">Script Sources (Lua Only)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scripting.html#other-differences-from-the-c-api">Other Differences From the C API</a></li>
+</ul>
+</li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="reference-core.html">OBS Core API Reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="reference-modules.html">Module API Reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="reference-core-objects.html">Core API Object Reference</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="reference-libobs-util.html">Platform/Utility API Reference (libobs/util)</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="reference-libobs-util-base.html">Logging</a></li>
-<li class="toctree-l2"><a class="reference internal" href="reference-libobs-util-bmem.html">Memory Management</a></li>
-<li class="toctree-l2"><a class="reference internal" href="reference-libobs-util-circlebuf.html">Circular Buffers</a></li>
-<li class="toctree-l2"><a class="reference internal" href="reference-libobs-util-config-file.html">Config Files</a></li>
-<li class="toctree-l2"><a class="reference internal" href="reference-libobs-util-darray.html">Dynamic Arrays</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference-core.html">OBS Core</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reference-core.html#initialization-shutdown-and-information">Initialization, Shutdown, and Information</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-core.html#libobs-objects">Libobs Objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-core.html#video-audio-and-graphics">Video, Audio, and Graphics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-core.html#primary-signal-procedure-handlers">Primary signal/procedure handlers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-core.html#core-obs-signals">Core OBS Signals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-core.html#displays">Displays</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reference-modules.html">Modules</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reference-modules.html#module-macros">Module Macros</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-modules.html#module-exports">Module Exports</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-modules.html#module-externs">Module Externs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-modules.html#frontend-module-functions">Frontend Module Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reference-core-objects.html">Core API Object</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reference-sources.html">Sources (obs_source_t)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference-sources.html#source-definition-structure-obs-source-info">Source Definition Structure (obs_source_info)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference-sources.html#source-signals">Source Signals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference-sources.html#general-source-functions">General Source Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference-sources.html#functions-used-by-sources">Functions used by sources</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference-sources.html#filters">Filters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference-sources.html#functions-used-by-filters">Functions used by filters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference-sources.html#transitions">Transitions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference-sources.html#functions-used-by-transitions">Functions used by transitions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="reference-scenes.html">Scenes (obs_scene_t)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference-scenes.html#scene-item-transform-structure-obs-transform-info">Scene Item Transform Structure (obs_transform_info)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference-scenes.html#scene-item-crop-structure-obs-sceneitem-crop">Scene Item Crop Structure (obs_sceneitem_crop)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference-scenes.html#scene-item-order-info-structure-obs-sceneitem-order-info">Scene Item Order Info Structure (*obs_sceneitem_order_info)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference-scenes.html#scene-signals">Scene Signals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference-scenes.html#general-scene-functions">General Scene Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference-scenes.html#scene-item-functions">Scene Item Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference-scenes.html#scene-item-group-functions">Scene Item Group Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="reference-outputs.html">Outputs (obs_output_t)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference-outputs.html#output-definition-structure-obs-output-info">Output Definition Structure (obs_output_info)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference-outputs.html#output-signals">Output Signals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference-outputs.html#general-output-functions">General Output Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference-outputs.html#functions-used-by-outputs">Functions used by outputs</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="reference-encoders.html">Encoders (obs_encoder_t)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference-encoders.html#encoder-definition-structure-obs-encoder-info">Encoder Definition Structure (obs_encoder_info)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference-encoders.html#encoder-packet-structure-encoder-packet">Encoder Packet Structure (encoder_packet)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference-encoders.html#raw-frame-data-structure-encoder-frame">Raw Frame Data Structure (encoder_frame)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference-encoders.html#general-encoder-functions">General Encoder Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference-encoders.html#functions-used-by-encoders">Functions used by encoders</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="reference-services.html">Services (obs_service_t)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference-services.html#service-definition-structure">Service Definition Structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference-services.html#general-service-functions">General Service Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="reference-settings.html">Data Settings (obs_data_t)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference-settings.html#general-functions">General Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference-settings.html#set-functions">Set Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference-settings.html#get-functions">Get Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference-settings.html#default-value-functions">Default Value Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference-settings.html#autoselect-functions">Autoselect Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference-settings.html#array-functions">Array Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="reference-properties.html">Properties (obs_properties_t)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference-properties.html#general-functions">General Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference-properties.html#property-object-functions">Property Object Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference-properties.html#property-enumeration-functions">Property Enumeration Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference-properties.html#property-modification-functions">Property Modification Functions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="reference-libobs-util.html">Platform/Utility</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="reference-libobs-util-base.html">Logging</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference-libobs-util-base.html#logging-levels">Logging Levels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference-libobs-util-base.html#logging-functions">Logging Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="reference-libobs-util-bmem.html">Memory Management</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference-libobs-util-bmem.html#memory-functions">Memory Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="reference-libobs-util-circlebuf.html">Circular Buffers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference-libobs-util-circlebuf.html#circular-buffer-structure-struct-circlebuf">Circular Buffer Structure (struct circlebuf)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference-libobs-util-circlebuf.html#circular-buffer-inline-functions">Circular Buffer Inline Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="reference-libobs-util-config-file.html">Config Files</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference-libobs-util-config-file.html#config-file-functions">Config File Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference-libobs-util-config-file.html#set-get-functions">Set/Get Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference-libobs-util-config-file.html#default-value-functions">Default Value Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="reference-libobs-util-darray.html">Dynamic Arrays</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference-libobs-util-darray.html#dynamic-array-macros">Dynamic Array Macros</a></li>
+</ul>
+</li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Dynamic Strings And String Helpers</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#dynamic-string-structure-struct-dstr">Dynamic String Structure (struct dstr)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#general-string-helper-functions">General String Helper Functions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#dynamic-string-functions">Dynamic String Functions</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="reference-libobs-util-platform.html">Platform Helpers</a></li>
-<li class="toctree-l2"><a class="reference internal" href="reference-libobs-util-profiler.html">Profiler</a></li>
-<li class="toctree-l2"><a class="reference internal" href="reference-libobs-util-serializers.html">Serializer</a></li>
-<li class="toctree-l2"><a class="reference internal" href="reference-libobs-util-serializers.html#array-output-serializer">Array Output Serializer</a></li>
-<li class="toctree-l2"><a class="reference internal" href="reference-libobs-util-serializers.html#file-input-output-serializers">File Input/Output Serializers</a></li>
-<li class="toctree-l2"><a class="reference internal" href="reference-libobs-util-text-lookup.html">Text Lookup Interface</a></li>
-<li class="toctree-l2"><a class="reference internal" href="reference-libobs-util-threading.html">Threading</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-libobs-util-platform.html">Platform Helpers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference-libobs-util-platform.html#file-functions">File Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference-libobs-util-platform.html#string-conversion-functions">String Conversion Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference-libobs-util-platform.html#number-string-conversion-functions">Number/String Conversion Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference-libobs-util-platform.html#dynamic-link-library-functions">Dynamic Link Library Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference-libobs-util-platform.html#cpu-usage-functions">CPU Usage Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference-libobs-util-platform.html#sleep-time-functions">Sleep/Time Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference-libobs-util-platform.html#other-path-file-functions">Other Path/File Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference-libobs-util-platform.html#sleep-inhibition-functions">Sleep-Inhibition Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference-libobs-util-platform.html#other-functions">Other Functions</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="reference-libobs-callback.html">Callback API Reference (libobs/callback)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="reference-libobs-graphics.html">Graphics API Reference (libobs/graphics)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="reference-libobs-media-io.html">Media I/O API Reference (libobs/media-io)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="reference-frontend-api.html">OBS Studio Frontend API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-libobs-util-profiler.html">Profiler</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference-libobs-util-profiler.html#profiler-structures">Profiler Structures</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference-libobs-util-profiler.html#profiler-control-functions">Profiler Control Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference-libobs-util-profiler.html#profiling-functions">Profiling Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference-libobs-util-profiler.html#profiler-name-storage-functions">Profiler Name Storage Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference-libobs-util-profiler.html#profiler-data-access-functions">Profiler Data Access Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="reference-libobs-util-serializers.html">Serializer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference-libobs-util-serializers.html#serializer-structure-struct-serializer">Serializer Structure (struct serializer)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference-libobs-util-serializers.html#serializer-inline-functions">Serializer Inline Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="reference-libobs-util-serializers.html#array-output-serializer">Array Output Serializer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference-libobs-util-serializers.html#array-output-serializer-structure-struct-array-output-data">Array Output Serializer Structure (struct array_output_data)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference-libobs-util-serializers.html#array-output-serializer-functions">Array Output Serializer Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="reference-libobs-util-serializers.html#file-input-output-serializers">File Input/Output Serializers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference-libobs-util-serializers.html#file-input-serializer-functions">File Input Serializer Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference-libobs-util-serializers.html#file-output-serializer-functions">File Output Serializer Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="reference-libobs-util-text-lookup.html">Text Lookup Interface</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference-libobs-util-text-lookup.html#text-lookup-functions">Text Lookup Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="reference-libobs-util-threading.html">Threading</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference-libobs-util-threading.html#threading-types">Threading Types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference-libobs-util-threading.html#general-thread-functions">General Thread Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference-libobs-util-threading.html#event-functions">Event Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference-libobs-util-threading.html#semaphore-functions">Semaphore Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference-libobs-util-threading.html#atomic-inline-functions">Atomic Inline Functions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reference-libobs-callback.html">Callbacks (libobs/callback)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reference-libobs-callback.html#calldata">Calldata</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-libobs-callback.html#signals">Signals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-libobs-callback.html#procedure-handlers">Procedure Handlers</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reference-libobs-graphics.html">Graphics (libobs/graphics)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reference-libobs-graphics-effects.html">Effects (Shaders)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-libobs-graphics-vec2.html">2-Component Vector</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-libobs-graphics-vec3.html">3-Component Vector</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-libobs-graphics-vec4.html">4-Component Vector</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-libobs-graphics-quat.html">Quaternion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-libobs-graphics-matrix4.html">Matrix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-libobs-graphics-math.html">Extra Math Functions/Macros</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-libobs-graphics-image-file.html">Image File Helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-libobs-graphics-axisang.html">Axis Angle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-libobs-graphics-graphics.html">Core Graphics API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference-libobs-graphics-graphics.html#graphics-enumerations">Graphics Enumerations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference-libobs-graphics-graphics.html#graphics-structures">Graphics Structures</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference-libobs-graphics-graphics.html#initialization-functions">Initialization Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference-libobs-graphics-graphics.html#matrix-stack-functions">Matrix Stack Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference-libobs-graphics-graphics.html#draw-functions">Draw Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference-libobs-graphics-graphics.html#swap-chains">Swap Chains</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference-libobs-graphics-graphics.html#resource-loading">Resource Loading</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference-libobs-graphics-graphics.html#id1">Draw Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference-libobs-graphics-graphics.html#texture-functions">Texture Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference-libobs-graphics-graphics.html#cube-texture-functions">Cube Texture Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference-libobs-graphics-graphics.html#staging-surface-functions">Staging Surface Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference-libobs-graphics-graphics.html#z-stencil-functions">Z-Stencil Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference-libobs-graphics-graphics.html#sampler-state-functions">Sampler State Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference-libobs-graphics-graphics.html#vertex-buffer-functions">Vertex Buffer Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference-libobs-graphics-graphics.html#index-buffer-functions">Index Buffer Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference-libobs-graphics-graphics.html#display-duplicator-windows-only">Display Duplicator (Windows Only)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference-libobs-graphics-graphics.html#render-helper-functions">Render Helper Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference-libobs-graphics-graphics.html#graphics-types">Graphics Types</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reference-libobs-media-io.html">Media I/O (libobs/media-io)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reference-libobs-media-io.html#video-handler">Video Handler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-libobs-media-io.html#audio-handler">Audio Handler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-libobs-media-io.html#resampler">Resampler</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reference-frontend-api.html">OBS Studio Frontend API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reference-frontend-api.html#structures-enumerations">Structures/Enumerations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference-frontend-api.html#functions">Functions</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Additional Resources</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://obsproject.com/wiki/Install-Instructions">Build Instructions</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/obsproject/obs-plugintemplate#obs-plugin-template">Plugin Template</a></li>
 </ul>
 
         </div>

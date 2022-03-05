@@ -15,114 +15,37 @@ Q_DECLARE_METATYPE(OBSSource);
 
 OBSBasicAdvAudio::OBSBasicAdvAudio(QWidget *parent)
 	: QDialog(parent),
+	  ui(new Ui::OBSBasicAdvAudio),
 	  sourceAddedSignal(obs_get_signal_handler(), "source_activate",
 			    OBSSourceAdded, this),
 	  sourceRemovedSignal(obs_get_signal_handler(), "source_deactivate",
 			      OBSSourceRemoved, this),
 	  showInactive(false)
 {
-	QScrollArea *scrollArea;
-	QVBoxLayout *vlayout;
-	QWidget *widget;
-	QLabel *label;
-
-	QLabel *volLabel = new QLabel(QTStr("Basic.AdvAudio.Volume"));
-	volLabel->setStyleSheet("font-weight: bold;");
-	volLabel->setContentsMargins(0, 0, 6, 0);
-
-	usePercent = new QCheckBox();
-	usePercent->setStyleSheet("font-weight: bold;");
-	usePercent->setText("%");
-	connect(usePercent, SIGNAL(toggled(bool)), this,
-		SLOT(SetVolumeType(bool)));
+	ui->setupUi(this);
 
 	VolumeType volType = (VolumeType)config_get_int(
 		GetGlobalConfig(), "BasicWindow", "AdvAudioVolumeType");
 
-	if (volType == VolumeType::Percent)
-		usePercent->setChecked(true);
-
-	QHBoxLayout *volLayout = new QHBoxLayout();
-	volLayout->setContentsMargins(0, 0, 0, 0);
-	volLayout->addWidget(volLabel);
-	volLayout->addWidget(usePercent);
-	volLayout->addStretch();
-
-	int idx = 0;
-	mainLayout = new QGridLayout;
-	mainLayout->setContentsMargins(0, 0, 0, 0);
-	label = new QLabel("");
-	mainLayout->addWidget(label, 0, idx++);
-	label = new QLabel(QTStr("Basic.AdvAudio.Name"));
-	label->setStyleSheet("font-weight: bold;");
-	mainLayout->addWidget(label, 0, idx++);
-	label = new QLabel(QTStr("Basic.Stats.Status"));
-	label->setStyleSheet("font-weight: bold;");
-	mainLayout->addWidget(label, 0, idx++);
-	mainLayout->addLayout(volLayout, 0, idx++);
-	label = new QLabel(QTStr("Basic.AdvAudio.Mono"));
-	label->setStyleSheet("font-weight: bold;");
-	mainLayout->addWidget(label, 0, idx++);
-	label = new QLabel(QTStr("Basic.AdvAudio.Balance"));
-	label->setStyleSheet("font-weight: bold;");
-	mainLayout->addWidget(label, 0, idx++);
-	label = new QLabel(QTStr("Basic.AdvAudio.SyncOffset"));
-	label->setStyleSheet("font-weight: bold;");
-	mainLayout->addWidget(label, 0, idx++);
-	if (obs_audio_monitoring_available()) {
-		label = new QLabel(QTStr("Basic.AdvAudio.Monitoring"));
-		label->setStyleSheet("font-weight: bold;");
-		mainLayout->addWidget(label, 0, idx++);
+	if (volType == VolumeType::Percent) {
+		ui->usePercent->blockSignals(true);
+		ui->usePercent->setChecked(true);
+		ui->usePercent->blockSignals(false);
 	}
-	label = new QLabel(QTStr("Basic.AdvAudio.AudioTracks"));
-	label->setStyleSheet("font-weight: bold;");
-	mainLayout->addWidget(label, 0, idx++);
 
-	controlArea = new QWidget;
-	controlArea->setLayout(mainLayout);
-	controlArea->setSizePolicy(QSizePolicy::Preferred,
-				   QSizePolicy::Preferred);
+	ui->headerMonitoring->setVisible(obs_audio_monitoring_available());
 
-	vlayout = new QVBoxLayout;
-	vlayout->addWidget(controlArea);
-	//vlayout->setAlignment(controlArea, Qt::AlignTop);
-	widget = new QWidget;
-	widget->setLayout(vlayout);
-	widget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
+	// TODO Make sure this doesn't trigger an event unnecessarily
+	ui->activeOnly->setChecked(!showInactive);
 
-	scrollArea = new QScrollArea;
-	scrollArea->setWidget(widget);
-	scrollArea->setWidgetResizable(true);
-
-	QPushButton *closeButton = new QPushButton(QTStr("Close"));
-
-	activeOnly = new QCheckBox();
-	activeOnly->setChecked(!showInactive);
-	activeOnly->setText(QTStr("Basic.AdvAudio.ActiveOnly"));
-
-	QHBoxLayout *buttonLayout = new QHBoxLayout;
-	buttonLayout->addWidget(activeOnly);
-	buttonLayout->addStretch();
-	buttonLayout->addWidget(closeButton);
-
-	vlayout = new QVBoxLayout;
-	vlayout->setContentsMargins(11, 11, 11, 11);
-	vlayout->addWidget(scrollArea);
-	vlayout->addLayout(buttonLayout);
-	setLayout(vlayout);
-
-	connect(activeOnly, SIGNAL(clicked(bool)), this,
+	connect(ui->activeOnly, SIGNAL(clicked(bool)), this,
 		SLOT(ActiveOnlyChanged(bool)));
-
-	connect(closeButton, &QPushButton::clicked, [this]() { close(); });
 
 	installEventFilter(CreateShortcutFilter());
 
 	/* enum user scene/sources */
 	obs_enum_sources(EnumSources, this);
 
-	resize(1100, 340);
-	setWindowTitle(QTStr("Basic.AdvAudio"));
 	setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
 	setSizeGripEnabled(true);
 	setWindowModality(Qt::NonModal);
@@ -175,12 +98,12 @@ inline void OBSBasicAdvAudio::AddAudioSource(obs_source_t *source)
 		if (controls[i]->GetSource() == source)
 			return;
 	}
-	OBSAdvAudioCtrl *control = new OBSAdvAudioCtrl(mainLayout, source);
+	OBSAdvAudioCtrl *control = new OBSAdvAudioCtrl(ui->controlArea, source);
 
 	InsertQObjectByName(controls, control);
 
 	for (auto control : controls) {
-		control->ShowAudioControl(mainLayout);
+		ui->mainLayout->addWidget(control);
 	}
 }
 
@@ -210,7 +133,7 @@ void OBSBasicAdvAudio::SourceRemoved(OBSSource source)
 	}
 }
 
-void OBSBasicAdvAudio::SetVolumeType(bool percent)
+void OBSBasicAdvAudio::on_usePercent_toggled(bool percent)
 {
 	VolumeType type;
 
@@ -237,7 +160,7 @@ void OBSBasicAdvAudio::SetShowInactive(bool show)
 		return;
 
 	showInactive = show;
-	activeOnly->setChecked(!showInactive);
+	ui->activeOnly->setChecked(!showInactive);
 	sourceAddedSignal.Disconnect();
 	sourceRemovedSignal.Disconnect();
 
@@ -275,7 +198,7 @@ void OBSBasicAdvAudio::SetIconsVisible(bool visible)
 {
 	showVisible = visible;
 
-	QLayoutItem *item = mainLayout->itemAtPosition(0, 0);
+	QLayoutItem *item = ui->mainLayout->itemAtPosition(0, 0);
 	QLabel *headerLabel = qobject_cast<QLabel *>(item->widget());
 	visible ? headerLabel->show() : headerLabel->hide();
 

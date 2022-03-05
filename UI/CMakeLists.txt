@@ -402,7 +402,9 @@ set(obs_UI
 	forms/AutoConfigTestPage.ui
 	forms/ColorSelect.ui
 	forms/OBSLogReply.ui
+	forms/OBSAdvAudioCtrl.ui
 	forms/OBSBasic.ui
+	forms/OBSBasicAdvAudio.ui
 	forms/OBSBasicTransform.ui
 	forms/OBSBasicFilters.ui
 	forms/OBSBasicSettings.ui
@@ -455,8 +457,8 @@ if(WIN32)
 
 	if(Qt5Widgets_VERSION VERSION_LESS 6.0.0)
 		target_link_libraries(obs
-				Qt5::WinExtras)		
-	endif()	
+				Qt5::WinExtras)
+	endif()
 endif()
 
 target_link_libraries(obs

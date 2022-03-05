@@ -6,19 +6,18 @@
 #include <QCheckBox>
 #include <QPointer>
 
+#include "ui_OBSBasicAdvAudio.h"
+
 class OBSAdvAudioCtrl;
-class QGridLayout;
 
 // "Basic advanced audio"?  ...
 
 class OBSBasicAdvAudio : public QDialog {
 	Q_OBJECT
 
+	std::unique_ptr<Ui::OBSBasicAdvAudio> ui;
+
 private:
-	QWidget *controlArea;
-	QGridLayout *mainLayout;
-	QPointer<QCheckBox> activeOnly;
-	QPointer<QCheckBox> usePercent;
 	OBSSignal sourceAddedSignal;
 	OBSSignal sourceRemovedSignal;
 	bool showInactive;
@@ -37,7 +36,7 @@ public slots:
 	void SourceAdded(OBSSource source);
 	void SourceRemoved(OBSSource source);
 
-	void SetVolumeType(bool percent);
+	void on_usePercent_toggled(bool percent);
 	void ActiveOnlyChanged(bool checked);
 
 public:

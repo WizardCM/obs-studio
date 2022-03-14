@@ -314,6 +314,8 @@ private:
 	QPointer<QMenu> scaleFilteringMenu;
 	QPointer<QMenu> blendingModeMenu;
 	QPointer<QMenu> colorMenu;
+	QPointer<QMenu> showTransitionMenu;
+	QPointer<QMenu> hideTransitionMenu;
 	QPointer<QWidgetAction> colorWidgetAction;
 	QPointer<ColorSelect> colorSelect;
 	QPointer<QMenu> deinterlaceMenu;

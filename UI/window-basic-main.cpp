@@ -2020,7 +2020,7 @@ void OBSBasic::OBSInit()
 
 	ui->viewMenu->addSeparator();
 
-	multiviewProjectorMenu = new QMenu(QTStr("MultiviewProjector"));
+	multiviewProjectorMenu = new QMenu(QTStr("MultiviewProjector"), ui->viewMenu);
 	ui->viewMenu->addMenu(multiviewProjectorMenu);
 	AddProjectorMenuMonitors(multiviewProjectorMenu, this,
 				 SLOT(OpenMultiviewProjector()));
@@ -5406,6 +5406,8 @@ void OBSBasic::CreateSourcePopupMenu(int idx, bool preview)
 	delete sourceProjector;
 	delete scaleFilteringMenu;
 	delete blendingModeMenu;
+	delete showTransitionMenu;
+	delete hideTransitionMenu;
 	delete colorMenu;
 	delete colorWidgetAction;
 	delete colorSelect;
@@ -5547,8 +5549,10 @@ void OBSBasic::CreateSourcePopupMenu(int idx, bool preview)
 				SLOT(ScreenshotSelectedSource()));
 		popup.addSeparator();
 
-		popup.addMenu(CreateVisibilityTransitionMenu(true));
-		popup.addMenu(CreateVisibilityTransitionMenu(false));
+		showTransitionMenu = CreateVisibilityTransitionMenu(true);
+		popup.addMenu(showTransitionMenu);
+		hideTransitionMenu = CreateVisibilityTransitionMenu(false);
+		popup.addMenu(hideTransitionMenu);
 		popup.addSeparator();
 
 		action = popup.addAction(QTStr("Interact"), this,
@@ -8993,9 +8997,13 @@ void OBSBasic::SystemTrayInit()
 		trayIcon.data());
 	exit = new QAction(QTStr("Exit"), trayIcon.data());
 
-	trayMenu = new QMenu;
-	previewProjector = new QMenu(QTStr("PreviewProjector"));
-	studioProgramProjector = new QMenu(QTStr("StudioProgramProjector"));
+	trayMenu = new QMenu(this);
+	trayMenu->setObjectName("trayMenu");
+	previewProjector = new QMenu(QTStr("PreviewProjector"), trayMenu);
+	previewProjector->setObjectName("previewProjector");
+	studioProgramProjector =
+		new QMenu(QTStr("StudioProgramProjector"), trayMenu);
+	studioProgramProjector->setObjectName("studioProgramProjector");
 	AddProjectorMenuMonitors(previewProjector, this,
 				 SLOT(OpenPreviewProjector()));
 	AddProjectorMenuMonitors(studioProgramProjector, this,

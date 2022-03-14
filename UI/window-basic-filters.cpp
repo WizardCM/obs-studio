@@ -538,7 +538,8 @@ QMenu *OBSBasicFilters::CreateAddFilterPopupMenu(bool async)
 		types.emplace(it, type_str, name);
 	}
 
-	QMenu *popup = new QMenu(QTStr("Add"), this);
+	delete addFilterMenu;
+	addFilterMenu = new QMenu(QTStr("Add"), this);
 	for (FilterInfo &type : types) {
 		uint32_t filterFlags =
 			obs_get_source_output_flags(type.type.c_str());
@@ -551,17 +552,17 @@ QMenu *OBSBasicFilters::CreateAddFilterPopupMenu(bool async)
 		popupItem->setData(QT_UTF8(type.type.c_str()));
 		connect(popupItem, SIGNAL(triggered(bool)), this,
 			SLOT(AddFilterFromAction()));
-		popup->addAction(popupItem);
+		addFilterMenu->addAction(popupItem);
 
 		foundValues = true;
 	}
 
 	if (!foundValues) {
-		delete popup;
-		popup = nullptr;
+		delete addFilterMenu;
+		addFilterMenu = nullptr;
 	}
 
-	return popup;
+	return addFilterMenu;
 }
 
 void OBSBasicFilters::AddNewFilter(const char *id)
@@ -818,9 +819,9 @@ static bool QueryRemove(QWidget *parent, obs_source_t *source)
 void OBSBasicFilters::on_addAsyncFilter_clicked()
 {
 	ui->asyncFilters->setFocus();
-	QScopedPointer<QMenu> popup(CreateAddFilterPopupMenu(true));
-	if (popup)
-		popup->exec(QCursor::pos());
+	CreateAddFilterPopupMenu(true);
+	if (addFilterMenu)
+		addFilterMenu->exec(QCursor::pos());
 }
 
 void OBSBasicFilters::on_removeAsyncFilter_clicked()
@@ -861,9 +862,9 @@ void OBSBasicFilters::on_asyncFilters_currentRowChanged(int row)
 void OBSBasicFilters::on_addEffectFilter_clicked()
 {
 	ui->effectFilters->setFocus();
-	QScopedPointer<QMenu> popup(CreateAddFilterPopupMenu(false));
-	if (popup)
-		popup->exec(QCursor::pos());
+	CreateAddFilterPopupMenu(false);
+	if (addFilterMenu)
+		addFilterMenu->exec(QCursor::pos());
 }
 
 void OBSBasicFilters::on_removeEffectFilter_clicked()
@@ -933,9 +934,9 @@ void OBSBasicFilters::CustomContextMenu(const QPoint &pos, bool async)
 
 	QMenu popup(window());
 
-	QPointer<QMenu> addMenu = CreateAddFilterPopupMenu(async);
-	if (addMenu)
-		popup.addMenu(addMenu);
+	CreateAddFilterPopupMenu(async);
+	if (addFilterMenu)
+		popup.addMenu(addFilterMenu);
 
 	if (item) {
 		const char *dulpicateSlot =

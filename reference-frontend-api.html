@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>OBS Studio Frontend API &mdash; OBS Studio 27.1.3 documentation</title>
+  <title>OBS Studio Frontend API &mdash; OBS Studio 27.2.3 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
     <link rel="shortcut icon" href="_static/favicon.ico"/>
@@ -31,7 +31,7 @@
             <img src="_static/logo.svg" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                27.1.3
+                27.2.3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -413,8 +413,10 @@ user.</p>
 <p>Triggered when the current scene collection has changed.</p>
 </li>
 <li><p><strong>OBS_FRONTEND_EVENT_SCENE_COLLECTION_LIST_CHANGED</strong></p>
-<p>Triggered when a scene collection has been
-added/removed/renamed.</p>
+<p>Triggered when a scene collection has been added or removed.</p>
+</li>
+<li><p><strong>OBS_FRONTEND_EVENT_SCENE_COLLECTION_RENAMED</strong></p>
+<p>Triggered when a scene collection has been renamed.</p>
 </li>
 <li><p><strong>OBS_FRONTEND_EVENT_PROFILE_CHANGING</strong></p>
 <p>Triggered when the current profile is about to change.</p>
@@ -423,7 +425,10 @@ added/removed/renamed.</p>
 <p>Triggered when the current profile has changed.</p>
 </li>
 <li><p><strong>OBS_FRONTEND_EVENT_PROFILE_LIST_CHANGED</strong></p>
-<p>Triggered when a profile has been added/removed/renamed.</p>
+<p>Triggered when a profile has been added or removed.</p>
+</li>
+<li><p><strong>OBS_FRONTEND_EVENT_PROFILE_RENAMED</strong></p>
+<p>Triggered when a profile has been renamed.</p>
 </li>
 <li><p><strong>OBS_FRONTEND_EVENT_FINISHED_LOADING</strong></p>
 <p>Triggered when the program has finished loading.</p>
@@ -1438,6 +1443,17 @@ source has the <em>OBS_SOURCE_INTERACTION</em> output flag.</p>
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>A new pointer to the current record output path.  Free
 with <a class="reference internal" href="reference-libobs-util-bmem.html#c.bfree" title="bfree"><code class="xref c c-func docutils literal notranslate"><span class="pre">bfree()</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_frontend_get_locale_string">
+<span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_get_locale_string</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">string</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_get_locale_string" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Gets the frontend translation of a given string.</p>
 </dd>
 </dl>
 </dd></dl>

@@ -28,7 +28,7 @@ jobs:
         run: |
            python3.9 CI/check-jsonschema.py plugins/rtmp-services/data/services.json plugins/rtmp-services/data/schema/service-schema-v3.json
       - name: Annotate Errors
-        if: ${{ failure() && github.event_name == 'pull_request' }}
+        if: ${{ failure() }}
         uses: yuzutech/annotations-action@v0.4.0
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"

@@ -2538,6 +2538,19 @@
             }
         },
         {
+            "name": "Schema Test Service",
+            "more_info_link": "https://obsproject.com",
+            "servers": [
+                {
+                    "name": "",
+                    "url": "https://obsproject.com"
+                }
+            ],
+            "recommended": {
+                "supported resolutions": []
+            }
+        },
+        {
             "name": "Shareplay",
             "more_info_link": "https://shareplay.tv",
             "servers": [

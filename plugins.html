@@ -7,6 +7,7 @@
   <title>Plugins &mdash; OBS Studio 27.2.4 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
     <link rel="shortcut icon" href="_static/favicon.ico"/>
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
@@ -425,7 +426,7 @@ install_obs_plugin_with_data(my-plugin data)
 <section id="native-plugin-initialization">
 <h2>Native Plugin Initialization<a class="headerlink" href="#native-plugin-initialization" title="Permalink to this headline"></a></h2>
 <p>To create a native plugin module, you will need to include the
-<a class="reference external" href="https://github.com/obsproject/obs-studio/blob/master/libobs/obs-module.h">libobs/obs-module.h</a> header, use <code class="xref c c-func docutils literal notranslate"><span class="pre">OBS_DECLARE_MODULE()</span></code> macro,
+<a class="reference external" href="https://github.com/obsproject/obs-studio/blob/master/libobs/obs-module.h">libobs/obs-module.h</a> header, use <a class="reference internal" href="reference-modules.html#c.OBS_DECLARE_MODULE" title="OBS_DECLARE_MODULE"><code class="xref c c-func docutils literal notranslate"><span class="pre">OBS_DECLARE_MODULE()</span></code></a> macro,
 then create a definition of the function <a class="reference internal" href="reference-modules.html#c.obs_module_load" title="obs_module_load"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_module_load()</span></code></a>.
 In your <a class="reference internal" href="reference-modules.html#c.obs_module_load" title="obs_module_load"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_module_load()</span></code></a> function, you then register any of
 your custom sources, outputs, encoders, or services.  See the
@@ -834,7 +835,7 @@ depending on what a particular setting is set to using the
 <h2>Localization<a class="headerlink" href="#localization" title="Permalink to this headline"></a></h2>
 <p>Typically, most plugins bundled with OBS Studio will use a simple
 ini-file localization method, where each file is a different language.
-When using this method, the <code class="xref c c-func docutils literal notranslate"><span class="pre">OBS_MODULE_USE_DEFAULT_LOCALE()</span></code>
+When using this method, the <a class="reference internal" href="reference-modules.html#c.OBS_MODULE_USE_DEFAULT_LOCALE" title="OBS_MODULE_USE_DEFAULT_LOCALE"><code class="xref c c-func docutils literal notranslate"><span class="pre">OBS_MODULE_USE_DEFAULT_LOCALE()</span></code></a>
 macro is used which will automatically load/destroy the locale data with
 no extra effort on part of the plugin.  Then the
 <a class="reference internal" href="reference-modules.html#c.obs_module_text" title="obs_module_text"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_module_text()</span></code></a> function (which is automatically declared as
@@ -848,7 +849,7 @@ is called by libobs on destruction of the module.  If you wish to
 implement a custom locale implementation for your plugin, you’d want to
 define these exports along with the <a class="reference internal" href="reference-modules.html#c.obs_module_text" title="obs_module_text"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_module_text()</span></code></a> extern
 yourself instead of relying on the
-<code class="xref c c-func docutils literal notranslate"><span class="pre">OBS_MODULE_USE_DEFAULT_LOCALE()</span></code> macro.</p>
+<a class="reference internal" href="reference-modules.html#c.OBS_MODULE_USE_DEFAULT_LOCALE" title="OBS_MODULE_USE_DEFAULT_LOCALE"><code class="xref c c-func docutils literal notranslate"><span class="pre">OBS_MODULE_USE_DEFAULT_LOCALE()</span></code></a> macro.</p>
 </section>
 </section>
 

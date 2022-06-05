@@ -7,6 +7,7 @@
   <title>Module API Reference &mdash; OBS Studio 27.2.4 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
     <link rel="shortcut icon" href="_static/favicon.ico"/>
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
@@ -358,17 +359,17 @@ and <a class="reference internal" href="plugins.html#plugins-services"><span cla
 <section id="module-macros">
 <h2>Module Macros<a class="headerlink" href="#module-macros" title="Permalink to this headline"></a></h2>
 <p>These macros are used within custom plugin modules.</p>
-<dl class="c function">
-<dt class="sig sig-object c">
-<span class="sig-name descname"><span class="pre">OBS_DECLARE_MODULE()</span></span></dt>
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.OBS_DECLARE_MODULE">
+<span class="sig-name descname"><span class="n"><span class="pre">OBS_DECLARE_MODULE</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.OBS_DECLARE_MODULE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Declares a libobs module.  Exports important core module functions
 related to the module itself, OBS version, etc.</p>
 </dd></dl>
 
 <hr class="docutils" />
-<dl class="c function">
-<dt class="sig sig-object c">
-<span class="sig-name descname"><span class="pre">OBS_MODULE_USE_DEFAULT_LOCALE(module_name,</span> <span class="pre">default_locale)</span></span></dt>
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.OBS_MODULE_USE_DEFAULT_LOCALE">
+<span class="sig-name descname"><span class="n"><span class="pre">OBS_MODULE_USE_DEFAULT_LOCALE</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">module_name</span></span>, <span class="n"><span class="pre">default_locale</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.OBS_MODULE_USE_DEFAULT_LOCALE" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Helper macro that uses the standard ini file format for localization.
 Automatically initializes and destroys localization data, and
 automatically provides module externs such as

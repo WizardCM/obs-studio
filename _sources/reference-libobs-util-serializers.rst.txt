@@ -104,7 +104,9 @@ Array Output Serializer Structure (struct array_output_data)
 
 .. struct:: array_output_data
 
-.. member:: DARRAY(uint8_t) array_output_data.bytes
+.. code:: cpp
+
+   DARRAY(uint8_t) array_output_data.bytes
 
 Array Output Serializer Functions
 ---------------------------------

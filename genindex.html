@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Index &mdash; OBS Studio 27.2.3 documentation</title>
+  <title>Index &mdash; OBS Studio 27.2.4 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
     <link rel="shortcut icon" href="_static/favicon.ico"/>
@@ -29,7 +29,7 @@
             <img src="_static/logo.svg" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                27.2.3
+                27.2.4
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -286,6 +286,7 @@
 <li class="toctree-l3"><a class="reference internal" href="reference-libobs-graphics-graphics.html#vertex-buffer-functions">Vertex Buffer Functions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="reference-libobs-graphics-graphics.html#index-buffer-functions">Index Buffer Functions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="reference-libobs-graphics-graphics.html#display-duplicator-windows-only">Display Duplicator (Windows Only)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference-libobs-graphics-graphics.html#monitor-functions">Monitor Functions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="reference-libobs-graphics-graphics.html#render-helper-functions">Render Helper Functions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="reference-libobs-graphics-graphics.html#graphics-types">Graphics Types</a></li>
 </ul>
@@ -1063,6 +1064,8 @@
 </li>
       <li><a href="reference-libobs-graphics-graphics.html#c.gs_gdi_texture_available">gs_gdi_texture_available (C function)</a>
 </li>
+      <li><a href="reference-libobs-graphics-graphics.html#c.gs_get_color_space">gs_get_color_space (C function)</a>
+</li>
       <li><a href="reference-libobs-graphics-graphics.html#c.gs_get_context">gs_get_context (C function)</a>
 </li>
       <li><a href="reference-libobs-graphics-graphics.html#c.gs_get_cull_mode">gs_get_cull_mode (C function)</a>
@@ -1122,6 +1125,8 @@
       <li><a href="reference-libobs-graphics-graphics.html#c.gs_init_data.window">gs_init_data.window (C member)</a>
 </li>
       <li><a href="reference-libobs-graphics-graphics.html#c.gs_init_data.zsformat">gs_init_data.zsformat (C member)</a>
+</li>
+      <li><a href="reference-libobs-graphics-graphics.html#c.gs_is_monitor_hdr">gs_is_monitor_hdr (C function)</a>
 </li>
       <li><a href="reference-libobs-graphics-graphics.html#c.gs_leave_context">gs_leave_context (C function)</a>
 </li>
@@ -1245,6 +1250,8 @@
 </li>
       <li><a href="reference-libobs-graphics-graphics.html#c.gs_set_render_target">gs_set_render_target (C function)</a>
 </li>
+      <li><a href="reference-libobs-graphics-graphics.html#c.gs_set_render_target_with_color_space">gs_set_render_target_with_color_space (C function)</a>
+</li>
       <li><a href="reference-libobs-graphics-graphics.html#c.gs_set_scissor_rect">gs_set_scissor_rect (C function)</a>
 </li>
       <li><a href="reference-libobs-graphics-graphics.html#c.gs_set_viewport">gs_set_viewport (C function)</a>
@@ -1324,6 +1331,8 @@
       <li><a href="reference-libobs-graphics-graphics.html#c.gs_tvertarray.array">gs_tvertarray.array (C member)</a>
 </li>
       <li><a href="reference-libobs-graphics-graphics.html#c.gs_tvertarray.width">gs_tvertarray.width (C member)</a>
+</li>
+      <li><a href="reference-libobs-graphics-graphics.html#c.gs_update_color_space">gs_update_color_space (C function)</a>
 </li>
       <li><a href="reference-libobs-graphics-graphics.html#c.gs_vb_data.colors">gs_vb_data.colors (C member)</a>
 </li>
@@ -1975,7 +1984,11 @@
 </li>
       <li><a href="reference-core.html#c.obs_get_video">obs_get_video (C function)</a>
 </li>
+      <li><a href="reference-core.html#c.obs_get_video_hdr_nominal_peak_level">obs_get_video_hdr_nominal_peak_level (C function)</a>
+</li>
       <li><a href="reference-core.html#c.obs_get_video_info">obs_get_video_info (C function)</a>
+</li>
+      <li><a href="reference-core.html#c.obs_get_video_sdr_white_level">obs_get_video_sdr_white_level (C function)</a>
 </li>
       <li><a href="reference-scenes.html#c.obs_group_from_source">obs_group_from_source (C function)</a>
 </li>
@@ -2366,8 +2379,6 @@
 </li>
       <li><a href="reference-properties.html#c.obs_property_list_item_disabled">obs_property_list_item_disabled (C function)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference-properties.html#c.obs_property_list_item_float">obs_property_list_item_float (C function)</a>
 </li>
       <li><a href="reference-properties.html#c.obs_property_list_item_int">obs_property_list_item_int (C function)</a>
@@ -2376,6 +2387,8 @@
 </li>
       <li><a href="reference-properties.html#c.obs_property_list_item_remove">obs_property_list_item_remove (C function)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference-properties.html#c.obs_property_list_item_string">obs_property_list_item_string (C function)</a>
 </li>
       <li><a href="reference-properties.html#c.obs_property_list_type">obs_property_list_type (C function)</a>
@@ -2438,6 +2451,8 @@
       <li><a href="reference-core.html#c.obs_render_main_view">obs_render_main_view (C function)</a>
 </li>
       <li><a href="reference-core.html#c.obs_reset_audio">obs_reset_audio (C function)</a>
+</li>
+      <li><a href="reference-core.html#c.obs_reset_audio2">obs_reset_audio2 (C function)</a>
 </li>
       <li><a href="reference-core.html#c.obs_reset_video">obs_reset_video (C function)</a>
 </li>
@@ -2524,6 +2539,8 @@
 </li>
       <li><a href="reference-scenes.html#c.obs_sceneitem_get_alignment">obs_sceneitem_get_alignment (C function)</a>
 </li>
+      <li><a href="reference-scenes.html#c.obs_sceneitem_get_blending_method">obs_sceneitem_get_blending_method (C function)</a>
+</li>
       <li><a href="reference-scenes.html#c.obs_sceneitem_get_blending_mode">obs_sceneitem_get_blending_mode (C function)</a>
 </li>
       <li><a href="reference-scenes.html#c.obs_sceneitem_get_bounds">obs_sceneitem_get_bounds (C function)</a>
@@ -2597,6 +2614,8 @@
       <li><a href="reference-scenes.html#c.obs_sceneitem_remove">obs_sceneitem_remove (C function)</a>
 </li>
       <li><a href="reference-scenes.html#c.obs_sceneitem_set_alignment">obs_sceneitem_set_alignment (C function)</a>
+</li>
+      <li><a href="reference-scenes.html#c.obs_sceneitem_set_blending_method">obs_sceneitem_set_blending_method (C function)</a>
 </li>
       <li><a href="reference-scenes.html#c.obs_sceneitem_set_blending_mode">obs_sceneitem_set_blending_mode (C function)</a>
 </li>
@@ -2718,6 +2737,8 @@
 </li>
       <li><a href="reference-core.html#c.obs_set_output_source">obs_set_output_source (C function)</a>
 </li>
+      <li><a href="reference-core.html#c.obs_set_video_sdr_white_level">obs_set_video_sdr_white_level (C function)</a>
+</li>
       <li><a href="reference-core.html#c.obs_shutdown">obs_shutdown (C function)</a>
 </li>
       <li><a href="reference-sources.html#c.obs_source_active">obs_source_active (C function)</a>
@@ -2771,6 +2792,8 @@
       <li><a href="reference-sources.html#c.obs_source_get_audio_mixers">obs_source_get_audio_mixers (C function)</a>
 </li>
       <li><a href="reference-sources.html#c.obs_source_get_balance_value">obs_source_get_balance_value (C function)</a>
+</li>
+      <li><a href="reference-sources.html#c.obs_source_get_color_space">obs_source_get_color_space (C function)</a>
 </li>
       <li><a href="reference-sources.html#c.obs_source_get_deinterlace_field_order">obs_source_get_deinterlace_field_order (C function)</a>
 </li>
@@ -2910,6 +2933,8 @@
 </li>
       <li><a href="reference-sources.html#c.obs_source_info.update">obs_source_info.update (C member)</a>
 </li>
+      <li><a href="reference-sources.html#c.obs_source_info.video_get_color_space">obs_source_info.video_get_color_space (C member)</a>
+</li>
       <li><a href="reference-sources.html#c.obs_source_info.video_render">obs_source_info.video_render (C member)</a>
 </li>
       <li><a href="reference-sources.html#c.obs_source_info.video_tick">obs_source_info.video_tick (C member)</a>
@@ -2925,6 +2950,8 @@
       <li><a href="reference-sources.html#c.obs_source_preload_video">obs_source_preload_video (C function)</a>
 </li>
       <li><a href="reference-sources.html#c.obs_source_process_filter_begin">obs_source_process_filter_begin (C function)</a>
+</li>
+      <li><a href="reference-sources.html#c.obs_source_process_filter_begin_with_color_space">obs_source_process_filter_begin_with_color_space (C function)</a>
 </li>
       <li><a href="reference-sources.html#c.obs_source_process_filter_end">obs_source_process_filter_end (C function)</a>
 </li>
@@ -3052,7 +3079,11 @@
 </li>
       <li><a href="reference-sources.html#c.obs_transition_swap_end">obs_transition_swap_end (C function)</a>
 </li>
+      <li><a href="reference-sources.html#c.obs_transition_video_get_color_space">obs_transition_video_get_color_space (C function)</a>
+</li>
       <li><a href="reference-sources.html#c.obs_transition_video_render">obs_transition_video_render (C function)</a>
+</li>
+      <li><a href="reference-sources.html#c.obs_transition_video_render2">obs_transition_video_render2 (C function)</a>
 </li>
       <li><a href="reference-encoders.html#c.obs_video_encoder_create">obs_video_encoder_create (C function)</a>
 </li>
@@ -3259,6 +3290,8 @@
       <li><a href="reference-libobs-util-platform.html#c.os_sleep_ms">os_sleep_ms (C function)</a>
 </li>
       <li><a href="reference-libobs-util-platform.html#c.os_sleepto_ns">os_sleepto_ns (C function)</a>
+</li>
+      <li><a href="reference-libobs-util-platform.html#c.os_sleepto_ns_fast">os_sleepto_ns_fast (C function)</a>
 </li>
       <li><a href="reference-libobs-util-platform.html#c.os_stat">os_stat (C function)</a>
 </li>
@@ -3844,6 +3877,8 @@
       <li><a href="reference-libobs-media-io.html#c.video_format_from_fourcc">video_format_from_fourcc (C function)</a>
 </li>
       <li><a href="reference-libobs-media-io.html#c.video_format_get_parameters">video_format_get_parameters (C function)</a>
+</li>
+      <li><a href="reference-libobs-media-io.html#c.video_format_get_parameters_for_format">video_format_get_parameters_for_format (C function)</a>
 </li>
       <li><a href="reference-libobs-media-io.html#c.video_output_connect">video_output_connect (C function)</a>
 </li>

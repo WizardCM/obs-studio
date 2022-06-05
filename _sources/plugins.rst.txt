@@ -165,7 +165,7 @@ Then, in my-plugin.c, you would call :c:func:`obs_register_source()` in
   /* my-plugin.c */
 
   [...]
-
+  
   extern struct obs_source_info  my_source;  /* Defined in my-source.c  */
 
   bool obs_module_load(void)

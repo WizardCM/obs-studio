@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Media I/O API Reference (libobs/media-io) &mdash; OBS Studio 27.2.3 documentation</title>
+  <title>Media I/O API Reference (libobs/media-io) &mdash; OBS Studio 27.2.4 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
     <link rel="shortcut icon" href="_static/favicon.ico"/>
@@ -32,7 +32,7 @@
             <img src="_static/logo.svg" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                27.2.3
+                27.2.4
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -289,6 +289,7 @@
 <li class="toctree-l3"><a class="reference internal" href="reference-libobs-graphics-graphics.html#vertex-buffer-functions">Vertex Buffer Functions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="reference-libobs-graphics-graphics.html#index-buffer-functions">Index Buffer Functions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="reference-libobs-graphics-graphics.html#display-duplicator-windows-only">Display Duplicator (Windows Only)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference-libobs-graphics-graphics.html#monitor-functions">Monitor Functions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="reference-libobs-graphics-graphics.html#render-helper-functions">Render Helper Functions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="reference-libobs-graphics-graphics.html#graphics-types">Graphics Types</a></li>
 </ul>
@@ -369,6 +370,27 @@
 <li><p>VIDEO_FORMAT_BGRX</p></li>
 <li><p>VIDEO_FORMAT_Y800</p></li>
 <li><p>VIDEO_FORMAT_I444</p></li>
+<li><p>VIDEO_FORMAT_BGR3</p></li>
+<li><p>VIDEO_FORMAT_I422</p></li>
+<li><p>VIDEO_FORMAT_I40A</p></li>
+<li><p>VIDEO_FORMAT_I42A</p></li>
+<li><p>VIDEO_FORMAT_YUVA</p></li>
+<li><p>VIDEO_FORMAT_AYUV</p></li>
+<li><p>VIDEO_FORMAT_I010</p></li>
+<li><p>VIDEO_FORMAT_P010</p></li>
+</ul>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c type">
+<dt class="sig sig-object c">
+<span class="sig-name descname"><span class="pre">enum</span> <span class="pre">video_trc</span></span></dt>
+<dd><p>Transfer characteristics.  Can be one of the following values:</p>
+<ul class="simple">
+<li><p>VIDEO_TRC_DEFAULT - sRGB TRC for SDR, PQ TRC for HDR</p></li>
+<li><p>VIDEO_TRC_SRGB    - sRGB TRC</p></li>
+<li><p>VIDEO_TRC_PQ      - PQ</p></li>
+<li><p>VIDEO_TRC_HLG     - HLG</p></li>
 </ul>
 </dd></dl>
 
@@ -378,10 +400,12 @@
 <span class="sig-name descname"><span class="pre">enum</span> <span class="pre">video_colorspace</span></span></dt>
 <dd><p>YUV color space.  Can be one of the following values:</p>
 <ul class="simple">
-<li><p>VIDEO_CS_DEFAULT - Equivalent to VIDEO_CS_709</p></li>
-<li><p>VIDEO_CS_601     - 601 color space</p></li>
-<li><p>VIDEO_CS_709     - 709 color space</p></li>
-<li><p>VIDEO_CS_SRGB    - sRGB color space</p></li>
+<li><p>VIDEO_CS_DEFAULT  - Equivalent to VIDEO_CS_709</p></li>
+<li><p>VIDEO_CS_601      - Rec. 601 color space</p></li>
+<li><p>VIDEO_CS_709      - Rec. 709 color space</p></li>
+<li><p>VIDEO_CS_SRGB     - sRGB color space</p></li>
+<li><p>VIDEO_CS_2100_PQ  - Rec. 2100 color space, PQ transfer</p></li>
+<li><p>VIDEO_CS_2100_HLG - Rec. 2100 color space, HLG transfer</p></li>
 </ul>
 </dd></dl>
 
@@ -498,6 +522,25 @@
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>color_space</strong> – Color space to convert</p></li>
 <li><p><strong>range</strong> – Color range to convert</p></li>
+<li><p><strong>matrix</strong> – Pointer to the matrix</p></li>
+<li><p><strong>min_range</strong> – Pointer to get the minimum range value</p></li>
+<li><p><strong>max_range</strong> – Pointer to get the maximum range value</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.video_format_get_parameters_for_format">
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">video_format_get_parameters_for_format</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="n"><span class="pre">video_colorspace</span></span><span class="w"> </span><span class="n"><span class="pre">color_space</span></span>, <span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="n"><span class="pre">video_range_type</span></span><span class="w"> </span><span class="n"><span class="pre">range</span></span>, <span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="n"><span class="pre">video_format</span></span><span class="w"> </span><span class="n"><span class="pre">format</span></span>, <span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="n"><span class="pre">matrix</span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">16</span></span><span class="p"><span class="pre">]</span></span>, <span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="n"><span class="pre">min_range</span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">3</span></span><span class="p"><span class="pre">]</span></span>, <span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="n"><span class="pre">max_range</span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">3</span></span><span class="p"><span class="pre">]</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.video_format_get_parameters_for_format" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Converts a color space/range to matrix/min/max values for a given video format.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>color_space</strong> – Color space to convert</p></li>
+<li><p><strong>range</strong> – Color range to convert</p></li>
+<li><p><strong>format</strong> – Video format</p></li>
 <li><p><strong>matrix</strong> – Pointer to the matrix</p></li>
 <li><p><strong>min_range</strong> – Pointer to get the minimum range value</p></li>
 <li><p><strong>max_range</strong> – Pointer to get the maximum range value</p></li>
@@ -703,10 +746,7 @@ handler.</p>
 <li><p>SPEAKERS_4POINT0</p></li>
 <li><p>SPEAKERS_4POINT1</p></li>
 <li><p>SPEAKERS_5POINT1</p></li>
-<li><p>SPEAKERS_5POINT1_SURROUND</p></li>
 <li><p>SPEAKERS_7POINT1</p></li>
-<li><p>SPEAKERS_7POINT1_SURROUND</p></li>
-<li><p>SPEAKERS_SURROUND</p></li>
 </ul>
 </dd></dl>
 

@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Output API Reference (obs_output_t) &mdash; OBS Studio 27.2.3 documentation</title>
+  <title>Output API Reference (obs_output_t) &mdash; OBS Studio 27.2.4 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
     <link rel="shortcut icon" href="_static/favicon.ico"/>
@@ -32,7 +32,7 @@
             <img src="_static/logo.svg" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                27.2.3
+                27.2.4
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -289,6 +289,7 @@
 <li class="toctree-l3"><a class="reference internal" href="reference-libobs-graphics-graphics.html#vertex-buffer-functions">Vertex Buffer Functions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="reference-libobs-graphics-graphics.html#index-buffer-functions">Index Buffer Functions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="reference-libobs-graphics-graphics.html#display-duplicator-windows-only">Display Duplicator (Windows Only)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference-libobs-graphics-graphics.html#monitor-functions">Monitor Functions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="reference-libobs-graphics-graphics.html#render-helper-functions">Render Helper Functions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="reference-libobs-graphics-graphics.html#graphics-types">Graphics Types</a></li>
 </ul>
@@ -1275,11 +1276,11 @@ outputs.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">enum</span><span class="w"> </span><span class="nc">video_format</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">        </span><span class="n">VIDEO_FORMAT_NONE</span><span class="p">,</span><span class="w"></span>
 
-<span class="w">        </span><span class="cm">/* planar 420 format */</span><span class="w"></span>
+<span class="w">        </span><span class="cm">/* planar 4:2:0 formats */</span><span class="w"></span>
 <span class="w">        </span><span class="n">VIDEO_FORMAT_I420</span><span class="p">,</span><span class="w"> </span><span class="cm">/* three-plane */</span><span class="w"></span>
 <span class="w">        </span><span class="n">VIDEO_FORMAT_NV12</span><span class="p">,</span><span class="w"> </span><span class="cm">/* two-plane, luma and packed chroma */</span><span class="w"></span>
 
-<span class="w">        </span><span class="cm">/* packed 422 formats */</span><span class="w"></span>
+<span class="w">        </span><span class="cm">/* packed 4:2:2 formats */</span><span class="w"></span>
 <span class="w">        </span><span class="n">VIDEO_FORMAT_YVYU</span><span class="p">,</span><span class="w"></span>
 <span class="w">        </span><span class="n">VIDEO_FORMAT_YUY2</span><span class="p">,</span><span class="w"> </span><span class="cm">/* YUYV */</span><span class="w"></span>
 <span class="w">        </span><span class="n">VIDEO_FORMAT_UYVY</span><span class="p">,</span><span class="w"></span>
@@ -1292,6 +1293,28 @@ outputs.</p>
 
 <span class="w">        </span><span class="cm">/* planar 4:4:4 */</span><span class="w"></span>
 <span class="w">        </span><span class="n">VIDEO_FORMAT_I444</span><span class="p">,</span><span class="w"></span>
+
+<span class="w">        </span><span class="cm">/* more packed uncompressed formats */</span><span class="w"></span>
+<span class="w">        </span><span class="n">VIDEO_FORMAT_BGR3</span><span class="p">,</span><span class="w"></span>
+
+<span class="w">        </span><span class="cm">/* planar 4:2:2 */</span><span class="w"></span>
+<span class="w">        </span><span class="n">VIDEO_FORMAT_I422</span><span class="p">,</span><span class="w"></span>
+
+<span class="w">        </span><span class="cm">/* planar 4:2:0 with alpha */</span><span class="w"></span>
+<span class="w">        </span><span class="n">VIDEO_FORMAT_I40A</span><span class="p">,</span><span class="w"></span>
+
+<span class="w">        </span><span class="cm">/* planar 4:2:2 with alpha */</span><span class="w"></span>
+<span class="w">        </span><span class="n">VIDEO_FORMAT_I42A</span><span class="p">,</span><span class="w"></span>
+
+<span class="w">        </span><span class="cm">/* planar 4:4:4 with alpha */</span><span class="w"></span>
+<span class="w">        </span><span class="n">VIDEO_FORMAT_YUVA</span><span class="p">,</span><span class="w"></span>
+
+<span class="w">        </span><span class="cm">/* packed 4:4:4 with alpha */</span><span class="w"></span>
+<span class="w">        </span><span class="n">VIDEO_FORMAT_AYUV</span><span class="p">,</span><span class="w"></span>
+
+<span class="w">        </span><span class="cm">/* planar 4:2:0 format, 10 bpp */</span><span class="w"></span>
+<span class="w">        </span><span class="n">VIDEO_FORMAT_I010</span><span class="p">,</span><span class="w"> </span><span class="cm">/* three-plane */</span><span class="w"></span>
+<span class="w">        </span><span class="n">VIDEO_FORMAT_P010</span><span class="p">,</span><span class="w"> </span><span class="cm">/* two-plane, luma and packed chroma */</span><span class="w"></span>
 <span class="p">};</span><span class="w"></span>
 
 <span class="k">enum</span><span class="w"> </span><span class="nc">video_colorspace</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
@@ -1299,6 +1322,8 @@ outputs.</p>
 <span class="w">        </span><span class="n">VIDEO_CS_601</span><span class="p">,</span><span class="w"></span>
 <span class="w">        </span><span class="n">VIDEO_CS_709</span><span class="p">,</span><span class="w"></span>
 <span class="w">        </span><span class="n">VIDEO_CS_SRGB</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">VIDEO_CS_2100_PQ</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">VIDEO_CS_2100_HLG</span><span class="p">,</span><span class="w"></span>
 <span class="p">};</span><span class="w"></span>
 
 <span class="k">enum</span><span class="w"> </span><span class="nc">video_range_type</span><span class="w"> </span><span class="p">{</span><span class="w"></span>

@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Core Graphics API &mdash; OBS Studio 27.2.3 documentation</title>
+  <title>Core Graphics API &mdash; OBS Studio 27.2.4 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
     <link rel="shortcut icon" href="_static/favicon.ico"/>
@@ -32,7 +32,7 @@
             <img src="_static/logo.svg" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                27.2.3
+                27.2.4
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -289,6 +289,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#vertex-buffer-functions">Vertex Buffer Functions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#index-buffer-functions">Index Buffer Functions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#display-duplicator-windows-only">Display Duplicator (Windows Only)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#monitor-functions">Monitor Functions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#render-helper-functions">Render Helper Functions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#graphics-types">Graphics Types</a></li>
 </ul>
@@ -389,6 +390,18 @@ bits</p></li>
 <li><p>GS_BGRX_UNORM  - BGRX, 8 bits per channel, no SRGB aliasing</p></li>
 <li><p>GS_BGRA_UNORM  - BGRA, 8 bits per channel, no SRGB aliasing</p></li>
 <li><p>GS_RG16        - RG, 16 bits per channel</p></li>
+</ul>
+</dd></dl>
+
+<dl class="c type">
+<dt class="sig sig-object c">
+<span class="sig-name descname"><span class="pre">enum</span> <span class="pre">gs_color_space</span></span></dt>
+<dd><p>Color space.  Can be one of the following values:</p>
+<ul class="simple">
+<li><p>GS_CS_SRGB         - sRGB</p></li>
+<li><p>GS_CS_SRGB_16F     - High-precision SDR</p></li>
+<li><p>GS_CS_709_EXTENDED - Canvas, Mac EDR (HDR)</p></li>
+<li><p>GS_CS_709_SCRGB    - 1.0 = 80 nits, Windows/Linux HDR</p></li>
 </ul>
 </dd></dl>
 
@@ -735,7 +748,7 @@ bits</p></li>
 <dl class="c member">
 <dt class="sig sig-object c" id="c.gs_window.view">
 <a class="reference internal" href="#c.gs_window.id" title="id"><span class="n"><span class="pre">id</span></span></a><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">gs_window</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">view</span></span></span><a class="headerlink" href="#c.gs_window.view" title="Permalink to this definition"></a><br /></dt>
-<dd><p>(Mac only) A view ID.</p>
+<dd><p>(macOS only) A view ID.</p>
 </dd></dl>
 
 <dl class="c member">
@@ -795,7 +808,7 @@ bits</p></li>
 <dl class="c function">
 <dt class="sig sig-object c" id="c.gs_enum_adapters">
 <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">gs_enum_adapters</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">callback</span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">param</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">)</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">param</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.gs_enum_adapters" title="Permalink to this definition"></a><br /></dt>
-<dd><p>Enumerates adapters (this really only applies on windows).</p>
+<dd><p>Enumerates adapters (this really only applies on Windows).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -1216,6 +1229,14 @@ source alpha.</p>
 
 <hr class="docutils" />
 <dl class="c function">
+<dt class="sig sig-object c" id="c.gs_update_color_space">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">gs_update_color_space</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.gs_update_color_space" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Updates the color space of the swap chain based on the HDR status of
+the nearest monitor</p>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
 <dt class="sig sig-object c" id="c.gs_get_size">
 <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">gs_get_size</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">cx</span></span>, <span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">cy</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.gs_get_size" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Gets the size of the currently active swap chain</p>
@@ -1323,6 +1344,17 @@ source alpha.</p>
 <section id="id1">
 <h2>Draw Functions<a class="headerlink" href="#id1" title="Permalink to this headline"></a></h2>
 <dl class="c function">
+<dt class="sig sig-object c" id="c.gs_get_color_space">
+<span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="n"><span class="pre">gs_color_space</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">gs_get_color_space</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.gs_get_color_space" title="Permalink to this definition"></a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The currently active color space</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
 <dt class="sig sig-object c" id="c.gs_get_render_target">
 <span class="n"><span class="pre">gs_texture_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">gs_get_render_target</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.gs_get_render_target" title="Permalink to this definition"></a><br /></dt>
 <dd><dl class="field-list simple">
@@ -1347,12 +1379,28 @@ source alpha.</p>
 <dl class="c function">
 <dt class="sig sig-object c" id="c.gs_set_render_target">
 <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">gs_set_render_target</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">gs_texture_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">tex</span></span>, <span class="n"><span class="pre">gs_zstencil_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">zstencil</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.gs_set_render_target" title="Permalink to this definition"></a><br /></dt>
-<dd><p>Sets the active render target</p>
+<dd><p>Sets the active render target with implicit GS_CS_SRGB color space</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>tex</strong> – Texture to set as the active render target</p></li>
 <li><p><strong>zstencil</strong> – Z-stencil to use as the active render target</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.gs_set_render_target_with_color_space">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">gs_set_render_target_with_color_space</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">gs_texture_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">tex</span></span>, <span class="n"><span class="pre">gs_zstencil_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">zstencil</span></span>, <span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="n"><span class="pre">gs_color_space</span></span><span class="w"> </span><span class="n"><span class="pre">space</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.gs_set_render_target_with_color_space" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Sets the active render target along with color space</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tex</strong> – Texture to set as the active render target</p></li>
+<li><p><strong>zstencil</strong> – Z-stencil to use as the active render target</p></li>
+<li><p><strong>space</strong> – Color space of the render target</p></li>
 </ul>
 </dd>
 </dl>
@@ -1993,7 +2041,7 @@ stores them as an array and returns the number of supported modifiers.</p>
 <dl class="c function">
 <dt class="sig sig-object c" id="c.gs_texture_create_from_iosurface">
 <span class="n"><span class="pre">gs_texture_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">gs_texture_create_from_iosurface</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">iosurf</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.gs_texture_create_from_iosurface" title="Permalink to this definition"></a><br /></dt>
-<dd><p><strong>Mac only:</strong> Creates a texture from an IOSurface.</p>
+<dd><p><strong>macOS only:</strong> Creates a texture from an IOSurface.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -2007,7 +2055,7 @@ stores them as an array and returns the number of supported modifiers.</p>
 <dl class="c function">
 <dt class="sig sig-object c" id="c.gs_texture_rebind_iosurface">
 <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">gs_texture_rebind_iosurface</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">gs_texture_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">texture</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">iosurf</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.gs_texture_rebind_iosurface" title="Permalink to this definition"></a><br /></dt>
-<dd><p><strong>Mac only:</strong> Rebinds a texture to another IOSurface</p>
+<dd><p><strong>macOS only:</strong> Rebinds a texture to another IOSurface</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -2649,6 +2697,15 @@ This data can be changed and index buffer can be updated with
 <dl class="c function">
 <dt class="sig sig-object c" id="c.gs_get_duplicator_monitor_info">
 <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">gs_get_duplicator_monitor_info</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">monitor_idx</span></span>, <span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">gs_monitor_info</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">monitor_info</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.gs_get_duplicator_monitor_info" title="Permalink to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</section>
+<hr class="docutils" />
+<section id="monitor-functions">
+<h2>Monitor Functions<a class="headerlink" href="#monitor-functions" title="Permalink to this headline"></a></h2>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.gs_is_monitor_hdr">
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">gs_is_monitor_hdr</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">monitor</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.gs_is_monitor_hdr" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
 </section>

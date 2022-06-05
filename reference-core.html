@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>OBS Core API Reference &mdash; OBS Studio 27.2.3 documentation</title>
+  <title>OBS Core API Reference &mdash; OBS Studio 27.2.4 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
     <link rel="shortcut icon" href="_static/favicon.ico"/>
@@ -32,7 +32,7 @@
             <img src="_static/logo.svg" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                27.2.3
+                27.2.4
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -289,6 +289,7 @@
 <li class="toctree-l3"><a class="reference internal" href="reference-libobs-graphics-graphics.html#vertex-buffer-functions">Vertex Buffer Functions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="reference-libobs-graphics-graphics.html#index-buffer-functions">Index Buffer Functions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="reference-libobs-graphics-graphics.html#display-duplicator-windows-only">Display Duplicator (Windows Only)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference-libobs-graphics-graphics.html#monitor-functions">Monitor Functions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="reference-libobs-graphics-graphics.html#render-helper-functions">Render Helper Functions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="reference-libobs-graphics-graphics.html#graphics-types">Graphics Types</a></li>
 </ul>
@@ -529,6 +530,35 @@ specification of the graphics subsystem,</p></li>
 </div>
 <hr class="docutils" />
 <dl class="c function">
+<dt class="sig sig-object c" id="c.obs_reset_audio2">
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_reset_audio2</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">obs_audio_info2</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">oai</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_reset_audio2" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Sets base audio output format/channels/samples/etc. Also allows the
+ability to set the maximum audio latency of OBS, and set whether the
+audio buffering is fixed or dynamically increasing.</p>
+<p>When using fixed audio buffering, OBS will automatically buffer to
+the maximum audio latency on startup.</p>
+<p>Maximum audio latency will clamp to the closest multiple of the audio
+output frames (which is typically 1024 audio frames).</p>
+<p>Note: Cannot reset base audio if an output is currently active.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><em>true</em> if successful, <em>false</em> otherwise</p>
+</dd>
+</dl>
+<p>Relevant data types used with this function:</p>
+</dd></dl>
+
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">obs_audio_info2</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="kt">uint32_t</span><span class="w">            </span><span class="n">samples_per_sec</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="k">enum</span><span class="w"> </span><span class="nc">speaker_layout</span><span class="w"> </span><span class="n">speakers</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">        </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">max_buffering_ms</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="kt">bool</span><span class="w"> </span><span class="n">fixed_buffering</span><span class="p">;</span><span class="w"></span>
+<span class="p">};</span><span class="w"></span>
+</pre></div>
+</div>
+<hr class="docutils" />
+<dl class="c function">
 <dt class="sig sig-object c" id="c.obs_get_video_info">
 <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_get_video_info</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">obs_video_info</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">ovi</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_get_video_info" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Gets the current video settings.</p>
@@ -537,6 +567,37 @@ specification of the graphics subsystem,</p></li>
 <dd class="field-odd"><p><em>false</em> if no video</p>
 </dd>
 </dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_get_video_sdr_white_level">
+<span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_get_video_sdr_white_level</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_get_video_sdr_white_level" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Gets the current SDR white level.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>SDR white level, 300.f if no video</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_get_video_hdr_nominal_peak_level">
+<span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_get_video_hdr_nominal_peak_level</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_get_video_hdr_nominal_peak_level" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Gets the current HDR nominal peak level.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>HDR nominal peak level, 1000.f if no video</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_set_video_sdr_white_level">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_set_video_sdr_white_level</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="n"><span class="pre">sdr_white_level</span></span>, <span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="n"><span class="pre">hdr_nominal_peak_level</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_set_video_sdr_white_level" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Sets the current video levels.</p>
 </dd></dl>
 
 <hr class="docutils" />
@@ -1084,7 +1145,7 @@ the main view.</p>
 a new swap chain which updates every frame.</p>
 <p><em>(Important note: do not use more than one display widget within the
 hierarchy of the same base window; this will cause presentation
-stalls on Macs.)</em></p>
+stalls on macOS.)</em></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">

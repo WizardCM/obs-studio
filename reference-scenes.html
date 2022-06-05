@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Scene API Reference (obs_scene_t) &mdash; OBS Studio 27.2.3 documentation</title>
+  <title>Scene API Reference (obs_scene_t) &mdash; OBS Studio 27.2.4 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
     <link rel="shortcut icon" href="_static/favicon.ico"/>
@@ -32,7 +32,7 @@
             <img src="_static/logo.svg" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                27.2.3
+                27.2.4
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -289,6 +289,7 @@
 <li class="toctree-l3"><a class="reference internal" href="reference-libobs-graphics-graphics.html#vertex-buffer-functions">Vertex Buffer Functions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="reference-libobs-graphics-graphics.html#index-buffer-functions">Index Buffer Functions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="reference-libobs-graphics-graphics.html#display-duplicator-windows-only">Display Duplicator (Windows Only)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference-libobs-graphics-graphics.html#monitor-functions">Monitor Functions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="reference-libobs-graphics-graphics.html#render-helper-functions">Render Helper Functions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="reference-libobs-graphics-graphics.html#graphics-types">Graphics Types</a></li>
 </ul>
@@ -1041,6 +1042,27 @@ or edges of the scene item.</p>
 <div class="line">OBS_SCALE_BICUBIC</div>
 <div class="line">OBS_SCALE_BILINEAR</div>
 <div class="line">OBS_SCALE_LANCZOS</div>
+</div>
+</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_sceneitem_set_blending_method">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_sceneitem_set_blending_method</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">item</span></span>, <span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="n"><span class="pre">obs_blending_method</span></span><span class="w"> </span><span class="n"><span class="pre">method</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_sceneitem_set_blending_method" title="Permalink to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.obs_sceneitem_get_blending_method">
+<span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="n"><span class="pre">obs_blending_method</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_sceneitem_get_blending_method</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_sceneitem_t" title="obs_sceneitem_t"><span class="n"><span class="pre">obs_sceneitem_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">item</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_sceneitem_get_blending_method" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Sets/gets the blending method used for the scene item.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>method</strong> – <div class="line-block">
+<div class="line">Can be one of the following values:</div>
+<div class="line">OBS_BLEND_METHOD_DEFAULT</div>
+<div class="line">OBS_BLEND_METHOD_SRGB_OFF</div>
 </div>
 </p></li>
 </ul>

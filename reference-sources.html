@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Source API Reference (obs_source_t) &mdash; OBS Studio 27.2.3 documentation</title>
+  <title>Source API Reference (obs_source_t) &mdash; OBS Studio 27.2.4 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
     <link rel="shortcut icon" href="_static/favicon.ico"/>
@@ -32,7 +32,7 @@
             <img src="_static/logo.svg" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                27.2.3
+                27.2.4
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -289,6 +289,7 @@
 <li class="toctree-l3"><a class="reference internal" href="reference-libobs-graphics-graphics.html#vertex-buffer-functions">Vertex Buffer Functions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="reference-libobs-graphics-graphics.html#index-buffer-functions">Index Buffer Functions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="reference-libobs-graphics-graphics.html#display-duplicator-windows-only">Display Duplicator (Windows Only)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference-libobs-graphics-graphics.html#monitor-functions">Monitor Functions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="reference-libobs-graphics-graphics.html#render-helper-functions">Render Helper Functions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="reference-libobs-graphics-graphics.html#graphics-types">Graphics Types</a></li>
 </ul>
@@ -979,6 +980,23 @@ that have the OBS_SOURCE_COMPOSITE output capability flag.</p>
 </ul>
 </dd></dl>
 
+<dl class="c member">
+<dt class="sig sig-object c" id="c.obs_source_info.video_get_color_space">
+<span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="n"><span class="pre">gs_color_space</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">obs_source_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">video_get_color_space</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">count</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="n"><span class="pre">gs_color_space</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">preferred_spaces</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.obs_source_info.video_get_color_space" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Returns the color space of the source. Assume GS_CS_SRGB if not
+implemented.</p>
+<p>There’s an optimization an SDR source can do when rendering to HDR.
+Check if the active space is GS_CS_709_EXTENDED, and return
+GS_CS_709_EXTENDED instead of GS_CS_SRGB to avoid an redundant
+conversion. This optimization can only be done if the pixel shader
+outputs linear 709, which is why it’s not performed by default.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return</dt>
+<dd class="field-odd"><p>The color space of the video</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 <section id="source-signals">
 <span id="source-signal-handler-reference"></span><h2>Source Signals<a class="headerlink" href="#source-signals" title="Permalink to this headline"></a></h2>
@@ -1414,6 +1432,21 @@ height.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>The width or height of the source</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_source_get_color_space">
+<span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="n"><span class="pre">gs_color_space</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_source_get_color_space</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_source_t" title="obs_source_t"><span class="n"><span class="pre">obs_source_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">source</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">count</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="n"><span class="pre">gs_color_space</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">preferred_spaces</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_source_get_color_space" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Calls the <a class="reference internal" href="#c.obs_source_info.video_get_color_space" title="obs_source_info.video_get_color_space"><code class="xref c c-member docutils literal notranslate"><span class="pre">obs_source_info.video_get_color_space</span></code></a> of the
+source to get its color space. Assumes GS_CS_SRGB if not implemented.</p>
+<p>Disabled filters are skipped, and async video sources can figure out
+the color space for themselves.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The color space of the source</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1917,11 +1950,11 @@ of the current effect.</p></li>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">enum</span><span class="w"> </span><span class="nc">video_format</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">        </span><span class="n">VIDEO_FORMAT_NONE</span><span class="p">,</span><span class="w"></span>
 
-<span class="w">        </span><span class="cm">/* planar 420 format */</span><span class="w"></span>
+<span class="w">        </span><span class="cm">/* planar 4:2:0 formats */</span><span class="w"></span>
 <span class="w">        </span><span class="n">VIDEO_FORMAT_I420</span><span class="p">,</span><span class="w"> </span><span class="cm">/* three-plane */</span><span class="w"></span>
 <span class="w">        </span><span class="n">VIDEO_FORMAT_NV12</span><span class="p">,</span><span class="w"> </span><span class="cm">/* two-plane, luma and packed chroma */</span><span class="w"></span>
 
-<span class="w">        </span><span class="cm">/* packed 422 formats */</span><span class="w"></span>
+<span class="w">        </span><span class="cm">/* packed 4:2:2 formats */</span><span class="w"></span>
 <span class="w">        </span><span class="n">VIDEO_FORMAT_YVYU</span><span class="p">,</span><span class="w"></span>
 <span class="w">        </span><span class="n">VIDEO_FORMAT_YUY2</span><span class="p">,</span><span class="w"> </span><span class="cm">/* YUYV */</span><span class="w"></span>
 <span class="w">        </span><span class="n">VIDEO_FORMAT_UYVY</span><span class="p">,</span><span class="w"></span>
@@ -1934,6 +1967,28 @@ of the current effect.</p></li>
 
 <span class="w">        </span><span class="cm">/* planar 4:4:4 */</span><span class="w"></span>
 <span class="w">        </span><span class="n">VIDEO_FORMAT_I444</span><span class="p">,</span><span class="w"></span>
+
+<span class="w">        </span><span class="cm">/* more packed uncompressed formats */</span><span class="w"></span>
+<span class="w">        </span><span class="n">VIDEO_FORMAT_BGR3</span><span class="p">,</span><span class="w"></span>
+
+<span class="w">        </span><span class="cm">/* planar 4:2:2 */</span><span class="w"></span>
+<span class="w">        </span><span class="n">VIDEO_FORMAT_I422</span><span class="p">,</span><span class="w"></span>
+
+<span class="w">        </span><span class="cm">/* planar 4:2:0 with alpha */</span><span class="w"></span>
+<span class="w">        </span><span class="n">VIDEO_FORMAT_I40A</span><span class="p">,</span><span class="w"></span>
+
+<span class="w">        </span><span class="cm">/* planar 4:2:2 with alpha */</span><span class="w"></span>
+<span class="w">        </span><span class="n">VIDEO_FORMAT_I42A</span><span class="p">,</span><span class="w"></span>
+
+<span class="w">        </span><span class="cm">/* planar 4:4:4 with alpha */</span><span class="w"></span>
+<span class="w">        </span><span class="n">VIDEO_FORMAT_YUVA</span><span class="p">,</span><span class="w"></span>
+
+<span class="w">        </span><span class="cm">/* packed 4:4:4 with alpha */</span><span class="w"></span>
+<span class="w">        </span><span class="n">VIDEO_FORMAT_AYUV</span><span class="p">,</span><span class="w"></span>
+
+<span class="w">        </span><span class="cm">/* planar 4:2:0 format, 10 bpp */</span><span class="w"></span>
+<span class="w">        </span><span class="n">VIDEO_FORMAT_I010</span><span class="p">,</span><span class="w"> </span><span class="cm">/* three-plane */</span><span class="w"></span>
+<span class="w">        </span><span class="n">VIDEO_FORMAT_P010</span><span class="p">,</span><span class="w"> </span><span class="cm">/* two-plane, luma and packed chroma */</span><span class="w"></span>
 <span class="p">};</span><span class="w"></span>
 
 <span class="k">struct</span><span class="w"> </span><span class="nc">obs_source_frame</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
@@ -1946,9 +2001,12 @@ of the current effect.</p></li>
 <span class="w">        </span><span class="k">enum</span><span class="w"> </span><span class="nc">video_format</span><span class="w">   </span><span class="n">format</span><span class="p">;</span><span class="w"></span>
 <span class="w">        </span><span class="kt">float</span><span class="w">               </span><span class="n">color_matrix</span><span class="p">[</span><span class="mi">16</span><span class="p">];</span><span class="w"></span>
 <span class="w">        </span><span class="kt">bool</span><span class="w">                </span><span class="n">full_range</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="kt">uint16_t</span><span class="w">            </span><span class="n">max_luminance</span><span class="p">;</span><span class="w"></span>
 <span class="w">        </span><span class="kt">float</span><span class="w">               </span><span class="n">color_range_min</span><span class="p">[</span><span class="mi">3</span><span class="p">];</span><span class="w"></span>
 <span class="w">        </span><span class="kt">float</span><span class="w">               </span><span class="n">color_range_max</span><span class="p">[</span><span class="mi">3</span><span class="p">];</span><span class="w"></span>
 <span class="w">        </span><span class="kt">bool</span><span class="w">                </span><span class="n">flip</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="kt">uint8_t</span><span class="w">             </span><span class="n">flags</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="kt">uint8_t</span><span class="w">             </span><span class="n">trc</span><span class="p">;</span><span class="w"> </span><span class="cm">/* enum video_trc */</span><span class="w"></span>
 <span class="p">};</span><span class="w"></span>
 </pre></div>
 </div>
@@ -2086,6 +2144,20 @@ filter chain and renders them to texture if needed, then the filter is
 drawn with.</p>
 <p>After calling this, set your parameters for the effect, then call
 obs_source_process_filter_end to draw the filter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><em>true</em> if filtering should continue, <em>false</em> if the filter
+is bypassed for whatever reason</p>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_source_process_filter_begin_with_color_space">
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_source_process_filter_begin_with_color_space</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_source_t" title="obs_source_t"><span class="n"><span class="pre">obs_source_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">filter</span></span>, <span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="n"><span class="pre">gs_color_format</span></span><span class="w"> </span><span class="n"><span class="pre">format</span></span>, <span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="n"><span class="pre">gs_color_space</span></span><span class="w"> </span><span class="n"><span class="pre">space</span></span>, <span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="n"><span class="pre">obs_allow_direct_render</span></span><span class="w"> </span><span class="n"><span class="pre">allow_direct</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_source_process_filter_begin_with_color_space" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Similar to obs_source_process_filter_begin, but also set the active
+color space.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p><em>true</em> if filtering should continue, <em>false</em> if the filter
@@ -2268,6 +2340,8 @@ effect.</p>
 <dl class="c function">
 <dt class="sig sig-object c" id="c.obs_transition_video_render">
 <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_transition_video_render</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_source_t" title="obs_source_t"><span class="n"><span class="pre">obs_source_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">transition</span></span>, <span class="n"><span class="pre">obs_transition_video_render_callback_t</span></span><span class="w"> </span><span class="n"><span class="pre">callback</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_transition_video_render" title="Permalink to this definition"></a><br /></dt>
+<dt class="sig sig-object c" id="c.obs_transition_video_render2">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_transition_video_render2</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_source_t" title="obs_source_t"><span class="n"><span class="pre">obs_source_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">transition</span></span>, <span class="n"><span class="pre">obs_transition_video_render_callback_t</span></span><span class="w"> </span><span class="n"><span class="pre">callback</span></span>, <span class="n"><span class="pre">gs_texture_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">placeholder_texture</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_transition_video_render2" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Helper function used for rendering transitions.  This function will
 render two distinct textures for source A and source B of the
 transition, allowing the ability to blend them together with a pixel
@@ -2276,6 +2350,9 @@ shader in a desired manner.</p>
 textures of source A and source B, <em>t</em> is the time value
 (0.0f..1.0f), <em>cx</em> and <em>cy</em> are the current dimensions of the
 transition, and <em>data</em> is the implementation’s private data.</p>
+<p>The <em>placeholder_texture</em> parameter allows a callback to receive
+a replacement that isn’t the default transparent texture, including
+NULL if the caller desires.</p>
 <p>Relevant data types used with this function:</p>
 </dd></dl>
 
@@ -2284,6 +2361,19 @@ transition, and <em>data</em> is the implementation’s private data.</p>
 <span class="w">                </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">cx</span><span class="p">,</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">cy</span><span class="p">);</span><span class="w"></span>
 </pre></div>
 </div>
+<hr class="docutils" />
+<dl class="c function">
+<dt class="sig sig-object c" id="c.obs_transition_video_get_color_space">
+<span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="n"><span class="pre">gs_color_space</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_transition_video_get_color_space</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_source_t" title="obs_source_t"><span class="n"><span class="pre">obs_source_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">transition</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_transition_video_get_color_space" title="Permalink to this definition"></a><br /></dt>
+<dd><p>Figure out the color space that encompasses both child sources.</p>
+<p>The wider space wins.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The color space of the transition</p>
+</dd>
+</dl>
+</dd></dl>
+
 <hr class="docutils" />
 <dl class="c function">
 <dt class="sig sig-object c" id="c.obs_transition_audio_render">

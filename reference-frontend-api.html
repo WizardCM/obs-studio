@@ -347,9 +347,9 @@
 </div>
 <section id="structures-enumerations">
 <h2>Structures/Enumerations<a class="headerlink" href="#structures-enumerations" title="Permalink to this headline"></a></h2>
-<dl class="c type">
-<dt class="sig sig-object c">
-<span class="sig-name descname"><span class="pre">enum</span> <span class="pre">obs_frontend_event</span></span></dt>
+<dl class="c enum">
+<dt class="sig sig-object c" id="c.obs_frontend_event">
+<span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_event</span></span></span><a class="headerlink" href="#c.obs_frontend_event" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Specifies a front-end event.  Can be one of the following values:</p>
 <ul>
 <li><p><strong>OBS_FRONTEND_EVENT_STREAMING_STARTING</strong></p>
@@ -481,9 +481,9 @@ program is about to exit.</p>
 </ul>
 </dd></dl>
 
-<dl class="c type">
-<dt class="sig sig-object c">
-<span class="sig-name descname"><span class="pre">struct</span> <span class="pre">obs_frontend_source_list</span></span></dt>
+<dl class="c struct">
+<dt class="sig sig-object c" id="c.obs_frontend_source_list">
+<span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_source_list</span></span></span><a class="headerlink" href="#c.obs_frontend_source_list" title="Permalink to this definition"></a><br /></dt>
 <dd><ul class="simple">
 <li><p>DARRAY(obs_source_t*) <strong>sources</strong></p></li>
 </ul>
@@ -504,26 +504,26 @@ program is about to exit.</p>
 </pre></div>
 </div>
 <dl class="c type">
-<dt class="sig sig-object c">
-<span class="sig-name descname"><span class="pre">typedef</span> <span class="pre">void</span> <span class="pre">(*obs_frontend_cb)(void</span> <span class="pre">*private_data)</span></span></dt>
+<dt class="sig sig-object c" id="c.obs_frontend_cb">
+<span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_cb</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">private_data</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.obs_frontend_cb" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Frontend tool menu callback</p>
 </dd></dl>
 
 <dl class="c type">
-<dt class="sig sig-object c">
-<span class="sig-name descname"><span class="pre">typedef</span> <span class="pre">void</span> <span class="pre">(*obs_frontend_event_cb)(enum</span> <span class="pre">obs_frontend_event</span> <span class="pre">event,</span> <span class="pre">void</span> <span class="pre">*private_data)</span></span></dt>
+<dt class="sig sig-object c" id="c.obs_frontend_event_cb">
+<span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_event_cb</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">enum</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_frontend_event" title="obs_frontend_event"><span class="n"><span class="pre">obs_frontend_event</span></span></a><span class="w"> </span><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">private_data</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.obs_frontend_event_cb" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Frontend event callback</p>
 </dd></dl>
 
 <dl class="c type">
-<dt class="sig sig-object c">
-<span class="sig-name descname"><span class="pre">typedef</span> <span class="pre">void</span> <span class="pre">(*obs_frontend_save_cb)(obs_data_t</span> <span class="pre">*save_data,</span> <span class="pre">bool</span> <span class="pre">saving,</span> <span class="pre">void</span> <span class="pre">*private_data)</span></span></dt>
+<dt class="sig sig-object c" id="c.obs_frontend_save_cb">
+<span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_save_cb</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><a class="reference internal" href="reference-settings.html#c.obs_data_t" title="obs_data_t"><span class="n"><span class="pre">obs_data_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">save_data</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n"><span class="pre">saving</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">private_data</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.obs_frontend_save_cb" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Frontend save/load callback</p>
 </dd></dl>
 
 <dl class="c type">
-<dt class="sig sig-object c">
-<span class="sig-name descname"><span class="pre">typedef</span> <span class="pre">bool</span> <span class="pre">(*obs_frontend_translate_ui_cb)(const</span> <span class="pre">char</span> <span class="pre">*text,</span> <span class="pre">const</span> <span class="pre">char</span> <span class="pre">**out)</span></span></dt>
+<dt class="sig sig-object c" id="c.obs_frontend_translate_ui_cb">
+<span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_translate_ui_cb</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">out</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.obs_frontend_translate_ui_cb" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Translation callback</p>
 </dd></dl>
 
@@ -532,7 +532,7 @@ program is about to exit.</p>
 <h2>Functions<a class="headerlink" href="#functions" title="Permalink to this headline"></a></h2>
 <dl class="c function">
 <dt class="sig sig-object c" id="c.obs_frontend_source_list_free">
-<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_source_list_free</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">obs_frontend_source_list</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">source_list</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_source_list_free" title="Permalink to this definition"></a><br /></dt>
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_source_list_free</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_frontend_source_list" title="obs_frontend_source_list"><span class="n"><span class="pre">obs_frontend_source_list</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">source_list</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_source_list_free" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Releases sources within a source list and frees the list.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -582,11 +582,11 @@ list.</p>
 <hr class="docutils" />
 <dl class="c function">
 <dt class="sig sig-object c" id="c.obs_frontend_get_scenes">
-<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_get_scenes</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">obs_frontend_source_list</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">sources</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_get_scenes" title="Permalink to this definition"></a><br /></dt>
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_get_scenes</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_frontend_source_list" title="obs_frontend_source_list"><span class="n"><span class="pre">obs_frontend_source_list</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">sources</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_get_scenes" title="Permalink to this definition"></a><br /></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>sources</strong> – Pointer to a <code class="xref c c-type docutils literal notranslate"><span class="pre">obs_frontend_source_list</span></code>
+<li><p><strong>sources</strong> – Pointer to a <a class="reference internal" href="#c.obs_frontend_source_list" title="obs_frontend_source_list"><code class="xref c c-type docutils literal notranslate"><span class="pre">obs_frontend_source_list</span></code></a>
 structure to receive the list of
 reference-incremented scenes.  Release with
 <a class="reference internal" href="#c.obs_frontend_source_list_free" title="obs_frontend_source_list_free"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_frontend_source_list_free()</span></code></a></p></li>
@@ -622,11 +622,11 @@ reference-incremented scenes.  Release with
 <hr class="docutils" />
 <dl class="c function">
 <dt class="sig sig-object c" id="c.obs_frontend_get_transitions">
-<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_get_transitions</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">obs_frontend_source_list</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">sources</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_get_transitions" title="Permalink to this definition"></a><br /></dt>
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_get_transitions</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><a class="reference internal" href="#c.obs_frontend_source_list" title="obs_frontend_source_list"><span class="n"><span class="pre">obs_frontend_source_list</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">sources</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_get_transitions" title="Permalink to this definition"></a><br /></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>sources</strong> – Pointer to a <code class="xref c c-type docutils literal notranslate"><span class="pre">obs_frontend_source_list</span></code>
+<li><p><strong>sources</strong> – Pointer to a <a class="reference internal" href="#c.obs_frontend_source_list" title="obs_frontend_source_list"><code class="xref c c-type docutils literal notranslate"><span class="pre">obs_frontend_source_list</span></code></a>
 structure to receive the list of
 reference-incremented transitions.  Release with
 <a class="reference internal" href="#c.obs_frontend_source_list_free" title="obs_frontend_source_list_free"><code class="xref c c-func docutils literal notranslate"><span class="pre">obs_frontend_source_list_free()</span></code></a></p></li>
@@ -879,7 +879,7 @@ filesystem.  Free with <a class="reference internal" href="reference-libobs-util
 <hr class="docutils" />
 <dl class="c function">
 <dt class="sig sig-object c" id="c.obs_frontend_add_tools_menu_item">
-<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_add_tools_menu_item</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">name</span></span>, <span class="n"><span class="pre">obs_frontend_cb</span></span><span class="w"> </span><span class="n"><span class="pre">callback</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">private_data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_add_tools_menu_item" title="Permalink to this definition"></a><br /></dt>
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_add_tools_menu_item</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">name</span></span>, <a class="reference internal" href="#c.obs_frontend_cb" title="obs_frontend_cb"><span class="n"><span class="pre">obs_frontend_cb</span></span></a><span class="w"> </span><span class="n"><span class="pre">callback</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">private_data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_add_tools_menu_item" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Adds a tools menu item and links the ::clicked signal to the
 callback.</p>
 <dl class="field-list simple">
@@ -913,9 +913,9 @@ callback.</p>
 <hr class="docutils" />
 <dl class="c function">
 <dt class="sig sig-object c" id="c.obs_frontend_add_event_callback">
-<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_add_event_callback</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">obs_frontend_event_cb</span></span><span class="w"> </span><span class="n"><span class="pre">callback</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">private_data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_add_event_callback" title="Permalink to this definition"></a><br /></dt>
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_add_event_callback</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_frontend_event_cb" title="obs_frontend_event_cb"><span class="n"><span class="pre">obs_frontend_event_cb</span></span></a><span class="w"> </span><span class="n"><span class="pre">callback</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">private_data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_add_event_callback" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Adds a callback that will be called when a frontend event occurs.
-See <code class="xref c c-type docutils literal notranslate"><span class="pre">obs_frontend_event</span></code> on what sort of events can be
+See <a class="reference internal" href="#c.obs_frontend_event" title="obs_frontend_event"><code class="xref c c-type docutils literal notranslate"><span class="pre">obs_frontend_event</span></code></a> on what sort of events can be
 triggered.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -930,7 +930,7 @@ triggered.</p>
 <hr class="docutils" />
 <dl class="c function">
 <dt class="sig sig-object c" id="c.obs_frontend_remove_event_callback">
-<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_remove_event_callback</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">obs_frontend_event_cb</span></span><span class="w"> </span><span class="n"><span class="pre">callback</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">private_data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_remove_event_callback" title="Permalink to this definition"></a><br /></dt>
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_remove_event_callback</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_frontend_event_cb" title="obs_frontend_event_cb"><span class="n"><span class="pre">obs_frontend_event_cb</span></span></a><span class="w"> </span><span class="n"><span class="pre">callback</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">private_data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_remove_event_callback" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Removes an event callback.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -945,7 +945,7 @@ triggered.</p>
 <hr class="docutils" />
 <dl class="c function">
 <dt class="sig sig-object c" id="c.obs_frontend_add_save_callback">
-<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_add_save_callback</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">obs_frontend_save_cb</span></span><span class="w"> </span><span class="n"><span class="pre">callback</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">private_data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_add_save_callback" title="Permalink to this definition"></a><br /></dt>
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_add_save_callback</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_frontend_save_cb" title="obs_frontend_save_cb"><span class="n"><span class="pre">obs_frontend_save_cb</span></span></a><span class="w"> </span><span class="n"><span class="pre">callback</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">private_data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_add_save_callback" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Adds a callback that will be called when the current scene collection
 is being saved/loaded.</p>
 <dl class="field-list simple">
@@ -962,7 +962,7 @@ collection</p></li>
 <hr class="docutils" />
 <dl class="c function">
 <dt class="sig sig-object c" id="c.obs_frontend_remove_save_callback">
-<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_remove_save_callback</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">obs_frontend_save_cb</span></span><span class="w"> </span><span class="n"><span class="pre">callback</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">private_data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_remove_save_callback" title="Permalink to this definition"></a><br /></dt>
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_remove_save_callback</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_frontend_save_cb" title="obs_frontend_save_cb"><span class="n"><span class="pre">obs_frontend_save_cb</span></span></a><span class="w"> </span><span class="n"><span class="pre">callback</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">private_data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_remove_save_callback" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Removes a save/load callback.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -977,7 +977,7 @@ collection</p></li>
 <hr class="docutils" />
 <dl class="c function">
 <dt class="sig sig-object c" id="c.obs_frontend_add_preload_callback">
-<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_add_preload_callback</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">obs_frontend_save_cb</span></span><span class="w"> </span><span class="n"><span class="pre">callback</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">private_data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_add_preload_callback" title="Permalink to this definition"></a><br /></dt>
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_add_preload_callback</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_frontend_save_cb" title="obs_frontend_save_cb"><span class="n"><span class="pre">obs_frontend_save_cb</span></span></a><span class="w"> </span><span class="n"><span class="pre">callback</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">private_data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_add_preload_callback" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Adds a callback that will be called right before a scene collection
 is loaded.</p>
 <dl class="field-list simple">
@@ -993,7 +993,7 @@ is loaded.</p>
 <hr class="docutils" />
 <dl class="c function">
 <dt class="sig sig-object c" id="c.obs_frontend_remove_preload_callback">
-<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_remove_preload_callback</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">obs_frontend_save_cb</span></span><span class="w"> </span><span class="n"><span class="pre">callback</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">private_data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_remove_preload_callback" title="Permalink to this definition"></a><br /></dt>
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_remove_preload_callback</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_frontend_save_cb" title="obs_frontend_save_cb"><span class="n"><span class="pre">obs_frontend_save_cb</span></span></a><span class="w"> </span><span class="n"><span class="pre">callback</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">private_data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_remove_preload_callback" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Removes a pre-load callback.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1008,7 +1008,7 @@ is loaded.</p>
 <hr class="docutils" />
 <dl class="c function">
 <dt class="sig sig-object c" id="c.obs_frontend_push_ui_translation">
-<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_push_ui_translation</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">obs_frontend_translate_ui_cb</span></span><span class="w"> </span><span class="n"><span class="pre">translate</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_push_ui_translation" title="Permalink to this definition"></a><br /></dt>
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obs_frontend_push_ui_translation</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.obs_frontend_translate_ui_cb" title="obs_frontend_translate_ui_cb"><span class="n"><span class="pre">obs_frontend_translate_ui_cb</span></span></a><span class="w"> </span><span class="n"><span class="pre">translate</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.obs_frontend_push_ui_translation" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Pushes a UI translation callback.  This allows a front-end plugin to
 intercept when Qt is automatically generating translating data.
 Typically this is just called with obs_module_get_string.</p>

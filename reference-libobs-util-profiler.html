@@ -347,23 +347,23 @@
 <p>The profiler is used to get information about program performance and
 efficiency.</p>
 <dl class="c type">
-<dt class="sig sig-object c">
-<span class="sig-name descname"><span class="pre">typedef</span> <span class="pre">struct</span> <span class="pre">profiler_snapshot</span> <span class="pre">profiler_snapshot_t</span></span></dt>
+<dt class="sig sig-object c" id="c.profiler_snapshot_t">
+<span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">profiler_snapshot</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">profiler_snapshot_t</span></span></span><a class="headerlink" href="#c.profiler_snapshot_t" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
 <dl class="c type">
-<dt class="sig sig-object c">
-<span class="sig-name descname"><span class="pre">typedef</span> <span class="pre">struct</span> <span class="pre">profiler_snapshot_entry</span> <span class="pre">profiler_snapshot_entry_t</span></span></dt>
+<dt class="sig sig-object c" id="c.profiler_snapshot_entry_t">
+<span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">profiler_snapshot_entry</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">profiler_snapshot_entry_t</span></span></span><a class="headerlink" href="#c.profiler_snapshot_entry_t" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
 <dl class="c type">
-<dt class="sig sig-object c">
-<span class="sig-name descname"><span class="pre">typedef</span> <span class="pre">struct</span> <span class="pre">profiler_name_store</span> <span class="pre">profiler_name_store_t</span></span></dt>
+<dt class="sig sig-object c" id="c.profiler_name_store_t">
+<span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">profiler_name_store</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">profiler_name_store_t</span></span></span><a class="headerlink" href="#c.profiler_name_store_t" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
 <dl class="c type">
-<dt class="sig sig-object c">
-<span class="sig-name descname"><span class="pre">typedef</span> <span class="pre">struct</span> <span class="pre">profiler_time_entry</span> <span class="pre">profiler_time_entry_t</span></span></dt>
+<dt class="sig sig-object c" id="c.profiler_time_entry_t">
+<span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><a class="reference internal" href="#c.profiler_time_entry" title="profiler_time_entry"><span class="n"><span class="pre">profiler_time_entry</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">profiler_time_entry_t</span></span></span><a class="headerlink" href="#c.profiler_time_entry_t" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;util/profiler.h&gt;</span><span class="cp"></span>
@@ -371,19 +371,19 @@ efficiency.</p>
 </div>
 <section id="profiler-structures">
 <h2>Profiler Structures<a class="headerlink" href="#profiler-structures" title="Permalink to this headline"></a></h2>
-<dl class="c type">
-<dt class="sig sig-object c">
-<span class="sig-name descname"><span class="pre">struct</span> <span class="pre">profiler_time_entry</span></span></dt>
+<dl class="c struct">
+<dt class="sig sig-object c" id="c.profiler_time_entry">
+<span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">profiler_time_entry</span></span></span><a class="headerlink" href="#c.profiler_time_entry" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
 <dl class="c member">
 <dt class="sig sig-object c" id="c.profiler_time_entry.time_delta">
-<span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">profiler_time_entry</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">time_delta</span></span></span><a class="headerlink" href="#c.profiler_time_entry.time_delta" title="Permalink to this definition"></a><br /></dt>
+<span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="sig-prename descclassname"><a class="reference internal" href="#c.profiler_time_entry" title="profiler_time_entry"><span class="n"><span class="pre">profiler_time_entry</span></span></a><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">time_delta</span></span></span><a class="headerlink" href="#c.profiler_time_entry.time_delta" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
 <dl class="c member">
 <dt class="sig sig-object c" id="c.profiler_time_entry.count">
-<span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">profiler_time_entry</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">count</span></span></span><a class="headerlink" href="#c.profiler_time_entry.count" title="Permalink to this definition"></a><br /></dt>
+<span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="sig-prename descclassname"><a class="reference internal" href="#c.profiler_time_entry" title="profiler_time_entry"><span class="n"><span class="pre">profiler_time_entry</span></span></a><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">count</span></span></span><a class="headerlink" href="#c.profiler_time_entry.count" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
 </section>
@@ -405,7 +405,7 @@ efficiency.</p>
 <hr class="docutils" />
 <dl class="c function">
 <dt class="sig sig-object c" id="c.profiler_print">
-<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">profiler_print</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">profiler_snapshot_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">snap</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.profiler_print" title="Permalink to this definition"></a><br /></dt>
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">profiler_print</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.profiler_snapshot_t" title="profiler_snapshot_t"><span class="n"><span class="pre">profiler_snapshot_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">snap</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.profiler_print" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Creates a profiler snapshot and saves it within <em>snap</em>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -419,7 +419,7 @@ efficiency.</p>
 <hr class="docutils" />
 <dl class="c function">
 <dt class="sig sig-object c" id="c.profiler_print_time_between_calls">
-<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">profiler_print_time_between_calls</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">profiler_snapshot_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">snap</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.profiler_print_time_between_calls" title="Permalink to this definition"></a><br /></dt>
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">profiler_print_time_between_calls</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.profiler_snapshot_t" title="profiler_snapshot_t"><span class="n"><span class="pre">profiler_snapshot_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">snap</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.profiler_print_time_between_calls" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Creates a profiler snapshot of time between calls and saves it within
 <em>snap</em>.</p>
 <dl class="field-list simple">
@@ -504,7 +504,7 @@ start up in the current thread again.</p>
 <h2>Profiler Name Storage Functions<a class="headerlink" href="#profiler-name-storage-functions" title="Permalink to this headline"></a></h2>
 <dl class="c function">
 <dt class="sig sig-object c" id="c.profiler_name_store_create">
-<span class="n"><span class="pre">profiler_name_store_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">profiler_name_store_create</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.profiler_name_store_create" title="Permalink to this definition"></a><br /></dt>
+<a class="reference internal" href="#c.profiler_name_store_t" title="profiler_name_store_t"><span class="n"><span class="pre">profiler_name_store_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">profiler_name_store_create</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.profiler_name_store_create" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Creates a profiler name storage object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -516,7 +516,7 @@ start up in the current thread again.</p>
 <hr class="docutils" />
 <dl class="c function">
 <dt class="sig sig-object c" id="c.profiler_name_store_free">
-<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">profiler_name_store_free</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">profiler_name_store_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">store</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.profiler_name_store_free" title="Permalink to this definition"></a><br /></dt>
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">profiler_name_store_free</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.profiler_name_store_t" title="profiler_name_store_t"><span class="n"><span class="pre">profiler_name_store_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">store</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.profiler_name_store_free" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Frees a profiler name storage object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -530,7 +530,7 @@ start up in the current thread again.</p>
 <hr class="docutils" />
 <dl class="c function">
 <dt class="sig sig-object c" id="c.profile_store_name">
-<span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">profile_store_name</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">profiler_name_store_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">store</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">format</span></span>, <span class="p"><span class="pre">...</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.profile_store_name" title="Permalink to this definition"></a><br /></dt>
+<span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">profile_store_name</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.profiler_name_store_t" title="profiler_name_store_t"><span class="n"><span class="pre">profiler_name_store_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">store</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">format</span></span>, <span class="p"><span class="pre">...</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.profile_store_name" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Creates a formatted string and stores it within a profiler name
 storage object.</p>
 <dl class="field-list simple">
@@ -552,7 +552,7 @@ storage object.</p>
 <h2>Profiler Data Access Functions<a class="headerlink" href="#profiler-data-access-functions" title="Permalink to this headline"></a></h2>
 <dl class="c function">
 <dt class="sig sig-object c" id="c.profile_snapshot_create">
-<span class="n"><span class="pre">profiler_snapshot_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">profile_snapshot_create</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.profile_snapshot_create" title="Permalink to this definition"></a><br /></dt>
+<a class="reference internal" href="#c.profiler_snapshot_t" title="profiler_snapshot_t"><span class="n"><span class="pre">profiler_snapshot_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">profile_snapshot_create</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.profile_snapshot_create" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Creates a profile snapshot.  Profiler snapshots are used to obtain
 data about how the active profiles performed.</p>
 <dl class="field-list simple">
@@ -565,7 +565,7 @@ data about how the active profiles performed.</p>
 <hr class="docutils" />
 <dl class="c function">
 <dt class="sig sig-object c" id="c.profile_snapshot_free">
-<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">profile_snapshot_free</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">profiler_snapshot_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">snap</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.profile_snapshot_free" title="Permalink to this definition"></a><br /></dt>
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">profile_snapshot_free</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.profiler_snapshot_t" title="profiler_snapshot_t"><span class="n"><span class="pre">profiler_snapshot_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">snap</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.profile_snapshot_free" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Frees a profiler snapshot object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -579,7 +579,7 @@ data about how the active profiles performed.</p>
 <hr class="docutils" />
 <dl class="c function">
 <dt class="sig sig-object c" id="c.profiler_snapshot_dump_csv">
-<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">profiler_snapshot_dump_csv</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">profiler_snapshot_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">snap</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">filename</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.profiler_snapshot_dump_csv" title="Permalink to this definition"></a><br /></dt>
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">profiler_snapshot_dump_csv</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.profiler_snapshot_t" title="profiler_snapshot_t"><span class="n"><span class="pre">profiler_snapshot_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">snap</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">filename</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.profiler_snapshot_dump_csv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Creates a CSV file of the profiler snapshot.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -597,7 +597,7 @@ data about how the active profiles performed.</p>
 <hr class="docutils" />
 <dl class="c function">
 <dt class="sig sig-object c" id="c.profiler_snapshot_dump_csv_gz">
-<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">profiler_snapshot_dump_csv_gz</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">profiler_snapshot_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">snap</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">filename</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.profiler_snapshot_dump_csv_gz" title="Permalink to this definition"></a><br /></dt>
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">profiler_snapshot_dump_csv_gz</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.profiler_snapshot_t" title="profiler_snapshot_t"><span class="n"><span class="pre">profiler_snapshot_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">snap</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">filename</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.profiler_snapshot_dump_csv_gz" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Creates a gzipped CSV file of the profiler snapshot.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -615,7 +615,7 @@ data about how the active profiles performed.</p>
 <hr class="docutils" />
 <dl class="c function">
 <dt class="sig sig-object c" id="c.profiler_snapshot_num_roots">
-<span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">profiler_snapshot_num_roots</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">profiler_snapshot_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">snap</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.profiler_snapshot_num_roots" title="Permalink to this definition"></a><br /></dt>
+<span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">profiler_snapshot_num_roots</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.profiler_snapshot_t" title="profiler_snapshot_t"><span class="n"><span class="pre">profiler_snapshot_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">snap</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.profiler_snapshot_num_roots" title="Permalink to this definition"></a><br /></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -630,8 +630,8 @@ data about how the active profiles performed.</p>
 
 <hr class="docutils" />
 <dl class="c type">
-<dt class="sig sig-object c">
-<span class="sig-name descname"><span class="pre">typedef</span> <span class="pre">bool</span> <span class="pre">(*profiler_entry_enum_func)(void</span> <span class="pre">*context,</span> <span class="pre">profiler_snapshot_entry_t</span> <span class="pre">*entry)</span></span></dt>
+<dt class="sig sig-object c" id="c.profiler_entry_enum_func">
+<span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">profiler_entry_enum_func</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">context</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#c.profiler_snapshot_entry_t" title="profiler_snapshot_entry_t"><span class="n"><span class="pre">profiler_snapshot_entry_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">entry</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.profiler_entry_enum_func" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Profiler snapshot entry numeration callback</p>
 <dl class="field-list simple">
 <dt class="field-odd">Param context</dt>
@@ -649,7 +649,7 @@ data about how the active profiles performed.</p>
 <hr class="docutils" />
 <dl class="c function">
 <dt class="sig sig-object c" id="c.profiler_snapshot_enumerate_roots">
-<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">profiler_snapshot_enumerate_roots</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">profiler_snapshot_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">snap</span></span>, <span class="n"><span class="pre">profiler_entry_enum_func</span></span><span class="w"> </span><span class="n"><span class="pre">func</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">context</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.profiler_snapshot_enumerate_roots" title="Permalink to this definition"></a><br /></dt>
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">profiler_snapshot_enumerate_roots</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.profiler_snapshot_t" title="profiler_snapshot_t"><span class="n"><span class="pre">profiler_snapshot_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">snap</span></span>, <a class="reference internal" href="#c.profiler_entry_enum_func" title="profiler_entry_enum_func"><span class="n"><span class="pre">profiler_entry_enum_func</span></span></a><span class="w"> </span><span class="n"><span class="pre">func</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">context</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.profiler_snapshot_enumerate_roots" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Enumerates root profile nodes.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -664,8 +664,8 @@ data about how the active profiles performed.</p>
 
 <hr class="docutils" />
 <dl class="c type">
-<dt class="sig sig-object c">
-<span class="sig-name descname"><span class="pre">typedef</span> <span class="pre">bool</span> <span class="pre">(*profiler_name_filter_func)(void</span> <span class="pre">*data,</span> <span class="pre">const</span> <span class="pre">char</span> <span class="pre">*name,</span> <span class="pre">bool</span> <span class="pre">*remove)</span></span></dt>
+<dt class="sig sig-object c" id="c.profiler_name_filter_func">
+<span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">profiler_name_filter_func</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">remove</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.profiler_name_filter_func" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Callback used to determine what profile nodes are removed/filtered.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Param data</dt>
@@ -687,7 +687,7 @@ or not</p>
 <hr class="docutils" />
 <dl class="c function">
 <dt class="sig sig-object c" id="c.profiler_snapshot_filter_roots">
-<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">profiler_snapshot_filter_roots</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">profiler_snapshot_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">snap</span></span>, <span class="n"><span class="pre">profiler_name_filter_func</span></span><span class="w"> </span><span class="n"><span class="pre">func</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.profiler_snapshot_filter_roots" title="Permalink to this definition"></a><br /></dt>
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">profiler_snapshot_filter_roots</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.profiler_snapshot_t" title="profiler_snapshot_t"><span class="n"><span class="pre">profiler_snapshot_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">snap</span></span>, <a class="reference internal" href="#c.profiler_name_filter_func" title="profiler_name_filter_func"><span class="n"><span class="pre">profiler_name_filter_func</span></span></a><span class="w"> </span><span class="n"><span class="pre">func</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.profiler_snapshot_filter_roots" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Removes/filters profile roots based upon their names.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -703,7 +703,7 @@ or not</p>
 <hr class="docutils" />
 <dl class="c function">
 <dt class="sig sig-object c" id="c.profiler_snapshot_num_children">
-<span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">profiler_snapshot_num_children</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">profiler_snapshot_entry_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">entry</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.profiler_snapshot_num_children" title="Permalink to this definition"></a><br /></dt>
+<span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">profiler_snapshot_num_children</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.profiler_snapshot_entry_t" title="profiler_snapshot_entry_t"><span class="n"><span class="pre">profiler_snapshot_entry_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">entry</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.profiler_snapshot_num_children" title="Permalink to this definition"></a><br /></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -719,7 +719,7 @@ or not</p>
 <hr class="docutils" />
 <dl class="c function">
 <dt class="sig sig-object c" id="c.profiler_snapshot_enumerate_children">
-<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">profiler_snapshot_enumerate_children</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">profiler_snapshot_entry_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">entry</span></span>, <span class="n"><span class="pre">profiler_entry_enum_func</span></span><span class="w"> </span><span class="n"><span class="pre">func</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">context</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.profiler_snapshot_enumerate_children" title="Permalink to this definition"></a><br /></dt>
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">profiler_snapshot_enumerate_children</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.profiler_snapshot_entry_t" title="profiler_snapshot_entry_t"><span class="n"><span class="pre">profiler_snapshot_entry_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">entry</span></span>, <a class="reference internal" href="#c.profiler_entry_enum_func" title="profiler_entry_enum_func"><span class="n"><span class="pre">profiler_entry_enum_func</span></span></a><span class="w"> </span><span class="n"><span class="pre">func</span></span>, <span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">context</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.profiler_snapshot_enumerate_children" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Enumerates child entries of a profiler snapshot entry.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -735,7 +735,7 @@ or not</p>
 <hr class="docutils" />
 <dl class="c function">
 <dt class="sig sig-object c" id="c.profiler_snapshot_entry_name">
-<span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">profiler_snapshot_entry_name</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">profiler_snapshot_entry_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">entry</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.profiler_snapshot_entry_name" title="Permalink to this definition"></a><br /></dt>
+<span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">profiler_snapshot_entry_name</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.profiler_snapshot_entry_t" title="profiler_snapshot_entry_t"><span class="n"><span class="pre">profiler_snapshot_entry_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">entry</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.profiler_snapshot_entry_name" title="Permalink to this definition"></a><br /></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -751,7 +751,7 @@ or not</p>
 <hr class="docutils" />
 <dl class="c function">
 <dt class="sig sig-object c" id="c.profiler_snapshot_entry_times">
-<span class="n"><span class="pre">profiler_time_entries_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">profiler_snapshot_entry_times</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">profiler_snapshot_entry_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">entry</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.profiler_snapshot_entry_times" title="Permalink to this definition"></a><br /></dt>
+<span class="n"><span class="pre">profiler_time_entries_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">profiler_snapshot_entry_times</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.profiler_snapshot_entry_t" title="profiler_snapshot_entry_t"><span class="n"><span class="pre">profiler_snapshot_entry_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">entry</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.profiler_snapshot_entry_times" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Gets the time entries for a snapshot entry.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -768,7 +768,7 @@ or not</p>
 <hr class="docutils" />
 <dl class="c function">
 <dt class="sig sig-object c" id="c.profiler_snapshot_entry_min_time">
-<span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">profiler_snapshot_entry_min_time</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">profiler_snapshot_entry_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">entry</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.profiler_snapshot_entry_min_time" title="Permalink to this definition"></a><br /></dt>
+<span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">profiler_snapshot_entry_min_time</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.profiler_snapshot_entry_t" title="profiler_snapshot_entry_t"><span class="n"><span class="pre">profiler_snapshot_entry_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">entry</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.profiler_snapshot_entry_min_time" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Gets the minimum time for a profiler snapshot entry.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -785,7 +785,7 @@ or not</p>
 <hr class="docutils" />
 <dl class="c function">
 <dt class="sig sig-object c" id="c.profiler_snapshot_entry_max_time">
-<span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">profiler_snapshot_entry_max_time</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">profiler_snapshot_entry_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">entry</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.profiler_snapshot_entry_max_time" title="Permalink to this definition"></a><br /></dt>
+<span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">profiler_snapshot_entry_max_time</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.profiler_snapshot_entry_t" title="profiler_snapshot_entry_t"><span class="n"><span class="pre">profiler_snapshot_entry_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">entry</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.profiler_snapshot_entry_max_time" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Gets the maximum time for a profiler snapshot entry.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -802,7 +802,7 @@ or not</p>
 <hr class="docutils" />
 <dl class="c function">
 <dt class="sig sig-object c" id="c.profiler_snapshot_entry_overall_count">
-<span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">profiler_snapshot_entry_overall_count</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">profiler_snapshot_entry_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">entry</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.profiler_snapshot_entry_overall_count" title="Permalink to this definition"></a><br /></dt>
+<span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">profiler_snapshot_entry_overall_count</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.profiler_snapshot_entry_t" title="profiler_snapshot_entry_t"><span class="n"><span class="pre">profiler_snapshot_entry_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">entry</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.profiler_snapshot_entry_overall_count" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Gets the overall count for a profiler snapshot entry.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -819,7 +819,7 @@ or not</p>
 <hr class="docutils" />
 <dl class="c function">
 <dt class="sig sig-object c" id="c.profiler_snapshot_entry_times_between_calls">
-<span class="n"><span class="pre">profiler_time_entries_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">profiler_snapshot_entry_times_between_calls</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">profiler_snapshot_entry_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">entry</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.profiler_snapshot_entry_times_between_calls" title="Permalink to this definition"></a><br /></dt>
+<span class="n"><span class="pre">profiler_time_entries_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">profiler_snapshot_entry_times_between_calls</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.profiler_snapshot_entry_t" title="profiler_snapshot_entry_t"><span class="n"><span class="pre">profiler_snapshot_entry_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">entry</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.profiler_snapshot_entry_times_between_calls" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Gets an array of time between calls for a profiler snapshot entry.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -836,7 +836,7 @@ or not</p>
 <hr class="docutils" />
 <dl class="c function">
 <dt class="sig sig-object c" id="c.profiler_snapshot_entry_expected_time_between_calls">
-<span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">profiler_snapshot_entry_expected_time_between_calls</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">profiler_snapshot_entry_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">entry</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.profiler_snapshot_entry_expected_time_between_calls" title="Permalink to this definition"></a><br /></dt>
+<span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">profiler_snapshot_entry_expected_time_between_calls</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.profiler_snapshot_entry_t" title="profiler_snapshot_entry_t"><span class="n"><span class="pre">profiler_snapshot_entry_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">entry</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.profiler_snapshot_entry_expected_time_between_calls" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Gets the expected time between calls for a profiler snapshot entry.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -854,7 +854,7 @@ or 0 if not set</p>
 <hr class="docutils" />
 <dl class="c function">
 <dt class="sig sig-object c" id="c.profiler_snapshot_entry_min_time_between_calls">
-<span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">profiler_snapshot_entry_min_time_between_calls</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">profiler_snapshot_entry_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">entry</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.profiler_snapshot_entry_min_time_between_calls" title="Permalink to this definition"></a><br /></dt>
+<span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">profiler_snapshot_entry_min_time_between_calls</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.profiler_snapshot_entry_t" title="profiler_snapshot_entry_t"><span class="n"><span class="pre">profiler_snapshot_entry_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">entry</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.profiler_snapshot_entry_min_time_between_calls" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Gets the minimum time seen between calls for a profiler snapshot entry.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -871,7 +871,7 @@ or 0 if not set</p>
 <hr class="docutils" />
 <dl class="c function">
 <dt class="sig sig-object c" id="c.profiler_snapshot_entry_max_time_between_calls">
-<span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">profiler_snapshot_entry_max_time_between_calls</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">profiler_snapshot_entry_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">entry</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.profiler_snapshot_entry_max_time_between_calls" title="Permalink to this definition"></a><br /></dt>
+<span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">profiler_snapshot_entry_max_time_between_calls</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.profiler_snapshot_entry_t" title="profiler_snapshot_entry_t"><span class="n"><span class="pre">profiler_snapshot_entry_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">entry</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.profiler_snapshot_entry_max_time_between_calls" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Gets the maximum time seen between calls for a profiler snapshot entry.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -888,7 +888,7 @@ or 0 if not set</p>
 <hr class="docutils" />
 <dl class="c function">
 <dt class="sig sig-object c" id="c.profiler_snapshot_entry_overall_between_calls_count">
-<span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">profiler_snapshot_entry_overall_between_calls_count</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">profiler_snapshot_entry_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">entry</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.profiler_snapshot_entry_overall_between_calls_count" title="Permalink to this definition"></a><br /></dt>
+<span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">profiler_snapshot_entry_overall_between_calls_count</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.profiler_snapshot_entry_t" title="profiler_snapshot_entry_t"><span class="n"><span class="pre">profiler_snapshot_entry_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">entry</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.profiler_snapshot_entry_overall_between_calls_count" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Gets the overall time between calls for a profiler snapshot entry.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>

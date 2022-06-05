@@ -346,9 +346,9 @@
 <h1>Text Lookup Interface<a class="headerlink" href="#text-lookup-interface" title="Permalink to this headline"></a></h1>
 <p>Used for storing and looking up localized strings.  Uses an ini-file
 like file format for localization lookup.</p>
-<dl class="c type">
-<dt class="sig sig-object c" id="c.lookup_t">
-<span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">text_lookup</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">lookup_t</span></span></span><a class="headerlink" href="#c.lookup_t" title="Permalink to this definition"></a><br /></dt>
+<dl class="c struct">
+<dt class="sig sig-object c">
+<span class="sig-name descname"><span class="pre">text_lookup</span> <span class="pre">lookup_t</span></span></dt>
 <dd></dd></dl>
 
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;util/text-lookup.h&gt;</span><span class="cp"></span>
@@ -358,7 +358,7 @@ like file format for localization lookup.</p>
 <h2>Text Lookup Functions<a class="headerlink" href="#text-lookup-functions" title="Permalink to this headline"></a></h2>
 <dl class="c function">
 <dt class="sig sig-object c" id="c.text_lookup_create">
-<a class="reference internal" href="#c.lookup_t" title="lookup_t"><span class="n"><span class="pre">lookup_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">text_lookup_create</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">path</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.text_lookup_create" title="Permalink to this definition"></a><br /></dt>
+<span class="n"><span class="pre">lookup_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">text_lookup_create</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">path</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.text_lookup_create" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Creates a text lookup object from a text lookup file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -375,7 +375,7 @@ like file format for localization lookup.</p>
 <hr class="docutils" />
 <dl class="c function">
 <dt class="sig sig-object c" id="c.text_lookup_add">
-<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">text_lookup_add</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.lookup_t" title="lookup_t"><span class="n"><span class="pre">lookup_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">lookup</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">path</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.text_lookup_add" title="Permalink to this definition"></a><br /></dt>
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">text_lookup_add</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">lookup_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">lookup</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">path</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.text_lookup_add" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Adds text lookup from a text lookup file and replaces any values.
 For example, you would load a default fallback language such as
 english with <a class="reference internal" href="#c.text_lookup_create" title="text_lookup_create"><code class="xref c c-func docutils literal notranslate"><span class="pre">text_lookup_create()</span></code></a>, and then call this
@@ -397,7 +397,7 @@ language isn’t fully translated.</p>
 <hr class="docutils" />
 <dl class="c function">
 <dt class="sig sig-object c" id="c.text_lookup_destroy">
-<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">text_lookup_destroy</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.lookup_t" title="lookup_t"><span class="n"><span class="pre">lookup_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">lookup</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.text_lookup_destroy" title="Permalink to this definition"></a><br /></dt>
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">text_lookup_destroy</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">lookup_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">lookup</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.text_lookup_destroy" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Destroys a text lookup object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -411,7 +411,7 @@ language isn’t fully translated.</p>
 <hr class="docutils" />
 <dl class="c function">
 <dt class="sig sig-object c" id="c.text_lookup_getstr">
-<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">text_lookup_getstr</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.lookup_t" title="lookup_t"><span class="n"><span class="pre">lookup_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">lookup</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">lookup_val</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">out</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.text_lookup_getstr" title="Permalink to this definition"></a><br /></dt>
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">text_lookup_getstr</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">lookup_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">lookup</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">lookup_val</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">out</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.text_lookup_getstr" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Gets a localized text string.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>

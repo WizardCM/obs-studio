@@ -7,7 +7,7 @@ Dynamically resizing arrays (a C equivalent to std::vector).
 
    #include <util/darray.h>
 
-.. type:: struct darray
+.. struct:: darray
 
    The base dynamic array structure.
 

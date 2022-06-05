@@ -499,7 +499,7 @@ timer callback)</p>
 <h2>Script Sources (Lua Only)<a class="headerlink" href="#script-sources-lua-only" title="Permalink to this headline"></a></h2>
 <p>It is possible to register sources in Lua.  To do so, create a table,
 and define its keys the same way you would define an
-<code class="xref c c-type docutils literal notranslate"><span class="pre">obs_source_info</span></code> structure:</p>
+<a class="reference internal" href="reference-sources.html#c.obs_source_info" title="obs_source_info"><code class="xref c c-type docutils literal notranslate"><span class="pre">obs_source_info</span></code></a> structure:</p>
 <div class="highlight-lua notranslate"><div class="highlight"><pre><span></span><span class="kd">local</span> <span class="n">info</span> <span class="o">=</span> <span class="p">{}</span>
 <span class="n">info</span><span class="p">.</span><span class="n">id</span> <span class="o">=</span> <span class="s2">&quot;my_source_id&quot;</span>
 <span class="n">info</span><span class="p">.</span><span class="n">type</span> <span class="o">=</span> <span class="n">obslua</span><span class="p">.</span><span class="n">OBS_SOURCE_TYPE_INPUT</span>

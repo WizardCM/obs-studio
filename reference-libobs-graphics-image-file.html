@@ -349,28 +349,28 @@ animated gif files.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;graphics/image-file.h&gt;</span><span class="cp"></span>
 </pre></div>
 </div>
-<dl class="c type">
-<dt class="sig sig-object c">
-<span class="sig-name descname"><span class="pre">struct</span> <span class="pre">gs_image_file</span></span></dt>
+<dl class="c struct">
+<dt class="sig sig-object c" id="c.gs_image_file">
+<span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">gs_image_file</span></span></span><a class="headerlink" href="#c.gs_image_file" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Image file structure</p>
 </dd></dl>
 
 <dl class="c type">
 <dt class="sig sig-object c" id="c.gs_image_file.texture">
-<span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="n"><span class="pre">gs_texture_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">gs_image_file</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">texture</span></span></span><a class="headerlink" href="#c.gs_image_file.texture" title="Permalink to this definition"></a><br /></dt>
+<span class="k"><span class="pre">typedef</span></span><span class="w"> </span><a class="reference internal" href="reference-libobs-graphics-graphics.html#c.gs_texture_t" title="gs_texture_t"><span class="n"><span class="pre">gs_texture_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-prename descclassname"><a class="reference internal" href="#c.gs_image_file" title="gs_image_file"><span class="n"><span class="pre">gs_image_file</span></span></a><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">texture</span></span></span><a class="headerlink" href="#c.gs_image_file.texture" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Texture</p>
 </dd></dl>
 
 <dl class="c type">
-<dt class="sig sig-object c">
-<span class="sig-name descname"><span class="pre">typedef</span> <span class="pre">struct</span> <span class="pre">gs_image_file</span> <span class="pre">gs_image_file_t</span></span></dt>
+<dt class="sig sig-object c" id="c.gs_image_file_t">
+<span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><a class="reference internal" href="#c.gs_image_file" title="gs_image_file"><span class="n"><span class="pre">gs_image_file</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">gs_image_file_t</span></span></span><a class="headerlink" href="#c.gs_image_file_t" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Image file type</p>
 </dd></dl>
 
 <hr class="docutils" />
 <dl class="c function">
 <dt class="sig sig-object c" id="c.gs_image_file_init">
-<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">gs_image_file_init</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">gs_image_file_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">image</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">file</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.gs_image_file_init" title="Permalink to this definition"></a><br /></dt>
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">gs_image_file_init</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.gs_image_file_t" title="gs_image_file_t"><span class="n"><span class="pre">gs_image_file_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">image</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">file</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.gs_image_file_init" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Loads an initializes an image file helper.  Does not initialize the
 texture; call <a class="reference internal" href="#c.gs_image_file_init_texture" title="gs_image_file_init_texture"><code class="xref c c-func docutils literal notranslate"><span class="pre">gs_image_file_init_texture()</span></code></a> to initialize
 the texture.</p>
@@ -387,7 +387,7 @@ the texture.</p>
 <hr class="docutils" />
 <dl class="c function">
 <dt class="sig sig-object c" id="c.gs_image_file_free">
-<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">gs_image_file_free</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">gs_image_file_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">image</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.gs_image_file_free" title="Permalink to this definition"></a><br /></dt>
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">gs_image_file_free</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.gs_image_file_t" title="gs_image_file_t"><span class="n"><span class="pre">gs_image_file_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">image</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.gs_image_file_free" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Frees an image file helper</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -401,7 +401,7 @@ the texture.</p>
 <hr class="docutils" />
 <dl class="c function">
 <dt class="sig sig-object c" id="c.gs_image_file_init_texture">
-<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">gs_image_file_init_texture</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">gs_image_file_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">image</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.gs_image_file_init_texture" title="Permalink to this definition"></a><br /></dt>
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">gs_image_file_init_texture</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.gs_image_file_t" title="gs_image_file_t"><span class="n"><span class="pre">gs_image_file_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">image</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.gs_image_file_init_texture" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Initializes the texture of an image file helper.  This is separate
 from <a class="reference internal" href="#c.gs_image_file_init" title="gs_image_file_init"><code class="xref c c-func docutils literal notranslate"><span class="pre">gs_image_file_init()</span></code></a> because it allows deferring the
 graphics initialization if needed.</p>
@@ -417,7 +417,7 @@ graphics initialization if needed.</p>
 <hr class="docutils" />
 <dl class="c function">
 <dt class="sig sig-object c" id="c.gs_image_file_tick">
-<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">gs_image_file_tick</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">gs_image_file_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">image</span></span>, <span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="n"><span class="pre">elapsed_time_ns</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.gs_image_file_tick" title="Permalink to this definition"></a><br /></dt>
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">gs_image_file_tick</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.gs_image_file_t" title="gs_image_file_t"><span class="n"><span class="pre">gs_image_file_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">image</span></span>, <span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="n"><span class="pre">elapsed_time_ns</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.gs_image_file_tick" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Performs a tick operation on the image file helper (used primarily
 for animated file).  Does not update the texture until
 <a class="reference internal" href="#c.gs_image_file_update_texture" title="gs_image_file_update_texture"><code class="xref c c-func docutils literal notranslate"><span class="pre">gs_image_file_update_texture()</span></code></a> is called.</p>
@@ -434,7 +434,7 @@ for animated file).  Does not update the texture until
 <hr class="docutils" />
 <dl class="c function">
 <dt class="sig sig-object c" id="c.gs_image_file_update_texture">
-<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">gs_image_file_update_texture</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">gs_image_file_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">image</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.gs_image_file_update_texture" title="Permalink to this definition"></a><br /></dt>
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">gs_image_file_update_texture</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.gs_image_file_t" title="gs_image_file_t"><span class="n"><span class="pre">gs_image_file_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">image</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.gs_image_file_update_texture" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Updates the texture (used primarily for animated files)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>

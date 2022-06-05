@@ -619,103 +619,103 @@ The function won’t return until reaching the specific time.</p>
 
 <hr class="docutils" />
 <dl class="c type">
-<dt class="sig sig-object c">
-<span class="sig-name descname"><span class="pre">typedef</span> <span class="pre">struct</span> <span class="pre">os_dir</span> <span class="pre">os_dir_t</span></span></dt>
+<dt class="sig sig-object c" id="c.os_dir_t">
+<span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">os_dir</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">os_dir_t</span></span></span><a class="headerlink" href="#c.os_dir_t" title="Permalink to this definition"></a><br /></dt>
 <dd><p>A directory object.</p>
 </dd></dl>
 
-<dl class="c type">
-<dt class="sig sig-object c">
-<span class="sig-name descname"><span class="pre">struct</span> <span class="pre">os_dirent</span></span></dt>
+<dl class="c struct">
+<dt class="sig sig-object c" id="c.os_dirent">
+<span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">os_dirent</span></span></span><a class="headerlink" href="#c.os_dirent" title="Permalink to this definition"></a><br /></dt>
 <dd><p>A directory entry record.</p>
 </dd></dl>
 
 <dl class="c member">
 <dt class="sig sig-object c" id="c.os_dirent.d_name">
-<span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">os_dirent</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">d_name</span></span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">256</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#c.os_dirent.d_name" title="Permalink to this definition"></a><br /></dt>
+<span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="sig-prename descclassname"><a class="reference internal" href="#c.os_dirent" title="os_dirent"><span class="n"><span class="pre">os_dirent</span></span></a><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">d_name</span></span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">256</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#c.os_dirent.d_name" title="Permalink to this definition"></a><br /></dt>
 <dd><p>The directory entry name.</p>
 </dd></dl>
 
 <dl class="c member">
 <dt class="sig sig-object c" id="c.os_dirent.directory">
-<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">os_dirent</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">directory</span></span></span><a class="headerlink" href="#c.os_dirent.directory" title="Permalink to this definition"></a><br /></dt>
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-prename descclassname"><a class="reference internal" href="#c.os_dirent" title="os_dirent"><span class="n"><span class="pre">os_dirent</span></span></a><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">directory</span></span></span><a class="headerlink" href="#c.os_dirent.directory" title="Permalink to this definition"></a><br /></dt>
 <dd><p><em>true</em> if the entry is a directory.</p>
 </dd></dl>
 
 <hr class="docutils" />
 <dl class="c function">
 <dt class="sig sig-object c" id="c.os_opendir">
-<span class="n"><span class="pre">os_dir_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">os_opendir</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">path</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.os_opendir" title="Permalink to this definition"></a><br /></dt>
+<a class="reference internal" href="#c.os_dir_t" title="os_dir_t"><span class="n"><span class="pre">os_dir_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">os_opendir</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">path</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.os_opendir" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Opens a directory object to enumerate files within the directory.</p>
 </dd></dl>
 
 <hr class="docutils" />
 <dl class="c function">
 <dt class="sig sig-object c" id="c.os_readdir">
-<span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">os_dirent</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">os_readdir</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">os_dir_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">dir</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.os_readdir" title="Permalink to this definition"></a><br /></dt>
+<span class="k"><span class="pre">struct</span></span><span class="w"> </span><a class="reference internal" href="#c.os_dirent" title="os_dirent"><span class="n"><span class="pre">os_dirent</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">os_readdir</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.os_dir_t" title="os_dir_t"><span class="n"><span class="pre">os_dir_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">dir</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.os_readdir" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Returns the linked list of directory entries.</p>
 </dd></dl>
 
 <hr class="docutils" />
 <dl class="c function">
 <dt class="sig sig-object c" id="c.os_closedir">
-<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">os_closedir</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">os_dir_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">dir</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.os_closedir" title="Permalink to this definition"></a><br /></dt>
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">os_closedir</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.os_dir_t" title="os_dir_t"><span class="n"><span class="pre">os_dir_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">dir</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.os_closedir" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Closes a directory object.</p>
 </dd></dl>
 
 <hr class="docutils" />
-<dl class="c type">
-<dt class="sig sig-object c">
-<span class="sig-name descname"><span class="pre">struct</span> <span class="pre">os_globent</span></span></dt>
+<dl class="c struct">
+<dt class="sig sig-object c" id="c.os_globent">
+<span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">os_globent</span></span></span><a class="headerlink" href="#c.os_globent" title="Permalink to this definition"></a><br /></dt>
 <dd><p>A glob entry.</p>
 </dd></dl>
 
 <dl class="c member">
 <dt class="sig sig-object c" id="c.os_globent.path">
-<span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">os_globent</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">path</span></span></span><a class="headerlink" href="#c.os_globent.path" title="Permalink to this definition"></a><br /></dt>
+<span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-prename descclassname"><a class="reference internal" href="#c.os_globent" title="os_globent"><span class="n"><span class="pre">os_globent</span></span></a><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">path</span></span></span><a class="headerlink" href="#c.os_globent.path" title="Permalink to this definition"></a><br /></dt>
 <dd><p>The full path to the glob entry.</p>
 </dd></dl>
 
 <dl class="c member">
 <dt class="sig sig-object c" id="c.os_globent.directory">
-<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">os_globent</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">directory</span></span></span><a class="headerlink" href="#c.os_globent.directory" title="Permalink to this definition"></a><br /></dt>
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-prename descclassname"><a class="reference internal" href="#c.os_globent" title="os_globent"><span class="n"><span class="pre">os_globent</span></span></a><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">directory</span></span></span><a class="headerlink" href="#c.os_globent.directory" title="Permalink to this definition"></a><br /></dt>
 <dd><p><em>true</em> if the glob entry is a directory, <em>false</em> otherwise.</p>
 </dd></dl>
 
-<dl class="c type">
-<dt class="sig sig-object c">
-<span class="sig-name descname"><span class="pre">struct</span> <span class="pre">os_glob_info</span></span></dt>
+<dl class="c struct">
+<dt class="sig sig-object c" id="c.os_glob_info">
+<span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">os_glob_info</span></span></span><a class="headerlink" href="#c.os_glob_info" title="Permalink to this definition"></a><br /></dt>
 <dd><p>A glob object.</p>
 </dd></dl>
 
 <dl class="c member">
 <dt class="sig sig-object c" id="c.os_glob_info.gl_pathc">
-<span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">os_glob_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">gl_pathc</span></span></span><a class="headerlink" href="#c.os_glob_info.gl_pathc" title="Permalink to this definition"></a><br /></dt>
+<span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-prename descclassname"><a class="reference internal" href="#c.os_glob_info" title="os_glob_info"><span class="n"><span class="pre">os_glob_info</span></span></a><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">gl_pathc</span></span></span><a class="headerlink" href="#c.os_glob_info.gl_pathc" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Number of glob entries.</p>
 </dd></dl>
 
 <dl class="c member">
 <dt class="sig sig-object c" id="c.os_glob_info.gl_pathv">
-<span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">os_globent</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">os_glob_info</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">gl_pathv</span></span></span><a class="headerlink" href="#c.os_glob_info.gl_pathv" title="Permalink to this definition"></a><br /></dt>
+<span class="k"><span class="pre">struct</span></span><span class="w"> </span><a class="reference internal" href="#c.os_globent" title="os_globent"><span class="n"><span class="pre">os_globent</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-prename descclassname"><a class="reference internal" href="#c.os_glob_info" title="os_glob_info"><span class="n"><span class="pre">os_glob_info</span></span></a><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">gl_pathv</span></span></span><a class="headerlink" href="#c.os_glob_info.gl_pathv" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Array of glob entries.</p>
 </dd></dl>
 
 <dl class="c type">
-<dt class="sig sig-object c">
-<span class="sig-name descname"><span class="pre">typedef</span> <span class="pre">struct</span> <span class="pre">os_glob_info</span> <span class="pre">os_glob_t</span></span></dt>
+<dt class="sig sig-object c" id="c.os_glob_t">
+<span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><a class="reference internal" href="#c.os_glob_info" title="os_glob_info"><span class="n"><span class="pre">os_glob_info</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">os_glob_t</span></span></span><a class="headerlink" href="#c.os_glob_t" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
 <hr class="docutils" />
 <dl class="c function">
 <dt class="sig sig-object c" id="c.os_glob">
-<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">os_glob</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">pattern</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">flags</span></span>, <span class="n"><span class="pre">os_glob_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">pglob</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.os_glob" title="Permalink to this definition"></a><br /></dt>
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">os_glob</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">pattern</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">flags</span></span>, <a class="reference internal" href="#c.os_glob_t" title="os_glob_t"><span class="n"><span class="pre">os_glob_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">pglob</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.os_glob" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Enumerates files based upon a glob string.</p>
 </dd></dl>
 
 <hr class="docutils" />
 <dl class="c function">
 <dt class="sig sig-object c" id="c.os_globfree">
-<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">os_globfree</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">os_glob_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">pglob</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.os_globfree" title="Permalink to this definition"></a><br /></dt>
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">os_globfree</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.os_glob_t" title="os_glob_t"><span class="n"><span class="pre">os_glob_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">pglob</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.os_globfree" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Frees a glob object.</p>
 </dd></dl>
 
@@ -797,34 +797,34 @@ formatting.</p>
 <h2>Sleep-Inhibition Functions<a class="headerlink" href="#sleep-inhibition-functions" title="Permalink to this headline"></a></h2>
 <p>These functions/types are used to inhibit the computer from going to
 sleep.</p>
-<dl class="c type">
-<dt class="sig sig-object c">
-<span class="sig-name descname"><span class="pre">struct</span> <span class="pre">os_inhibit_info</span></span></dt>
+<dl class="c struct">
+<dt class="sig sig-object c" id="c.os_inhibit_info">
+<span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">os_inhibit_info</span></span></span><a class="headerlink" href="#c.os_inhibit_info" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
 <dl class="c type">
-<dt class="sig sig-object c">
-<span class="sig-name descname"><span class="pre">typedef</span> <span class="pre">struct</span> <span class="pre">os_inhibit_info</span> <span class="pre">os_inhibit_t</span></span></dt>
+<dt class="sig sig-object c" id="c.os_inhibit_t">
+<span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><a class="reference internal" href="#c.os_inhibit_info" title="os_inhibit_info"><span class="n"><span class="pre">os_inhibit_info</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">os_inhibit_t</span></span></span><a class="headerlink" href="#c.os_inhibit_t" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
 <hr class="docutils" />
 <dl class="c function">
 <dt class="sig sig-object c" id="c.os_inhibit_sleep_create">
-<span class="n"><span class="pre">os_inhibit_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">os_inhibit_sleep_create</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">reason</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.os_inhibit_sleep_create" title="Permalink to this definition"></a><br /></dt>
+<a class="reference internal" href="#c.os_inhibit_t" title="os_inhibit_t"><span class="n"><span class="pre">os_inhibit_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">os_inhibit_sleep_create</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">reason</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.os_inhibit_sleep_create" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Creates a sleep inhibition object.</p>
 </dd></dl>
 
 <hr class="docutils" />
 <dl class="c function">
 <dt class="sig sig-object c" id="c.os_inhibit_sleep_set_active">
-<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">os_inhibit_sleep_set_active</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">os_inhibit_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">info</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n"><span class="pre">active</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.os_inhibit_sleep_set_active" title="Permalink to this definition"></a><br /></dt>
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">os_inhibit_sleep_set_active</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.os_inhibit_t" title="os_inhibit_t"><span class="n"><span class="pre">os_inhibit_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">info</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n"><span class="pre">active</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.os_inhibit_sleep_set_active" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Activates/deactivates a sleep inhibition object.</p>
 </dd></dl>
 
 <hr class="docutils" />
 <dl class="c function">
 <dt class="sig sig-object c" id="c.os_inhibit_sleep_destroy">
-<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">os_inhibit_sleep_destroy</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">os_inhibit_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">info</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.os_inhibit_sleep_destroy" title="Permalink to this definition"></a><br /></dt>
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">os_inhibit_sleep_destroy</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.os_inhibit_t" title="os_inhibit_t"><span class="n"><span class="pre">os_inhibit_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">info</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.os_inhibit_sleep_destroy" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Destroys a sleep inhibition object.  If the sleep inhibition object
 was active, it will be deactivated.</p>
 </dd></dl>
@@ -862,33 +862,33 @@ present).</p>
 </dd></dl>
 
 <hr class="docutils" />
-<dl class="c type">
-<dt class="sig sig-object c">
-<span class="sig-name descname"><span class="pre">struct</span> <span class="pre">os_proc_memory_usage</span></span></dt>
+<dl class="c struct">
+<dt class="sig sig-object c" id="c.os_proc_memory_usage">
+<span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">os_proc_memory_usage</span></span></span><a class="headerlink" href="#c.os_proc_memory_usage" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Memory usage structure.</p>
 </dd></dl>
 
 <dl class="c member">
 <dt class="sig sig-object c" id="c.os_proc_memory_usage.resident_size">
-<span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">os_proc_memory_usage</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">resident_size</span></span></span><a class="headerlink" href="#c.os_proc_memory_usage.resident_size" title="Permalink to this definition"></a><br /></dt>
+<span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="sig-prename descclassname"><a class="reference internal" href="#c.os_proc_memory_usage" title="os_proc_memory_usage"><span class="n"><span class="pre">os_proc_memory_usage</span></span></a><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">resident_size</span></span></span><a class="headerlink" href="#c.os_proc_memory_usage.resident_size" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Resident size.</p>
 </dd></dl>
 
 <dl class="c member">
 <dt class="sig sig-object c" id="c.os_proc_memory_usage.virtual_size">
-<span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">os_proc_memory_usage</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">virtual_size</span></span></span><a class="headerlink" href="#c.os_proc_memory_usage.virtual_size" title="Permalink to this definition"></a><br /></dt>
+<span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="sig-prename descclassname"><a class="reference internal" href="#c.os_proc_memory_usage" title="os_proc_memory_usage"><span class="n"><span class="pre">os_proc_memory_usage</span></span></a><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">virtual_size</span></span></span><a class="headerlink" href="#c.os_proc_memory_usage.virtual_size" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Virtual size.</p>
 </dd></dl>
 
 <dl class="c type">
-<dt class="sig sig-object c">
-<span class="sig-name descname"><span class="pre">typedef</span> <span class="pre">struct</span> <span class="pre">os_proc_memory_usage</span> <span class="pre">os_proc_memory_usage_t</span></span></dt>
+<dt class="sig sig-object c" id="c.os_proc_memory_usage_t">
+<span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><a class="reference internal" href="#c.os_proc_memory_usage" title="os_proc_memory_usage"><span class="n"><span class="pre">os_proc_memory_usage</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">os_proc_memory_usage_t</span></span></span><a class="headerlink" href="#c.os_proc_memory_usage_t" title="Permalink to this definition"></a><br /></dt>
 <dd></dd></dl>
 
 <hr class="docutils" />
 <dl class="c function">
 <dt class="sig sig-object c" id="c.os_get_proc_memory_usage">
-<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">os_get_proc_memory_usage</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">os_proc_memory_usage_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">usage</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.os_get_proc_memory_usage" title="Permalink to this definition"></a><br /></dt>
+<span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">os_get_proc_memory_usage</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.os_proc_memory_usage_t" title="os_proc_memory_usage_t"><span class="n"><span class="pre">os_proc_memory_usage_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">usage</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.os_get_proc_memory_usage" title="Permalink to this definition"></a><br /></dt>
 <dd><p>Gets memory usage of the current process.</p>
 </dd></dl>
 

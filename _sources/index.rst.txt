@@ -8,7 +8,7 @@
 Welcome to OBS Studio's documentation!
 ======================================
 
-* **Setting up an OBS development environment?** `Use the Wiki <https://obsproject.com/wiki/Install-Instructions>`_
+* **Setting up an OBS development environment?** :wiki:`Use the Wiki <Install-Instructions>`
 * **Developing your first OBS plugin?** `Use the obs-plugintemplate <https://github.com/obsproject/obs-plugintemplate#obs-plugin-template>`_
 
 .. toctree::
